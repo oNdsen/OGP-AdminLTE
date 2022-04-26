@@ -1,0 +1,31 @@
+$(document).ready(function()
+{
+	/* *** Remove CSS and JS Files *** */
+	$('link[href="css/global.css"]').remove();
+	$('link[href="js/bootstrap/css/bootstrap-combined.min.css"]').remove();
+	$('section').find('link').remove();
+
+	/* *** Table Styles *** */
+	$('table').each(function()
+	{
+		$(this).addClass('table').addClass('table-dark').addClass('table-striped').addClass('table-sm');
+	});
+
+	/* *** Root Links to Buttons *** */
+	$('section > div > a').addClass('btn').addClass('btn-primary');
+
+	/* *** Add Header *** */
+	var addHeader = '\
+	    <div class="content-header">
+	  <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-12">
+            <h1 class="m-0">Dashboard</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+	';
+	$('body > .wrapper > .content-wrapper').prepend();
+
+});

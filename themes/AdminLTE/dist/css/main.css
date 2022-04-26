@@ -1,0 +1,228 @@
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+::-webkit-scrollbar-button {
+	width: 0px;
+	height: 0px;
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(255,255,255,.4);
+	border: 0px none rgba(255,255,255,.4);
+	border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(255,255,255,.4);
+}
+::-webkit-scrollbar-thumb:active {
+	background: rgba(255,255,255,.4);
+}
+::-webkit-scrollbar-track {
+	border: 0px none rgba(255,255,255,.4);
+	border-radius: 10px;
+}
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+	-webkit-box-shadow: inset !important;
+}
+
+.dark-mode .preloader {
+	align-items: center;
+	justify-content: center;
+}
+
+.brand-link {
+	display: inline-block;
+}
+.brand-link .brand-image
+{
+	max-width: 200px !important;
+	max-height: 35px !important;
+}
+.sidebar-collapse .brand-link > img {
+	margin: 0px;
+}
+.sidebar-collapse .brand-link {
+	/* padding: 10px 5px 20px; */
+}
+
+.rc-anchor-dark.rc-anchor-normal {
+	border: 1px solid #6c757d;
+	background: #454d55;
+}
+
+.hide, .hidden {
+	display: none;
+}
+
+body.sidebar-collapse .main-sidebar .text-truncate {
+	overflow: inherit !important;
+	text-overflow: inherit !important;
+	white-space: inherit !important;
+}
+
+.main-sidebar img.nav-icon {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+body.sidebar-collapse .main-sidebar img.nav-icon {
+    margin-left: 7px !important;
+}
+
+body:not(.sidebar-collapse) .main-sidebar img.nav-icon {
+    margin-right: 7px !important;
+}
+
+.nav-sidebar .nav-link p {
+	white-space: nowrap !important;
+	max-width: 178px;
+}
+
+pre {
+	padding: 0px;
+}
+
+.dark-mode pre {
+	color: #fff;
+}
+
+.callout a {
+	text-decoration: none;
+	color: #007bff;
+}
+
+.versionInfo:hover {
+	cursor: pointer;
+	color: #fff;
+}
+
+.sort-highlight {
+	background: rgb(52 58 64 / 50%);
+	border: 2px dashed #2d3338;
+	margin-bottom: 10px;
+	border-radius: 4px;
+}
+
+
+
+/* Icons Default */
+.administration-table a:before,
+.monitorButtonContainer a:before
+{ content: "\f192"; }
+
+/* Icons Defined */
+/* FA Set */
+.monitorButtonContainer a:before,
+.srvctrl a:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+}
+
+/* Brands */
+.nav-sidebar [href^="?m=steam_workshop"] > .nav-icon,
+.administration-table [href^="?m=steam_workshop"]:before,
+.monitorButtonContainer [href^="?m=gamemanager&p=update"]:before,
+.nav-sidebar [href="?m=TS3Admin"] > .nav-icon
+{
+	font-family: "Font Awesome 5 Brands";
+	font-weight: 400;
+}
+
+/* Icons */
+.nav-sidebar [href="?m=dashboard&p=dashboard"] > .nav-icon:before,
+.administration-table [href="?m=dashboard&p=dashboard"]:before { content: "\f3fd"; }
+.nav-sidebar [href="?m=gamemanager&p=game_monitor"] > .nav-icon:before,
+.nav-sidebar [link="?m=gamemanager&p=game_monitor"] > .nav-icon:before { content: "\f108"; }
+.nav-sidebar [href="?m=administration&p=main"] > .nav-icon:before,
+.nav-sidebar [link="?m=administration&p=main"] > .nav-icon:before { content: "\f023"; }
+.nav-sidebar [href="?m=TS3Admin"] > .nav-icon:before { content: "\f4f9"; }
+.nav-sidebar [href^="?m=gamemanager&p=log"] > .nav-icon:before,
+.monitorButtonContainer [href^="?m=gamemanager&p=log"]:before { content: "\f1da"; }
+.nav-sidebar [href="?m=addonsmanager&p=addons_manager"] > .nav-icon:before,
+.monitorButtonContainer [href^="?m=addonsmanager&p=user_addons"]:before,
+.administration-table [href="?m=addonsmanager&p=addons_manager"]:before { content: "\f12e"; }
+.nav-sidebar [href="?m=extras"] > .nav-icon:before,
+.administration-table [href="?m=extras"]:before{ content: "\f1e6"; }
+.nav-sidebar [href^="?m=ftp"] > .nav-icon:before,
+.monitorButtonContainer [href^="?m=ftp"]:before,
+.administration-table [href^="?m=ftp"]:before{ content: "\f15c"; }
+.nav-sidebar [href="?m=user_games"] > .nav-icon:before,
+.administration-table [href="?m=user_games"]:before{ content: "\f11b"; }
+.nav-sidebar [href="?m=config_games"] > .nav-icon:before,
+.administration-table [href="?m=config_games"]:before{ content: "\f044"; }
+.nav-sidebar [href^="?m=litefm"] > .nav-icon:before,
+.nav-sidebar [href="?m=litefm&p=litefm_settings"] > .nav-icon:before,
+.administration-table [href="?m=litefm&p=litefm_settings"]:before,
+.nav-sidebar [href^="?m=user_games&p=edit"] > .nav-icon:before,
+.monitorButtonContainer [href^="?m=user_games&p=edit"]:before{ content: "\f085"; }
+.nav-sidebar [href="?m=modulemanager"] > .nav-icon:before,
+.administration-table [href="?m=modulemanager"]:before { content: "\f009"; }
+.nav-sidebar [href="?m=settings"] > .nav-icon:before,
+.administration-table [href="?m=settings"]:before { content: "\f1de"; }
+.nav-sidebar [href="?m=server"] > .nav-icon:before,
+.administration-table [href="?m=server"]:before { content: "\f233"; }
+.nav-sidebar [href="?m=settings&p=themes"] > .nav-icon:before,
+.administration-table [href="?m=settings&p=themes"]:before { content: "\f043"; }
+.nav-sidebar [href="?m=update"] > .nav-icon:before,
+.administration-table [href="?m=update"]:before { content: "\f021"; }
+.nav-sidebar [href^="?m=gamemanager&p=update"] > .nav-icon:before,
+.nav-sidebar [href^="?m=steam_workshop"] > .nav-icon:before,
+.administration-table [href^="?m=steam_workshop"]:before,
+.monitorButtonContainer [href^="?m=gamemanager&p=update"]:before { content: "\f1b6"; }
+.nav-sidebar [href^="?m=user_admin"] > .nav-icon:before,
+.nav-sidebar [link^="?m=user_admin"] > .nav-icon:before,
+.administration-table [href^="?m=user_admin"]:before{ content: "\f007"; }
+.nav-sidebar [href="?m=user_admin&p=show_groups"] > .nav-icon:before { content: "\f0c0"; }
+.nav-sidebar [href="?m=administration&p=watch_logger"] > .nav-icon:before,
+.administration-table [href="?m=administration&p=watch_logger"]:before { content: "\f017"; }
+.nav-sidebar [href^="?m=cron"] > .nav-icon:before,
+.administration-table [href^="?m=cron"]:before { content: "\f073"; }
+.nav-sidebar [href="?m=mysql&p=mysql_admin"] > .nav-icon:before,
+.monitorButtonContainer [href^="?m=mysql"]:before,
+.administration-table [href="?m=mysql&p=mysql_admin"]:before { content: "\f1c0"; }
+.nav-sidebar [href="?m=administration&p=banlist"] > .nav-icon:before,
+.administration-table [href="?m=administration&p=banlist"]:before { content: "\f05e"; }
+.nav-sidebar [href^="home.php?m=gamemanager&p=rcon_presets"] > .nav-icon:before,
+.monitorButtonContainer [href^="home.php?m=gamemanager&p=rcon_presets"]:before,
+.nav-sidebar [href="?m=rcon&p=rcon"] > .nav-icon:before,
+.administration-table [href="?m=rcon&p=rcon"]:before { content: "\f120"; }
+.nav-sidebar [href^="?m=gamemanager&p=rsync_install"] > .nav-icon:before { content: "\f0ad"; }
+.nav-sidebar [href^="?m=support"] > .nav-icon:before { content: "\f095"; }
+.nav-sidebar [href^="?m=faq"] > .nav-icon:before,
+.administration-table [href^="?m=faq"]:before{ content: "\f29c"; }
+.nav-sidebar [href^="?m=fast_download"] > .nav-icon:before,
+.monitorButtonContainer [href^="?m=fast_download"]:before,
+.administration-table [href^="?m=fast_download"]:before { content: "\f019"; }
+.nav-sidebar [href^="?m=dsi"] > .nav-icon:before,
+.monitorButtonContainer [href^="?m=dsi"]:before,
+.administration-table [href^="?m=dsi"]:before{ content: "\f03e"; }
+.nav-sidebar [href^="?m=simple-billing"] > .nav-icon:before,
+.administration-table [href^="?m=simple-billing"]:before { content: "\f07a"; }
+.nav-sidebar [href^="?m=util"] > .nav-icon:before { content: "\f0ad"; }
+.nav-sidebar [href^="?m=lgsl_with_img_mod"] > .nav-icon:before,
+.administration-table [href^="?m=lgsl_with_img_mod"]:before { content: "\f022"; }
+.nav-sidebar [href^="?m=news"] > .nav-icon:before,
+.administration-table [href^="?m=news"]:before { content: "\f1ea"; }
+.nav-sidebar [href^="?m=register"] > .nav-icon:before { content: "\f067"; }
+.nav-sidebar [href="?logout"] > .nav-icon:before { content: "\f08b"; }
+.nav-sidebar [href="index.php"] > .nav-icon:before { content: "\f0e4"; }
+.monitorButtonContainer [href^="?m=litefm"]:before { content: "\f03a"; }
+.monitorbutton.size:before { content: "\f07c"; }
+.monitorbutton.getAutoUpdateLink:before { content: "\f0c1"; }
+.monitorButtonContainer [href^="?m=gamemanager&p=rsync_install"]:before { content: "\f381"; }
+.administration-table [href^="?m=administration&p=iframe&external_link="]:before { content: "\f0c1"; }
+.nav-sidebar [href^="?m=tickets"] > .nav-icon:before,
+.administration-table [href^="?m=tickets"]:before { content: "\f059"; }
+.monitorButtonContainer [href^="?m=editconfigfiles"]:before { content: "\f1c9"; }
+.monitorButtonContainer [href^="?m=user_games&p=custom_fields"]:before { content: "\f1de"; }
+.nav-sidebar [href="?m=tshock"] > .nav-icon:before { content: "\f1bb"; }
+.nav-sidebar [href="?m=circular"] > .nav-icon:before,
+.administration-table [href="?m=circular"]:before { content: "\f0e0"; }
+.monitorbutton.getAPILinks:before { content: "\f1da"; }

@@ -1,0 +1,136 @@
+$(document).ready(function()
+{
+	//replace css table with real table
+	$('.divTableCell').each(function()
+	{
+		$(this).replaceWith('<td>'+$(this).html()+'</td>');
+	});
+	$('.divTableRow').each(function()
+	{
+		$(this).replaceWith('<tr>'+$(this).html()+'</tr>');
+	});
+	$('.divTableBody').each(function()
+	{
+		$(this).replaceWith('<tbody>'+$(this).html()+'</tbody>');
+	});
+	$('.divTable').each(function()
+	{
+		$(this).replaceWith('<table>'+$(this).html()+'</table>');
+	});
+});
+
+
+$(window).load(function()
+{
+	//replace direct chat
+	var username = $('.user-panel > .info > a').text();
+	var allChats = []; 
+	$('.ticket_reply').each(function()
+	{
+		if($(this).hasClass('admin'))
+		{
+			var isAdmin = true
+		}else
+		{
+			var isAdmin = false
+		}
+		
+		console.log("find: " + $(this).find('.name').find('a').text());
+		console.log("username: " + username);
+		// console.log("old: " + $(lastNavItem).children('a').children('p').text()).attr('href', $(lastNavItem).children('a').attr('href'));
+		
+		if($(this).find('.name').find('a').text()==username)
+		{
+			var direction = 'left'
+		}else
+		{
+			var direction = 'right'
+		}
+		
+		var date = $(this).find('.date').text().replace(/\s+/g, ' ').trim();
+		var user = $(this).find('.name').html().replace(/\s+/g, ' ').trim();
+		var message = $(this).find('.message').html().trim();
+		var footer = $(this).find('.ticket_footer').html().trim();
+		
+		//Create chatItem object for current reply
+		var chatItem = {
+			direction: direction,
+			isAdmin: isAdmin,
+			date: date,
+			user: user,
+			message: message,
+			footer: footer
+		};
+		
+		//Push chatItem object into allChats array
+		allChats.push(chatItem);
+	});
+	
+	//remove .replyContainer
+	$('.replyContainer').remove();
+	
+	var newReplyContainer = '\
+	<div class="row mt-3">\
+		<div class="col-12">\
+			<div class="card card-primary direct-chat direct-chat-primary">\
+				<div class="card-body">\
+					<div class="direct-chat-messages">\
+	';			
+	
+	Object.keys(allChats).forEach(function(key)
+	{
+		var isAdmin = '';
+		if(allChats[key]['isAdmin'])
+		{
+			isAdmin = '<span class="badge badge-danger mx-1">Admin</span>';
+		}
+		
+		if(allChats[key]['direction']=='left')
+		{
+			newReplyContainer += '\
+						<div class="direct-chat-msg">\
+							<div class="direct-chat-infos clearfix">\
+								<span class="direct-chat-name float-left">' + allChats[key]['user'] + isAdmin + '</span>\
+								<span class="direct-chat-timestamp float-right">' + allChats[key]['date'] + '</span>\
+							</div>\
+							<img class="direct-chat-img" src="themes/AdminLTE/dist/img/default-avatar.png" alt="message user image">\
+							<div class="direct-chat-text">\
+								' + allChats[key]['message'] + '\
+							</div>\
+							<div class="direct-chat-footer">\
+								' + allChats[key]['footer'] + '\
+							</div>\
+						</div>\
+			';
+		}else
+		{
+			newReplyContainer += '\
+						<div class="direct-chat-msg right">\
+							<div class="direct-chat-infos clearfix">\
+								<span class="direct-chat-name float-right">' + isAdmin + allChats[key]['user'] + '</span>\
+								<span class="direct-chat-timestamp float-left">' + allChats[key]['date'] + '</span>\
+							</div>\
+							<img class="direct-chat-img" src="themes/AdminLTE/dist/img/default-avatar.png" alt="message user image">\
+							<div class="direct-chat-text">\
+								' + allChats[key]['message'] + '\
+							</div>\
+							<div class="direct-chat-footer">\
+								' + allChats[key]['footer'] + '\
+							</div>\
+						</div>\
+			';
+		}
+	});
+	
+	newReplyContainer += '\
+					</div>\
+				</div>\
+			</div>\
+		</div>\
+	</div>\
+	';
+	
+	$(newReplyContainer).insertAfter('.ticket_ReplyBox');
+	
+	$('.downloadAttachmentLink').addClass('btn').addClass('btn-primary').addClass('btn-sm')
+});
