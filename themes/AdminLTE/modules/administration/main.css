@@ -1,0 +1,21 @@
+.admin-buttons {
+	width: 160px;
+	height: 110px;
+	margin: 0px 5px 5px 0px;
+}
+.admin-buttons > span {
+	font-size: 0.9rem;
+}
+.admin-buttons:before {
+	font-size: 40px;
+	line-height: 40px;
+	display: block;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	margin-bottom: 5px;
+}
+
+.card-body > h2
+{
+	margin-top: 20px;
+}

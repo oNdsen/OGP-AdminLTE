@@ -141,6 +141,7 @@ $(document).ready(function()
 				var embjs = $('.container-fluid > .row > .col-12 > .card > .card-body > script:not([src])').html();
 				$('.container-fluid > .row > .col-12 > .card > .card-body > script:not([src])').remove();
 				
+				var refreshServerInterval;
 				var enableCallbacks = true;
 				var aradded = [];
 				embjs.match(axrgx).forEach((element, index) => {
@@ -174,12 +175,15 @@ $(document).ready(function()
 								});
 							}
 							
-							refreshServerStats();
-							
-							var refreshServerInterval = setInterval(function()
+							if (!refreshServerInterval)
 							{
 								refreshServerStats();
-							}, 10000);
+								
+								var refreshServerInterval = setInterval(function()
+								{
+									refreshServerStats();
+								}, 10000);
+							}
 						}
 					}
 				});
@@ -187,10 +191,10 @@ $(document).ready(function()
 				// clear intervals on link follow
 				$('a:not([data-widget="control-sidebar"]):not([data-widget="pushmenu"])').click(function()
 				{
-					// console.log('canceled interval');
-					if(refreshServerInterval)
+					if(typeof refreshServerIntervalSet !== 'undefined')
 					{
 						clearInterval(refreshServerInterval);
+						refreshServerInterval = null;
 					}
 				});
 				

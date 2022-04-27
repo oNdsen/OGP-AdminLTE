@@ -35,10 +35,6 @@ $(window).load(function()
 			var isAdmin = false
 		}
 		
-		console.log("find: " + $(this).find('.name').find('a').text());
-		console.log("username: " + username);
-		// console.log("old: " + $(lastNavItem).children('a').children('p').text()).attr('href', $(lastNavItem).children('a').attr('href'));
-		
 		if($(this).find('.name').find('a').text()==username)
 		{
 			var direction = 'left'
@@ -70,7 +66,7 @@ $(window).load(function()
 	$('.replyContainer').remove();
 	
 	var newReplyContainer = '\
-	<div class="row mt-3">\
+	<div class="row">\
 		<div class="col-12">\
 			<div class="card card-primary direct-chat direct-chat-primary">\
 				<div class="card-body">\
@@ -130,7 +126,8 @@ $(window).load(function()
 	</div>\
 	';
 	
-	$(newReplyContainer).insertAfter('.ticket_ReplyBox');
+	// $(newReplyContainer).insertAfter('.ticket_ReplyBox');
+	$('section.content > .container-fluid').append(newReplyContainer);
 	
 	$('.downloadAttachmentLink').addClass('btn').addClass('btn-primary').addClass('btn-sm')
 });

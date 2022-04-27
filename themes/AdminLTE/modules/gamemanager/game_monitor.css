@@ -28,21 +28,21 @@ form[method="GET"] .form-control {
 .monitorbutton {
 	height: 90px;
 	text-align: center;
-	vertical-align: middle;
 }
 .monitorbutton:before {
     display: block;
     font-size: 36px;
+    line-height: 40px;
+}
+.monitorbutton > span {
+    font-size: 0.8rem;
+    line-height: 1rem;
 }
 .monitorbutton:last-of-type {
 	margin-bottom: 20px;
 }
-.monitorbutton span {
-	line-height: 16px;
-	max-height: 28px;
-}
 .monitorbutton.size {
-	font-size: 16px !important;
+	font-size: 0.8rem !important;
 }
 .monitorbutton:hover,
 #server_icon:hover

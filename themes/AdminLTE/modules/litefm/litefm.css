@@ -1,0 +1,101 @@
+.viewitem {
+	width: 16px;
+	height: 16px;
+}
+.file-operations {
+	display: inline-block;
+	margin-bottom: 10px;
+}
+.operations-button
+{
+	display: inline-block;
+	margin-right: 5px;
+}
+.operations-button:before {
+	font-family: FontAwesome;
+	display: inline-block;
+	margin-right: 2px;
+}
+.operations-button img {
+	display: none;
+}
+.operations-button div {
+	display: inline-block;
+}
+a[href^="?m=litefm&home_id="] {
+	margin-right: 5px;
+}
+i.fa.fa-folder-open-o {
+	color: #ffe699;
+}
+#remove:before {
+	content: "\f1f8";
+}
+#rename:before {
+	content: "\f044";
+}
+#move:before {
+	content: "\f047";
+}
+#copy:before {
+        content: "\f24d";
+}
+#compress:before {
+        content: "\f1c6";
+}
+#uncompress:before {
+        content: "\f1c6";
+}
+#create_file:before {
+        content: "\f044";
+}
+#create_folder:before {
+        content: "\f114";
+}
+#upload:not(form):before {
+        content: "\f093";
+}
+
+
+.progress {
+	height: auto !important;
+}
+#upload [name="upload"] {
+	padding: 5px 10px;
+	font-size: 12px;
+	line-height: 1.5;
+	border-radius: 3px;
+	border: 1px solid transparent;
+	background-image: -webkit-linear-gradient(top, #1997c6 0, #126e90 100%);
+	background-image: -o-linear-gradient(top, #1997c6 0, #126e90 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #1997c6), to(#126e90));
+	background-image: linear-gradient(to bottom, #1997c6 0, #126e90 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff1997c6', endColorstr='#ff126e90', GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	background-repeat: repeat-x;
+	border-color: #116787;
+	margin-top: 10px;
+}
+.ui-dialog-titlebar-close {
+	border-radius: 3px;
+	border: none;
+}
+
+[id^="fileid"] {
+	position: relative;
+}
+[id^="progress"] {
+	height: 5px !important;
+	border: none !important;
+	border-radius: 2px;
+	width: 96% !important;
+}
+[id^="progress"] > div {
+	background: #1997c6 !important;
+	height: 5px !important;
+	border-radius: 2px !important;
+	-webkit-transition: width 0.2s ease-in-out;
+	-moz-transition: width 0.2s ease-in-out;
+	-o-transition: width 0.2s ease-in-out;
+	transition: width 0.2s ease-in-out;
+}

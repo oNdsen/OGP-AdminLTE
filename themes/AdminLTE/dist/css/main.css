@@ -110,6 +110,10 @@ pre {
 	border-radius: 4px;
 }
 
+.collapsible:hover {
+	cursor: pointer;
+}
+
 
 
 /* Icons Default */
@@ -128,6 +132,7 @@ pre {
 /* Brands */
 .nav-sidebar [href^="?m=steam_workshop"] > .nav-icon,
 .administration-table [href^="?m=steam_workshop"]:before,
+.monitorButtonContainer [href^="?m=steam_workshop"]:before,
 .monitorButtonContainer [href^="?m=gamemanager&p=update"]:before,
 .nav-sidebar [href="?m=TS3Admin"] > .nav-icon
 {
@@ -175,6 +180,7 @@ pre {
 .nav-sidebar [href^="?m=gamemanager&p=update"] > .nav-icon:before,
 .nav-sidebar [href^="?m=steam_workshop"] > .nav-icon:before,
 .administration-table [href^="?m=steam_workshop"]:before,
+.monitorButtonContainer [href^="?m=steam_workshop"]:before,
 .monitorButtonContainer [href^="?m=gamemanager&p=update"]:before { content: "\f1b6"; }
 .nav-sidebar [href^="?m=user_admin"] > .nav-icon:before,
 .nav-sidebar [link^="?m=user_admin"] > .nav-icon:before,
