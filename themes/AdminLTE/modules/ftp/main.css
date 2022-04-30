@@ -1,0 +1,18 @@
+html,
+body,
+.dark-mode {
+	background: transparent !important;
+}
+
+#StatusbarForm {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+i.fa.fa-folder-open {
+	color: #ffe699;
+}
+
+h1 {
+	font-size: 1.8rem;
+}

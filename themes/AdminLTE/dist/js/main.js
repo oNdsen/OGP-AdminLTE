@@ -46,7 +46,7 @@ $(document).ready(function()
 			var failureText = $(this).text().trim();
 			if(failureText !== "")
 			{
-				console.log("failureText: " + failureText);
+				// console.log("failureText: " + failureText);
 				errt.push(failureText);
 			}
 		})
@@ -73,7 +73,7 @@ $(document).ready(function()
 	
 	
 	/* *** Invalid Image replacement *** */
-	$('section.content img, section.content input[type="image"]').error(function()
+	$('.main img, .main input[type="image"]').error(function()
 	{
 		$(this).unbind("error").attr("src", "themes/AdminLTE/dist/img/image_not_found.png").attr("style", "max-width:250px;").removeAttr('height');
 	});
@@ -84,18 +84,10 @@ $(document).ready(function()
 	{
 		if($(this).is(":checked"))
 		{
-			// saveSettings('theme', 'dark');
-			$('body').removeClass('light-mode').addClass('dark-mode');
-			$('nav.main-header').addClass('navbar-dark');
-			$('aside.main-sidebar').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
-			$('aside.control-sidebar').removeClass('control-sidebar-light').addClass('control-sidebar-dark');
+			themeChanger('dark', true);
 		}else
 		{
-			// saveSettings('theme', 'light');
-			$('body').removeClass('dark-mode').addClass('light-mode');
-			$('nav.main-header').removeClass('navbar-dark');
-			$('aside.main-sidebar').removeClass('sidebar-dark-primary').addClass('sidebar-light-primary');
-			$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');
+			themeChanger('light', true);
 		}
 	});
 	
@@ -119,7 +111,7 @@ $(document).ready(function()
 			
 			$('select[name=lang]').addClass('form-control');
 
-			var title = $('section.content h4').text();
+			var title = $('.main h4').text();
 			var lang = $('[name="login_form"] tr:nth-child(1) td:first-child').text().replace(':', '');
 			var user = $('[name="login_form"] tr:nth-child(2) td:first-child').text().replace(':', '');
 			var pass = $('[name="login_form"] tr:nth-child(3) td:first-child').text().replace(':', '');
@@ -191,11 +183,11 @@ $(document).ready(function()
 		{
 			var title = $('.content-header h2').text();
 			
-			if ($('section.content > strong').length > 0 || $('section.content > p').text().toLowerCase().indexOf('smtp')>=0)
+			if ($('.main > strong').length > 0 || $('.main > p').text().toLowerCase().indexOf('smtp')>=0)
 			{
 				// *** Error Message ***
-				var err = $('section.content strong').text();
-				var err_msg = $('section.content p').text();
+				var err = $('.main strong').text();
+				var err_msg = $('.main p').text();
 
 				new_form = '\
 				<div class="callout callout-danger"><strong>'+err+'</strong><p>'+err_msg+'</p></div>\
@@ -204,11 +196,11 @@ $(document).ready(function()
 				</p>\
 				';
 			}
-			else if ($('section.content > p > b[style="color:red;"]').length > 0)
+			else if ($('.main > p > b[style="color:red;"]').length > 0)
 			{
 				// *** Sent Password ***
-				var msgb = $('section.content > p > b[style="color:red;"]').text();
-				var msg = $('section.content > p').text();
+				var msgb = $('.main > p > b[style="color:red;"]').text();
+				var msg = $('.main > p').text();
 				
 				new_form = '\
 				<div class="callout callout-success"><strong>'+msg+'</strong><p>'+msgb+'</p></div>\
@@ -220,16 +212,16 @@ $(document).ready(function()
 			else
 			{
 				var alert = "";
-				if ($('section.content td > p').length > 0)
+				if ($('.main td > p').length > 0)
 				{
 					var alertClass = 'success';
-					if($('section.content td > p').attr('style')=='color: red;')
+					if($('.main td > p').attr('style')=='color: red;')
 					{
 						var alertClass = 'danger';
 					}
 					
 					var errt = [];
-					$('section.content td > p').each(function()
+					$('.main td > p').each(function()
 					{
 						errt.push($(this).text());
 					});
@@ -240,7 +232,7 @@ $(document).ready(function()
 					}
 				}
 
-				var email = $('section.content label[for="email_address"]').text();
+				var email = $('.main label[for="email_address"]').text();
 				var lbtn = $('td > [type="submit"]').val();
 				var bbtn = $('[action="index.php"] > input[type="submit"]').val();
 
@@ -340,12 +332,12 @@ $(document).ready(function()
 
 
 		/* *** Root Links to Buttons *** */
-		$('section > div > a').addClass('btn').addClass('btn-primary');
+		$('section > div > a').addClass('btn btn-primary');
 
 
 		/* *** Add Header to Content *** */
 		// var currentTitle = $('section > div > h2').first();
-		var currentTitle = $('section .card-body:first-of-type > h2').first();
+		var currentTitle = $('.main > h2').first();
 		if(currentTitle.length)
 		{
 			var addHeader = ' \
@@ -364,7 +356,7 @@ $(document).ready(function()
 		}
 
 		/* *** Forms *** */
-		var buttons = $('button:not(".btn-tool"), input[type="button"], input[type="submit"], input[type="SUBMIT"], input[type="reset"], [href^="?m=gamemanager&p=update&update=refresh"], section.content [href="?m=modulemanager&p=update"], section.content [href="?m=simple-billing&p=shop"], section.content [href^="home.php?m=TS3Admin&changevServer"], section.content [href^="?m=gamemanager&p=game_monitor&home_id="], .serverIdToggle, section.content [href="?m=settings&p=api_hosts"]');
+		var buttons = $('button:not(".btn-tool"), input[type="button"], input[type="submit"], input[type="SUBMIT"], input[type="reset"], [href^="?m=gamemanager&p=update&update=refresh"], .main [href="?m=modulemanager&p=update"], .main [href="?m=simple-billing&p=shop"], .main [href^="home.php?m=TS3Admin&changevServer"], .main [href^="?m=gamemanager&p=game_monitor&home_id="], .serverIdToggle, .main [href="?m=settings&p=api_hosts"]');
 		$(buttons).addClass('btn').addClass('btn-sm').addClass('btn-primary');
 
 		var inputs = $('input, textarea, select').not('input[type=button], input[type="submit"], input[type="SUBMIT"], input[type=reset], input[type=radio], input[type=checkbox], input[type=image], input[type="file"]');
@@ -377,7 +369,8 @@ $(document).ready(function()
 
 
 		/* *** Several Class and Style Stuff *** */
-		$(window).load(function () {
+		$(window).load(function ()
+		{
 			$('tr, td, div:not([class*="nicEdit"])').css("background-color", "");
 			$('div:not([class*="nicEdit"], #refreshed-0)').css("border", "").css("height", "");
 			$('input').css("width", "");
@@ -495,8 +488,8 @@ $(document).ready(function()
 			var pe = $(pm).find('[class$="_paginationEnd"]');
 
 			if($(ps).length){
-				if($(ps).find('span').length){ console.log('divider!'); }
-				$(ps).find('a').each(function(){
+				$(ps).find('a').each(function()
+				{
 					var tl = $(this).attr('href');
 					var tc = $(this).text();
 					$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
@@ -506,7 +499,8 @@ $(document).ready(function()
 				}
 				$(ps).remove();
 			}
-			$(pp).find('a').each(function(){
+			$(pp).find('a').each(function()
+			{
 				var tl = $(this).attr('href');
 				var tc = $(this).text().replace('[','').replace(']','');
 				if($(this).is('[class$="_currentPageLink"]')){
@@ -518,10 +512,12 @@ $(document).ready(function()
 			$(pp).remove();
 
 			if($(pe).length){
-				if($(pe).find('span').length){
+				if($(pe).find('span').length)
+				{
 					$(pm).append('<li class="page-item"><a class="page-link">...</a></li>');
 				}
-				$(pe).find('a').each(function(){
+				$(pe).find('a').each(function()
+				{
 					var tl = $(this).attr('href');
 					var tc = $(this).text();
 					$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
@@ -559,6 +555,38 @@ $(document).ready(function()
 		$('.main-footer .OGPVersionArea').addClass('d-none');
 		$('.footer').html($('.footer').html().replace("Theme - ", "Theme for OGP by <a href='https://www.ondsen.ch' target='_blank'>oNdsen</a> - "))
 	}
+	
+	
+	/* *** Get Theme Settings *** */
+	// check if theme cookie is set
+	if(Cookies.get('theme') === undefined)
+	{
+		// load theme settings from db
+		$.ajax({
+			cache: false,
+			async: false,
+			type: 'GET',
+			url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=theme',
+			dataType: 'json',
+			success: function(theme)
+			{
+				// create theme cookie
+				Cookies.set('theme', theme);
+				// change theme
+				themeChanger(theme);
+			}
+		});
+	}else
+	{
+		// change theme
+		themeChanger(Cookies.get('theme'));
+	}
+	
+	$('[href="?logout=true"]').click(function()
+	{
+		// remove theme cookie on logout
+		Cookies.remove('theme')
+	});
 });
 
 $(window).load(function()
@@ -587,3 +615,53 @@ $(function() {
 		return this.pushStack(arr, "EveryWhat", "");
 	}
 });
+
+function themeChanger(changeTo, save = false)
+{
+	if(changeTo=='dark')
+	{
+		if(save)
+		{
+			$.ajax({
+				async: false,
+				type: 'GET',
+				url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=theme&v=dark',
+				dataType: 'json',
+				success: function(data)
+				{
+					toastr.success('Successfully saved theme to dark');
+					Cookies.set('theme', 'dark');
+				}
+			});
+		}
+		$('#themeChanger').prop("checked", true);
+		$('body').removeClass('light-mode').addClass('dark-mode');
+		$('nav.main-header').addClass('navbar-dark');
+		$('aside.main-sidebar').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
+		$('aside.control-sidebar').removeClass('control-sidebar-light').addClass('control-sidebar-dark');
+		$('img[src^="themes/AdminLTE/dist/img/ogp_logo"]').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_dark_is.svg');
+	}
+	else if(changeTo=='light')
+	{
+		if(save)
+		{
+			$.ajax({
+				async: false,
+				type: 'GET',
+				url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=theme&v=light',
+				dataType: 'json',
+				success: function(data)
+				{
+					toastr.success('Successfully saved theme to light');
+					Cookies.set('theme', 'light');
+				}
+			});
+		}
+		$('#themeChanger').prop("checked", false);
+		$('body').removeClass('dark-mode').addClass('light-mode');
+		$('nav.main-header').removeClass('navbar-dark');
+		$('aside.main-sidebar').removeClass('sidebar-dark-primary').addClass('sidebar-light-primary');
+		$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');
+		$('img[src^="themes/AdminLTE/dist/img/ogp_logo"]').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_light_is.svg');
+	}
+}

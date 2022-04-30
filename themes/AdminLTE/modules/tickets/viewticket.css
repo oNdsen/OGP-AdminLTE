@@ -107,11 +107,17 @@
 
 .attachmentHeader {
     margin-top: 4px;
-    font-weight: bold;
+	display: inline-block;
+	margin-right: 10px;
 }
 
 .attachmentList {
     margin-top: 4px;
+	display: inline-block;
+}
+
+.downloadAttachmentLink {
+	margbin-right: 5px;
 }
 
 .ticketErrorHolder {
@@ -253,10 +259,12 @@ label.star:before {
 .direct-chat-msg.right .direct-chat-footer
 {
     padding-right: 55px;
+	padding-left: 20px;
 }
 .direct-chat-msg:not(.right) .direct-chat-footer
 {
     padding-left: 55px;
+	padding-right: 20px;
 }
 .footer_row:not(.attachmentContainer) .left,
 .footer_row:not(.attachmentContainer) .right

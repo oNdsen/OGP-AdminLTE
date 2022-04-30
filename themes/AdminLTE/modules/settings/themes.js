@@ -1,4 +1,8 @@
 $(document).ready(function()
 {
-	$('section.content .container-fluid > form').wrapAll('<div class="row"><div class="col-12"><div class="card"><div class="card-body"></div></div></div></div>');
+	// remove original logo link
+	$('#logo_link').parents('tr').remove();
+	
+	// remove original background wrapper
+	$('#bg_wrapper').parents('tr').remove();
 });

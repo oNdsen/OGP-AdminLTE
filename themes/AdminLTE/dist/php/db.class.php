@@ -14,8 +14,6 @@ class ThemeDB
 	
 	private function getConnType()
 	{
-		return 'mysqli';
-		
 		if(class_exists('pdo'))
 		{
 			return 'pdo';

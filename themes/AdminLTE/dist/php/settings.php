@@ -42,10 +42,11 @@ if(empty($ThemeDB->query($sql)))
 	}
 	else
 	{
-		// error
+		// throw error
 		echo "<pre>";
 		print_r($ThemeDBCreate);
 		echo "</pre>";
+		exit();
 	}
 }
 
@@ -61,58 +62,85 @@ if(isset($_SESSION['users_group']))
 	
 	if(isset($_GET['m']))
 	{
-		if(isset($_GET['m'])=='dashboard')
+		if($_GET['m']=='global')
 		{
-			if(isset($_GET['p']) && ($_GET['p']=='columnsettings'))
+			if(isset($_GET['p']) && ($_GET['p']=='theme'))
 			{
-				$columns = $ThemeDB->getSetting('dashboard_columns');
-				if(empty($columns))
+				if(isset($_GET['v']) && ($_GET['v']=='light' || $_GET['v']=='dark'))
 				{
-					// no column settings available, set default settings
+					// write new value to db
+					$theme = $ThemeDB->setSetting('theme', $_GET['v']);
+				}
+				else
+				{
+					$theme = $ThemeDB->getSetting('theme');
+					if(empty($theme))
+					{
+						// write default value to db
+						$theme = $ThemeDB->setSetting('theme', 'dark');
+					}
+				}
+				
+				header("Content-Type: application/json");
+				echo json_encode($theme);
+				exit();
+			}
+		}
+		elseif($_GET['m']=='dashboard')
+		{
+			if(isset($_GET['p']))
+			{
+				if($_GET['p']=='columnsettings')
+				{
+					$columns = $ThemeDB->getSetting('dashboard_columns');
+					if(empty($columns))
+					{
+						// no column settings available, set default settings
+						$newColumns = array();
+						// select remote server
+						$newColumns[] = array('item' => 'item6', 'section' => 'column4', 'collapsed' => 0);
+						// server status
+						$newColumns[] = array('item' => 'item7', 'section' => 'column5', 'collapsed' => 0);
+						// process monitor
+						$newColumns[] = array('item' => 'item8', 'section' => 'column6', 'collapsed' => 0);
+						// server status
+						$newColumns[] = array('item' => 'item9', 'section' => 'column4', 'collapsed' => 0);
+						
+						// write default value to db
+						$setSetting = $ThemeDB->setSetting('dashboard_columns', $newColumns);
+						
+						$columns = $newColumns;
+					}
+					
+					header("Content-Type: application/json");
+					echo json_encode($columns);
+					exit();
+				}
+				elseif($_GET['p']=='updatecolumnsettings')
+				{
+					// only allow new generated items from theme
+					$allowedItems = array('item6', 'item7', 'item8', 'item9');
+					
+					// decode all items
+					$items = json_decode($_POST['data'], 1)['items'];
+					
+					// specify new columns
 					$newColumns = array();
-					// select remote server
-					$newColumns[] = array('item' => 'item6', 'section' => 'column4', 'collapsed' => 0);
-					// server status
-					$newColumns[] = array('item' => 'item7', 'section' => 'column5', 'collapsed' => 0);
-					// process monitor
-					$newColumns[] = array('item' => 'item8', 'section' => 'column6', 'collapsed' => 0);
-					// server status
-					$newColumns[] = array('item' => 'item9', 'section' => 'column4', 'collapsed' => 0);
+					
+					foreach($items AS $item)
+					{
+						if(in_array($item['id'], $allowedItems))
+						{
+							$newColumns[] = array('item' => $item['id'], 'section' => $item['column'], 'collapsed' => $item['collapsed']);
+						}
+					}
 					
 					// write to db
 					$setSetting = $ThemeDB->setSetting('dashboard_columns', $newColumns);
 					
-					$columns = $newColumns;
+					echo "success";
+					exit();
 				}
-				
-				header("Content-Type: application/json");
-				echo json_encode($columns);
-				exit();
-			}
-			elseif(isset($_GET['p']) && ($_GET['p']=='updatecolumnsettings'))
-			{
-				// only allow new generated items from theme
-				$allowedItems = array('item6', 'item7', 'item8', 'item9');
-				
-				// decode all items
-				$items = json_decode($_POST['data'], 1)['items'];
-				
-				// specify new columns
-				$newColumns = array();
-				
-				foreach($items AS $item)
-				{
-					if(in_array($item['id'], $allowedItems))
-					{
-						$newColumns[] = array('item' => $item['id'], 'section' => $item['column'], 'collapsed' => $item['collapsed']);
-					}
-				}
-				
-				// write to db
-				$setSetting = $ThemeDB->setSetting('dashboard_columns', $newColumns);
-				
-				echo "success";
-				exit();
 			}
 		}
 	}

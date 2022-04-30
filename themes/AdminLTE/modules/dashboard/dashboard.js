@@ -85,7 +85,6 @@ $(document).ready(function()
 		// get columnsettings
 		$.get('themes/AdminLTE/dist/php/settings.php?m=dashboard&p=columnsettings',
 			function(columnsettings){
-			
 				// build server status card
 				var serverStatusTitle = $('.container-fluid h0').last().text();
 				var serverSelectTitle = $('.container-fluid #column4 h3').text();
@@ -138,8 +137,8 @@ $(document).ready(function()
 				var destrgx = /\$\(\'(.*?)\'\)\.html/;					// get destination from ajax object
 				
 				// get complete js content
-				var embjs = $('.container-fluid > .row > .col-12 > .card > .card-body > script:not([src])').html();
-				$('.container-fluid > .row > .col-12 > .card > .card-body > script:not([src])').remove();
+				var embjs = $('.main > script:not([src])').html();
+				$('.main > script:not([src])').remove();
 				
 				var refreshServerInterval;
 				var enableCallbacks = true;
@@ -191,7 +190,7 @@ $(document).ready(function()
 				// clear intervals on link follow
 				$('a:not([data-widget="control-sidebar"]):not([data-widget="pushmenu"])').click(function()
 				{
-					if(typeof refreshServerIntervalSet !== 'undefined')
+					if(typeof refreshServerInterval !== 'undefined')
 					{
 						clearInterval(refreshServerInterval);
 						refreshServerInterval = null;
@@ -235,6 +234,17 @@ $(document).ready(function()
 				$('[id^=refreshed]').html(loading);
 			}
 		);
+	}
+});
+
+
+$(window).load(function ()
+{
+	//welcome title
+	if($(".main > div:not(.row)").length)
+	{
+		$(".main > div:not(.row)").addClass('card-body').wrap('<div class="card welcome-card"></div>');
+		$(".main .welcome-card").prependTo('section.content > .container-fluid');
 	}
 });
 
