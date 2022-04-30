@@ -11,6 +11,7 @@ AdminLTE Theme adapted for OpenGamePanel
 - [x] Custom FTP Style
 - [ ] Custom Logo Upload (for Dark and Light Mode)
 - [ ] Text instead of Logo Switcher
+- [ ] User specific Avatars
 
 ### Images
 ![This is an image](../main/adminlte_dark.png)
