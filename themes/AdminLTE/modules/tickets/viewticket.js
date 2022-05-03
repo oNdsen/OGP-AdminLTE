@@ -17,6 +17,10 @@ $(document).ready(function()
 	{
 		$(this).replaceWith('<table>'+$(this).html()+'</table>');
 	});
+	
+	//buttons
+	$('#add_file_attachment').addClass('btn-secondary');
+	$('[name="ticket_close"]').addClass('btn-danger');
 });
 
 
@@ -81,6 +85,30 @@ $(window).load(function()
 			isAdmin = '<span class="badge badge-danger mx-1">Admin</span>';
 		}
 		
+		var avatarUserId = new URLSearchParams($($.parseHTML(allChats[key]['user'])).filter('a').attr('href')).get('user_id');
+		if(Cookies.get('avatar_' + avatarUserId) === undefined)
+		{
+			// load avatar from db
+			$.ajax({
+				cache: false,
+				async: false,
+				type: 'GET',
+				url: 'themes/AdminLTE/dist/php/settings.php?m=user&p=getavatar&userid=' + avatarUserId,
+				success: function(avatar)
+				{
+					// create avatar cookie
+					Cookies.set('avatar_' + avatarUserId, avatar);
+					
+					// set user avatar
+					var avatarUrl = avatar;
+				}
+			});
+		}else
+		{
+			// read user avatar cookie value
+			var avatarUrl = Cookies.get('avatar_' + avatarUserId);
+		}
+		
 		if(allChats[key]['direction']=='left')
 		{
 			newReplyContainer += '\
@@ -89,7 +117,7 @@ $(window).load(function()
 								<span class="direct-chat-name float-left">' + allChats[key]['user'] + isAdmin + '</span>\
 								<span class="direct-chat-timestamp float-right">' + allChats[key]['date'] + '</span>\
 							</div>\
-							<img class="direct-chat-img" src="themes/AdminLTE/dist/img/default-avatar.png" alt="message user image">\
+							<img class="direct-chat-img" src="' + avatarUrl + '" alt="message user image">\
 							<div class="direct-chat-text">\
 								' + allChats[key]['message'] + '\
 							</div>\
@@ -106,7 +134,7 @@ $(window).load(function()
 								<span class="direct-chat-name float-right">' + isAdmin + allChats[key]['user'] + '</span>\
 								<span class="direct-chat-timestamp float-left">' + allChats[key]['date'] + '</span>\
 							</div>\
-							<img class="direct-chat-img" src="themes/AdminLTE/dist/img/default-avatar.png" alt="message user image">\
+							<img class="direct-chat-img" src="' + avatarUrl + '" alt="message user image">\
 							<div class="direct-chat-text">\
 								' + allChats[key]['message'] + '\
 							</div>\

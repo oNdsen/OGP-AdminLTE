@@ -111,18 +111,23 @@ class ThemeDB
 		}
 	}
 	
-	public function getSetting($name)
+	public function getSetting($name, $userId = false)
 	{
+		if(!$userId)
+		{
+			$userId = $_SESSION['user_id'];
+		}
+		
 		$query = '
 			SELECT value
 			FROM '.$this->settingsTable.'
-			WHERE user = "'.$_SESSION['user_id'].'" AND name = "'.$name.'"
+			WHERE user = "'.$userId.'" AND name = "'.$name.'"
 		';
 		
 		$data = $this->query($query);
 		if(!empty($data))
 		{
-			return json_decode(unserialize($data[0]['value']), 1);
+			return unserialize($data[0]['value']);
 		}
 		else
 		{
@@ -134,9 +139,9 @@ class ThemeDB
 	{
 		$query = "
 			INSERT INTO ".$this->settingsTable." (user, name, value)
-				VALUES('".$_SESSION['user_id']."', '".$name."', '".serialize(json_encode($value))."')
+				VALUES('".$_SESSION['user_id']."', '".$name."', '".serialize($value)."')
 			ON DUPLICATE KEY UPDATE
-				value = '".serialize(json_encode($value))."'
+				value = '".serialize($value)."'
 		";
 		
 		return $this->query($query);

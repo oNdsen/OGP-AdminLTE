@@ -13,11 +13,16 @@ $ThemeDB->settingsTable = $ThemeDB->tablePrefix().'adminlte_settings';
 $isadmin = false;
 $uploadsFolder = dirname(__FILE__).'/uploads';
 
-
 // check if uploads folder exists and create if not
 if(!file_exists($uploadsFolder))
 {
-	mkdir($uploadsFolder, 0644, true);
+	mkdir($uploadsFolder, 0744, true);
+}
+
+// check if uploads folder has chmod 744 and if not, set it
+if(substr(sprintf('%o', fileperms($uploadsFolder)), -4)!='0744')
+{
+	chmod($uploadsFolder, 744);
 }
 
 // check if theme settings db exists and create if not
@@ -84,6 +89,93 @@ if(isset($_SESSION['users_group']))
 				header("Content-Type: application/json");
 				echo json_encode($theme);
 				exit();
+			}
+		}
+		elseif($_GET['m']=='user')
+		{
+			$avatarUploadsPath = "themes/AdminLTE/dist/php/uploads/";
+			if(isset($_GET['p']))
+			{
+				if($_GET['p']=='getavatar')
+				{
+					if(isset($_GET['userid']) && is_numeric($_GET['userid']))
+					{
+						$avatar = $ThemeDB->getSetting('avatar', $_GET['userid']);
+						if(empty($avatar))
+						{
+							$avatarPath = "themes/AdminLTE/dist/img/default-avatar.png";
+						}else
+						{
+							$avatarPath = $avatarUploadsPath.$avatar;
+						}
+						
+						// setcookie('avatar_'.$_GET['userid'], null, -1);
+						// setcookie('avatar_'.$_GET['userid'], $avatarPath);
+						
+						echo $avatarPath;
+						exit;
+					}
+				}elseif($_GET['p']=='setavatar')
+				{
+					if(isset($_GET['userid']) && is_numeric($_GET['userid']))
+					{
+						// security; for now, only allow upload for own user id
+						if($_GET['userid']==$_SESSION['user_id'])
+						{
+							if(isset($_FILES['userAvatar']))
+							{
+								// check if file is an image
+								$isImage = getimagesize($_FILES['userAvatar']['tmp_name']);
+								if($isImage === false)
+								{
+									// file is not an image; break script
+									echo "noimage";
+									exit;
+								}
+								
+								// check file size
+								if($_FILES['userAvatar']['size'] > 500000) // 5mb in bytes
+								{
+									// filesize is too big; break script
+									echo "filesize";
+									exit;
+								}
+								
+								// check if an avatar already exists
+								$oldAvatar = $ThemeDB->getSetting('avatar');
+								if(!empty($oldAvatar))
+								{
+									// delete old avatar
+									if(file_exists($oldAvatar))
+									{
+										unlink($oldAvatar);
+									}
+								}
+								
+								// get file extension
+								$fileExt = pathinfo($_FILES['userAvatar']['name'])['extension'];
+								$destFile = $uploadsFolder."/".$_GET['userid'].".".$fileExt;
+								$avatar = $avatarUploadsPath.$_GET['userid'].".".$fileExt;
+								
+								if(move_uploaded_file($_FILES['userAvatar']['tmp_name'], $destFile))
+								{
+									// write to db
+									$setAvatar = $ThemeDB->setSetting('avatar', $avatar);
+									
+									// setcookie('avatar_'.$_GET['userid'], null, -1);
+									// setcookie('avatar_'.$_GET['userid'], $avatar);
+									
+									echo $avatar;
+								}
+								else
+								{
+									echo "error";
+								}
+							}
+						}
+						exit;
+					}
+				}
 			}
 		}
 		elseif($_GET['m']=='dashboard')

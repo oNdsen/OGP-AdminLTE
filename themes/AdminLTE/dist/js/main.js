@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-	/* *** Toastr Init *** */
+	/* *** Initializations *** */
 	toastr.options = {
 		"debug": false,
 		"positionClass": "toast-bottom-right",
@@ -12,6 +12,8 @@ $(document).ready(function()
 		"progressBar": true,
 		toastClass: 'elevation-4',
 	}
+	bsCustomFileInput.init();
+	
 	
 	/* *** Cutting Title *** */
 	var headTitle = document.getElementsByTagName("title")[0].innerHTML;
@@ -474,7 +476,35 @@ $(document).ready(function()
 
 		// Remove User Element and update top User Area
 		var lastNavItem = $('.nav-sidebar > li').last();
-		$('.user-panel > .info > a').text($(lastNavItem).children('a').children('p').text()).attr('href', $(lastNavItem).children('a').attr('href'));
+		var userProfileLink = $(lastNavItem).children('a').attr('href');
+		var userId = new URLSearchParams(userProfileLink).get('user_id');
+		
+		if(Cookies.get('avatar_' + userId) === undefined)
+		{
+			// load avatar from db
+			$.ajax({
+				cache: false,
+				async: true,
+				type: 'GET',
+				url: 'themes/AdminLTE/dist/php/settings.php?m=user&p=getavatar&userid=' + userId,
+				success: function(avatar)
+				{
+					console.log("set avatar cookie: " + avatar);
+					
+					// set avatar cookie
+					Cookies.set('avatar_' + userId, avatar);
+					
+					// set user avatar
+					$('.user-panel > .image > img').attr('src', avatar);
+				}
+			});
+		}else
+		{
+			// set user images
+			$('.user-panel > .image > img').attr('src', Cookies.get('avatar_' + userId));
+		}
+		
+		$('.user-panel > .info > a').text($(lastNavItem).children('a').children('p').text()).attr('href', userProfileLink);
 		$(lastNavItem).remove();
 		
 		
@@ -582,10 +612,104 @@ $(document).ready(function()
 		themeChanger(Cookies.get('theme'));
 	}
 	
+	
 	$('[href="?logout=true"]').click(function()
 	{
 		// remove theme cookie on logout
 		Cookies.remove('theme')
+	});
+	
+	
+	/* *** Avatar Upload *** */
+	$('input[type=file]#userAvatar').change(function()
+	{
+		var userId = new URLSearchParams(userProfileLink).get('user_id');
+		$(this).simpleUpload('themes/AdminLTE/dist/php/settings.php?m=user&p=setavatar&userid=' + userId, {
+			allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
+			allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
+			maxFileSize: 5000000, // 5mb in bytes
+			limit: 1,
+			start: function()
+			{
+				toastr.info('Avatar Upload initiated');
+			},
+			success: function(data)
+			{
+				if(data=="noimage")
+				{
+					toastr.error('Error: File is no Image');
+				}
+				else if(data=="filesize")
+				{
+					toastr.error('Error: Filesize extends 5mb');
+				}
+				else if(data=="error")
+				{
+					toastr.error('Error: Unknown error');
+				}
+				else
+				{
+					console.log(data);
+					$.ajax({
+						url: data,
+						type: 'HEAD',
+						error: function()
+						{
+							toastr.error('Error in Avatar Upload');
+						},
+						success: function()
+						{
+							// overwrite avatar cookie
+							Cookies.set('avatar_' + userId, data);
+							
+							toastr.success('Successfully uploaded new Avatar');
+							// location.reload();
+						}
+					});
+				}
+			},
+			error: function(error)
+			{
+				toastr.error('Error in Avatar Upload');
+			}
+		});
+	});
+	
+	
+	/* *** File Style Hack *** */
+	$.fn.input_file_styling = function()
+	{
+		var totalFileInputs = 1
+		$('input[type="file"]').each(function()
+		{
+			if($(this).parent().hasClass('custom-file')==false)
+			{
+				// add id to element
+				if(!$(this).is('[id]'))
+				{
+					$(this).attr('id', 'file-'+totalFileInputs);
+				}
+				$(this).css('display', 'none').wrap('<div class="custom-file" style="width:200px">');
+				$(this).parent('.custom-file').append('<label class="custom-file-label" for="'+$(this).attr('id')+'">Select file</label>');
+			}
+			totalFileInputs++;
+		});
+		
+		// label text fix
+		$(document).on('change', ':file', function()
+		{
+			numFiles = $(this).get(0).files ? $(this).get(0).files.length : 1,
+			label = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');
+			
+			$(this).next('label').text(label);
+		});
+	}
+	// Init Call of the Function
+	$.fn.input_file_styling();
+	// Restyle after Adding a File Input
+	$('#add_file_attachment').click(function()
+	{
+		setTimeout($.fn.input_file_styling, 1);
 	});
 });
 

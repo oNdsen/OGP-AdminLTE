@@ -67,34 +67,35 @@
 </nav>
 <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+	<!-- Brand Logo -->
 	<a class="brand-link text-center">
 		<img src="themes/AdminLTE/dist/img/ogp_logo_dark_is.svg" class="brand-image">
 	</a>
 
-    <!-- Sidebar -->
-    <div class="sidebar os-host os-theme-dark os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-scrollbar-vertical-hidden os-host-transition">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="themes/AdminLTE/dist/img/default-avatar.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Username</a>
-        </div>
-      </div>
+	<!-- Sidebar -->
+	<div class="sidebar os-host os-theme-dark os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-scrollbar-vertical-hidden os-host-transition">
+		<!-- Sidebar user panel (optional) -->
+		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+			<div class="image">
+				<img src="themes/AdminLTE/dist/img/default-avatar.png" class="img-circle elevation-2" alt="User Image">
+			</div>
+			<div class="info">
+			<a href="#" class="d-block">Username</a>
+			</div>
+		</div>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2 pb-5">
-        <ul class="nav nav-pills nav-child-indent nav-sidebar flex-column text-sm" data-widget="treeview" role="menu" data-accordion="false">
- 
-			%body%
+		<!-- Sidebar Menu -->
+		<nav class="mt-2 pb-5">
+			<ul class="nav nav-pills nav-child-indent nav-sidebar flex-column text-sm" data-widget="treeview" role="menu" data-accordion="false">
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <div class="p-4">
+				%body%
+				
+
+	<!-- Control Sidebar -->
+	<aside class="control-sidebar control-sidebar-dark">
+		<div class="p-4">
 			<h5 class="mb-0">Theme Settings</h5>
 			<hr class="m-1">
 			<div class="mb-2">
@@ -103,8 +104,18 @@
 					<label class="custom-control-label" for="themeChanger">Dark Mode</label>
 				</div>
 			</div>
-	</div>
-  </aside>
+			<h5 class="mb-0 mt-4">User Settings</h5>
+			<hr class="m-1">
+			<div class="mb-2">
+				<div class="input-group">
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" name="userAvatar" id="userAvatar">
+						<label class="custom-file-label" for="userAvatar">User Avatar</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</aside>
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
@@ -130,6 +141,10 @@
 <script src="themes/AdminLTE/plugins/toastr/toastr.min.js"></script>
 <!-- jQuery Knob -->
 <script src="themes/AdminLTE/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- simpleUpload -->
+<script src="themes/AdminLTE/plugins/simpleupload/simpleUpload.min.js"></script>
+<!-- BS Custom File Input -->
+<script src="themes/AdminLTE/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
 <script src="themes/AdminLTE/dist/js/adminlte.js"></script>
 <!-- Main JS -->

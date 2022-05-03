@@ -32,6 +32,13 @@ input:-webkit-autofill:active{
 	-webkit-box-shadow: inset !important;
 }
 
+.control-sidebar,
+.control-sidebar::before
+{
+	right: -350px;
+	width: 350px;
+}
+
 .dark-mode .preloader {
 	align-items: center;
 	justify-content: center;
@@ -48,8 +55,11 @@ input:-webkit-autofill:active{
 .sidebar-collapse .brand-link > img {
 	margin: 0px;
 }
-.sidebar-collapse .brand-link {
-	/* padding: 10px 5px 20px; */
+
+.user-panel img
+{
+	width: 2.1rem;
+	height: 2.1rem;
 }
 
 .rc-anchor-dark.rc-anchor-normal {
