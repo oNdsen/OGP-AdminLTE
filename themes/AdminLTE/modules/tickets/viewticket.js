@@ -86,7 +86,7 @@ $(window).load(function()
 		}
 		
 		var avatarUserId = new URLSearchParams($($.parseHTML(allChats[key]['user'])).filter('a').attr('href')).get('user_id');
-		if(Cookies.get('avatar_' + avatarUserId) === undefined)
+		if(localStorage.getItem('avatar_' + avatarUserId) === undefined)
 		{
 			// load avatar from db
 			$.ajax({
@@ -97,7 +97,7 @@ $(window).load(function()
 				success: function(avatar)
 				{
 					// create avatar cookie
-					Cookies.set('avatar_' + avatarUserId, avatar);
+					localStorage.setItem('avatar_' + avatarUserId, avatar);
 					
 					// set user avatar
 					var avatarUrl = avatar;
@@ -106,7 +106,7 @@ $(window).load(function()
 		}else
 		{
 			// read user avatar cookie value
-			var avatarUrl = Cookies.get('avatar_' + avatarUserId);
+			var avatarUrl = localStorage.getItem('avatar_' + avatarUserId);
 		}
 		
 		if(allChats[key]['direction']=='left')

@@ -110,8 +110,6 @@ $(document).ready(function()
 					section = columnsettings[key]['section']
 					collapsed = columnsettings[key]['collapsed']
 					
-					// console.log("collapsed: " + collapsed);
-					
 					if(item=='item6')
 					{
 						$('#' + section).append(createCard(item, serverSelectTitle, serverSelectForm, collapsed));
@@ -126,11 +124,6 @@ $(document).ready(function()
 					}
 				})
 				
-				// $('#column4').append(createCard('item6', serverSelectTitle, serverSelectForm));
-				// $('#column4').append(createCard('item9', '', '', true));
-				// $('#column5').append(createCard('item7', serverStatusTitle, '', true));
-				// $('#column6').append(createCard('item8', '', '', true));
-				
 				// define regexes
 				var axrgx = /jQuery\.ajax\(\{(.*?)\}\)\;(.*?)\}\)\;/sg;		// get all ajax definitions
 				var urlrgx = /url\: \"(.*?)\"/m;							// get url from ajax object
@@ -140,7 +133,7 @@ $(document).ready(function()
 				var embjs = $('.main > script:not([src])').html();
 				$('.main > script:not([src])').remove();
 				
-				var refreshServerInterval;
+				var refreshDashboardServerInterval;
 				var enableCallbacks = true;
 				var aradded = [];
 				embjs.match(axrgx).forEach((element, index) => {
@@ -153,7 +146,7 @@ $(document).ready(function()
 						{
 							aradded.push(url);
 							
-							function refreshServerStats()
+							function refreshDashboardServerStats()
 							{
 								jQuery.ajax({
 									url: url,
@@ -174,13 +167,13 @@ $(document).ready(function()
 								});
 							}
 							
-							if (!refreshServerInterval)
+							if (!refreshDashboardServerInterval)
 							{
-								refreshServerStats();
+								refreshDashboardServerStats();
 								
-								var refreshServerInterval = setInterval(function()
+								var refreshDashboardServerInterval = setInterval(function()
 								{
-									refreshServerStats();
+									refreshDashboardServerStats();
 								}, 10000);
 							}
 						}

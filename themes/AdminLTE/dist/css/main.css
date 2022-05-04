@@ -32,6 +32,13 @@ input:-webkit-autofill:active{
 	-webkit-box-shadow: inset !important;
 }
 
+.login-page .navbar {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
+
 .control-sidebar,
 .control-sidebar::before
 {
@@ -212,7 +219,7 @@ pre {
 .nav-sidebar [href^="?m=gamemanager&p=rsync_install"] > .nav-icon:before { content: "\f0ad"; }
 .nav-sidebar [href^="?m=support"] > .nav-icon:before { content: "\f095"; }
 .nav-sidebar [href^="?m=faq"] > .nav-icon:before,
-.administration-table [href^="?m=faq"]:before{ content: "\f29c"; }
+.administration-table [href^="?m=faq"]:before{ content: "\f059"; }
 .nav-sidebar [href^="?m=fast_download"] > .nav-icon:before,
 .monitorButtonContainer [href^="?m=fast_download"]:before,
 .administration-table [href^="?m=fast_download"]:before { content: "\f019"; }

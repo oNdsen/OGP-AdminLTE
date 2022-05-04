@@ -19,12 +19,6 @@ if(!file_exists($uploadsFolder))
 	mkdir($uploadsFolder, 0744, true);
 }
 
-// check if uploads folder has chmod 744 and if not, set it
-if(substr(sprintf('%o', fileperms($uploadsFolder)), -4)!='0744')
-{
-	chmod($uploadsFolder, 744);
-}
-
 // check if theme settings db exists and create if not
 $sql = 'show tables like "'.$ThemeDB->settingsTable.'"';
 if(empty($ThemeDB->query($sql)))
@@ -106,11 +100,8 @@ if(isset($_SESSION['users_group']))
 							$avatarPath = "themes/AdminLTE/dist/img/default-avatar.png";
 						}else
 						{
-							$avatarPath = $avatarUploadsPath.$avatar;
+							$avatarPath = $avatar;
 						}
-						
-						// setcookie('avatar_'.$_GET['userid'], null, -1);
-						// setcookie('avatar_'.$_GET['userid'], $avatarPath);
 						
 						echo $avatarPath;
 						exit;
@@ -124,12 +115,27 @@ if(isset($_SESSION['users_group']))
 						{
 							if(isset($_FILES['userAvatar']))
 							{
+								// check if uploads folder is writable
+								if(!is_writable($uploadsFolder))
+								{
+									$retArr = array(
+										'code' => 'error',
+										'data' => 'Error: Uploads Folder is not writable.<br>Check Folder: '.$uploadsFolder,
+									);
+									echo json_encode($retArr);
+									exit;
+								}
+								
 								// check if file is an image
 								$isImage = getimagesize($_FILES['userAvatar']['tmp_name']);
 								if($isImage === false)
 								{
 									// file is not an image; break script
-									echo "noimage";
+									$retArr = array(
+										'code' => 'error',
+										'data' => 'Error: File is no Image',
+									);
+									echo json_encode($retArr);
 									exit;
 								}
 								
@@ -137,7 +143,11 @@ if(isset($_SESSION['users_group']))
 								if($_FILES['userAvatar']['size'] > 500000) // 5mb in bytes
 								{
 									// filesize is too big; break script
-									echo "filesize";
+									$retArr = array(
+										'code' => 'error',
+										'data' => 'Error: Filesize extends 5mb',
+									);
+									echo json_encode($retArr);
 									exit;
 								}
 								
@@ -162,18 +172,24 @@ if(isset($_SESSION['users_group']))
 									// write to db
 									$setAvatar = $ThemeDB->setSetting('avatar', $avatar);
 									
-									// setcookie('avatar_'.$_GET['userid'], null, -1);
-									// setcookie('avatar_'.$_GET['userid'], $avatar);
-									
-									echo $avatar;
+									$retArr = array(
+										'code' => 'success',
+										'data' => $avatar,
+									);
+									echo json_encode($retArr);
+									exit;
 								}
 								else
 								{
-									echo "error";
+									$retArr = array(
+										'code' => 'error',
+										'data' => 'Error: Could not move uploaded File',
+									);
+									echo json_encode($retArr);
+									exit;
 								}
 							}
 						}
-						exit;
 					}
 				}
 			}
