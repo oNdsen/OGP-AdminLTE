@@ -9,9 +9,9 @@ AdminLTE Theme adapted for OpenGamePanel
 - [x] Dark and Light Mode Switcher
 - [x] Custom Dashboard with additional Rows (all Boxes are movable!)
 - [x] Custom FTP Style
+- [x] User specific Avatars
 - [ ] Custom Logo Upload (for Dark and Light Mode)
 - [ ] Text instead of Logo Switcher
-- [ ] User specific Avatars
 
 ### Images
 ![This is an image](../main/adminlte_dark.png)
