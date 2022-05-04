@@ -603,29 +603,34 @@ $(document).ready(function()
 		var lastNavItem = $('.nav-sidebar > li > .user_menu_link').last().parent('.nav-item');
 		var userProfileLink = $(lastNavItem).children('a').attr('href');
 		var userId = new URLSearchParams(userProfileLink).get('user_id');
+		var setUserAvatar = 'themes/AdminLTE/dist/img/default-avatar.png';
 		
-		if(!localStorage.getItem('avatar_' + userId))
+		if(userId)
 		{
-			// load avatar from db
-			$.ajax({
-				cache: false,
-				async: true,
-				type: 'GET',
-				url: 'themes/AdminLTE/dist/php/settings.php?m=user&p=getavatar&userid=' + userId,
-				success: function(avatar)
-				{
-					// set avatar cache
-					localStorage.setItem('avatar_' + userId, avatar);
-					
-					// set user avatar
-					$('.user-panel > .image > img').attr('src', avatar + "?" + d.getTime());
-				}
-			});
-		}else
-		{
-			// set user images
-			$('.user-panel > .image > img').attr('src', localStorage.getItem('avatar_' + userId));
+			if(!localStorage.getItem('avatar_' + userId))
+			{
+				// load avatar from db
+				$.ajax({
+					cache: false,
+					async: true,
+					type: 'GET',
+					url: 'themes/AdminLTE/dist/php/settings.php?m=user&p=getavatar&userid=' + userId,
+					success: function(avatar)
+					{
+						// set avatar cache
+						localStorage.setItem('avatar_' + userId, avatar);
+						
+						setUserAvatar = avatar;
+					}
+				});
+			}else
+			{
+				setUserAvatar = localStorage.getItem('avatar_' + userId);
+			}
 		}
+		
+		// set user avatar
+		$('.user-panel > .image > img').attr('src', setUserAvatar + "?" + d.getTime());
 		
 		$('.user-panel > .info > a').text($(lastNavItem).children('a').children('p').text()).attr('href', userProfileLink);
 		$(lastNavItem).remove();

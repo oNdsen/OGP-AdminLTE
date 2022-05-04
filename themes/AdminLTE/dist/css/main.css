@@ -131,6 +131,9 @@ pre {
 	cursor: pointer;
 }
 
+.card-body.p-0 > .table > tbody > tr:nth-child(1) > td {
+    border-top: none;
+}
 
 
 /* Icons Default */

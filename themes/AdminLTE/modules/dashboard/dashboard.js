@@ -6,7 +6,6 @@ $(document).ready(function()
 	// image replacements
 	$('img[src$="game_monitor.png"]').replaceWith('<h2 class="d-inline float-right"><i class="fas fa-folder"></i></h2>');
 	$('img[src$="support.png"]').replaceWith('<h2 class="d-inline float-right"><i class="fas fa-question-circle"></i></h2>');
-	$('img[src$="support.png"]').replaceWith('<h2 class="d-inline float-right"><i class="fas fa-question-circle"></i></h2>');
 
 	// head sections
 	$('.column').each(function()
@@ -51,6 +50,20 @@ $(document).ready(function()
 				}
 			}
 			$(thisContent).removeClass('dragbox-content').addClass('card-body').removeAttr('style');
+			
+			// check if dragbox is a link
+			if(typeof $(thisContent).attr('onclick') !== 'undefined' && $(thisContent).attr('onclick') !== false)
+			{
+				// add cursor pointer style
+				$(thisContent).css('cursor', 'pointer');
+				
+				// check if link is external to change event to window.open (new window)
+				var thisURL = $(thisContent).attr('onclick').replace("location.href='", "").replace("'", "");
+				if(thisURL.includes("://"))
+				{
+					$(thisContent).attr("onclick", "window.open('"+thisURL+"')");
+				}
+			}
 		}
 		
 		if(isCollapsed)
