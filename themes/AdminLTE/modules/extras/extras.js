@@ -1,24 +1,27 @@
-$(document).ready(function() {
-
+$(document).ready(function()
+{
+	//remove main card
+	$('.main').removeClass('card-body').parent('.card').removeClass('card');
+	
 	$('[name="update"]').click(function(){
-		$('body').append('<div class="loading-overlay"><img src="themes/SimpleBootstrap/images/loader/dual_ring.svg"></div>');
+		$('body').append('<div class="loading-overlay"><img src="themes/AdminLTE/dist/img/dual_ring.svg"></div>');
 	});
 
 	$('.dragbox-content').html(function(index, text) {
 		return text.replace(/\ - /g, '');
 	});
 
-	$('[href^="#uninstall_"]').addClass('btn').addClass('btn-danger').addClass('btn-xs').removeAttr('style');
-	$('[href^="#remove_"]').addClass('btn').addClass('btn-danger').addClass('btn-xs').removeAttr('style');
-	$('[href^="#install_"]').addClass('btn').addClass('btn-success').addClass('btn-xs').removeAttr('style');
-	$('[href^="?m=extras&searchForUpdates="]').addClass('btn').addClass('btn-primary').addClass('btn-xs').removeAttr('style');
+	$('[href^="#uninstall_"]').addClass('btn btn-danger btn-xs').removeAttr('style');
+	$('[href^="#remove_"]').addClass('btn btn-danger btn-xs').removeAttr('style');
+	$('[href^="#install_"]').addClass('btn btn-success btn-xs').removeAttr('style');
+	$('[href^="?m=extras&searchForUpdates="]').addClass('btn btn-primary btn-xs').removeAttr('style');
 
-	$('section.content .card-body > h2').after('<div class="extras"></div>');
-
-	$('.dragbox-content').each(function(){
+	$('.dragbox-content').each(function()
+	{
 		var form_selector = $(this);
 		$(form_selector).prepend('<br>');
-		$(form_selector.find('br')).each(function(){
+		$(form_selector.find('br')).each(function()
+		{
 			var $set = $();
 			var nxt = this.nextSibling;
 			while(nxt) {
@@ -33,25 +36,46 @@ $(document).ready(function() {
 		$(form_selector.find('tr')).wrapAll('<table class="table table-sm table-striped" />');
 	});
 
-
-	$('.dragbox').appendTo('section.content .card-body .extras').removeAttr('style');
-
-	$('tr').each(function () {
-		$(this).find('td').each(function () {
-			if ($(this).text().trim() == "") {
-				$(this).closest("tr").remove();
-			};
-		});
-	});
-
-    $('b[style*="green"]').addClass('label').addClass('label-success').css("color", "");
-    $('b[style*="red"]').addClass('label').addClass('label-danger').css("color", "");
-	$('b[style*="orange"]').addClass('label').addClass('label-warning').css("color", "");
-
+    $('b[style*="green"]').addClass('badge').addClass('badge-success').css("color", "");
+    $('b[style*="red"]').addClass('badge').addClass('badge-danger').css("color", "");
+	$('b[style*="orange"]').addClass('badge').addClass('badge-warning').css("color", "");
 
 	$('.search').click(function(){
 		$(this).replaceWith('<a class="search btn btn-primary btn-xs" href="'+$(this).attr('href')+'" disabled>'+$(this).text()+' <i class="fa fa-refresh fa-spin fa-fw" aria-hidden="true"></i></a>');
 	});
-
+	
+	$('.main').append('<div class="row"></div>');
+	
+	$('.dragbox').each(function()
+	{
+		var boxTitle = $(this).find('h4').text();
+		var boxContent = $(this).find('.dragbox-content').html();
+		
+		$('.main > .row').append("\
+		<div class='col-md-6 col-12'>\
+			<div class='card'>\
+				<div class='card-header'>\
+					<h3 class='card-title'>" + boxTitle + "</h3>\
+				</div>\
+				<div class='card-body p-0'>\
+					" + boxContent + "\
+				</div>\
+			</div>\
+		</div>\
+		");
+	});
+	
+	var btnText = $('button[name="update"]').text();
+	$('.main > .row').append("\
+	<div class='col-12'>\
+		<div class='card'>\
+			<div class='card-body' id='updateButton'>\
+				<button name='update' class='btn btn-sm btn-primary'>" + btnText + "</button>\
+			</div>\
+		</div>\
+	</div>\
+	");
+	
+	$('.main > table').remove();
 });
 
