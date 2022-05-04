@@ -85,8 +85,9 @@ $(window).load(function()
 			isAdmin = '<span class="badge badge-danger mx-1">Admin</span>';
 		}
 		
+		var avatarUrl = 'themes/AdminLTE/dist/img/default-avatar.png';
 		var avatarUserId = new URLSearchParams($($.parseHTML(allChats[key]['user'])).filter('a').attr('href')).get('user_id');
-		if(localStorage.getItem('avatar_' + avatarUserId) === undefined)
+		if(!localStorage.getItem('avatar_' + avatarUserId))
 		{
 			// load avatar from db
 			$.ajax({
@@ -100,13 +101,13 @@ $(window).load(function()
 					localStorage.setItem('avatar_' + avatarUserId, avatar);
 					
 					// set user avatar
-					var avatarUrl = avatar;
+					avatarUrl = avatar;
 				}
 			});
 		}else
 		{
 			// read user avatar cookie value
-			var avatarUrl = localStorage.getItem('avatar_' + avatarUserId);
+			avatarUrl = localStorage.getItem('avatar_' + avatarUserId);
 		}
 		
 		if(allChats[key]['direction']=='left')
@@ -117,7 +118,7 @@ $(window).load(function()
 								<span class="direct-chat-name float-left">' + allChats[key]['user'] + isAdmin + '</span>\
 								<span class="direct-chat-timestamp float-right">' + allChats[key]['date'] + '</span>\
 							</div>\
-							<img class="direct-chat-img" src="' + avatarUrl + '" alt="message user image">\
+							<img class="direct-chat-img" src="' + avatarUrl + '" data-userid="' + avatarUserId + '" alt="message user image">\
 							<div class="direct-chat-text">\
 								' + allChats[key]['message'] + '\
 							</div>\
@@ -134,7 +135,7 @@ $(window).load(function()
 								<span class="direct-chat-name float-right">' + isAdmin + allChats[key]['user'] + '</span>\
 								<span class="direct-chat-timestamp float-left">' + allChats[key]['date'] + '</span>\
 							</div>\
-							<img class="direct-chat-img" src="' + avatarUrl + '" alt="message user image">\
+							<img class="direct-chat-img" src="' + avatarUrl + '" data-userid="' + avatarUserId + '" alt="message user image">\
 							<div class="direct-chat-text">\
 								' + allChats[key]['message'] + '\
 							</div>\
@@ -154,8 +155,6 @@ $(window).load(function()
 	</div>\
 	';
 	
-	// $(newReplyContainer).insertAfter('.ticket_ReplyBox');
 	$('section.content > .container-fluid').append(newReplyContainer);
-	
-	$('.downloadAttachmentLink').addClass('btn').addClass('btn-primary').addClass('btn-sm')
+	$('.downloadAttachmentLink').addClass('btn btn-primary btn-sm')
 });
