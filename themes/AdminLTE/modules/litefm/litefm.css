@@ -12,7 +12,8 @@
 	margin-right: 5px;
 }
 .operations-button:before {
-	font-family: FontAwesome;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
 	display: inline-block;
 	margin-right: 2px;
 }
@@ -25,35 +26,35 @@
 a[href^="?m=litefm&home_id="] {
 	margin-right: 5px;
 }
-i.fa.fa-folder-open-o {
+i.fas.fa-folder-open {
 	color: #ffe699;
 }
 #remove:before {
-	content: "\f1f8";
+	content: "\f2ed";
 }
 #rename:before {
 	content: "\f044";
 }
 #move:before {
-	content: "\f047";
+	content: "\f31e";
 }
 #copy:before {
-        content: "\f24d";
+	content: "\f0c5";
 }
 #compress:before {
-        content: "\f1c6";
+	content: "\f1c6";
 }
 #uncompress:before {
-        content: "\f1c6";
+	content: "\f1c6";
 }
 #create_file:before {
-        content: "\f044";
+	content: "\f044";
 }
 #create_folder:before {
-        content: "\f114";
+	content: "\f07b";
 }
 #upload:not(form):before {
-        content: "\f093";
+	content: "\f574";
 }
 
 
