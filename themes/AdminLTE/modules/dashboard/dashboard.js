@@ -457,8 +457,9 @@ function updateServerStats(html)
 		var ramTitle = $(ram).find('h4').text();
 		var ram = $(ram).find('.dragbox-content').html();
 		
-		var ramUsage = ram.split(':')[1].trim().split('of')[0].trim();
-		var ramTotal = ram.split(':')[1].trim().split('of')[1].trim().split('<')[0].trim();
+		var ramUsageSplit = ram.split(':')[1].split(' ');
+		var ramUsage = ramUsageSplit[1] + ' ' + ramUsageSplit[2];
+		var ramTotal = ramUsageSplit[4] + ' ' + ramUsageSplit[5].split('<')[0];
 		var ramPerc = $(ram).find('.progress-bar').attr('data');
 		
 		var progressRam = '\
