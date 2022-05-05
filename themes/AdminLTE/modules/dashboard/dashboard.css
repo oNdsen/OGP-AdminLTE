@@ -35,3 +35,8 @@
 	display: inline-block;
 	white-space: nowrap;
 }
+
+.online_servers .name,
+.online_servers #gamelink {
+	display: inline-block;
+}
