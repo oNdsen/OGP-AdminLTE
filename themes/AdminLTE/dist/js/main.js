@@ -404,9 +404,14 @@ $(document).ready(function()
 		
 		var new_body = '\
 		<nav class="navbar navbar-expand navbar-dark">\
-			<ul class="navbar-nav">\
-				'+allLinks.join(' ')+'\
-			</ul>\
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">\
+				<span class="navbar-toggler-icon"></span>\
+			</button>\
+			<div class="navbar-collapse collapse" id="navbarContent">\
+				<ul class="navbar-nav">\
+					'+allLinks.join(' ')+'\
+				</ul>\
+			</div>\
 		</nav>\
 		<div class="mx-auto mt-3 ' + boxClass + '">\
 			' + allMessages + '\
@@ -873,6 +878,11 @@ function themeChanger(changeTo, save = false)
 		$('aside.control-sidebar').removeClass('control-sidebar-light').addClass('control-sidebar-dark');
 		$('img[src^="themes/AdminLTE/dist/img/ogp_logo"]').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_dark_is.svg');
 		
+		console.log('replace jquery ui');
+		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.dark.css');
+		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.dark.css');
+		$('link[href*="jquery-ui.theme.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.theme.min.dark.css');
+		
 		if(save)
 		{
 			$.ajax({
@@ -896,6 +906,11 @@ function themeChanger(changeTo, save = false)
 		$('aside.main-sidebar').removeClass('sidebar-dark-primary').addClass('sidebar-light-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');
 		$('img[src^="themes/AdminLTE/dist/img/ogp_logo"]').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_light_is.svg');
+		
+		console.log('replace jquery ui');
+		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.light.css');
+		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.light.css');
+		$('link[href*="jquery-ui.theme.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.theme.min.light.css');
 		
 		if(save)
 		{

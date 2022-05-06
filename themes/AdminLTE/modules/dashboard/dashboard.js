@@ -421,7 +421,6 @@ function updateServerStats(html)
 	var cpu = $(data).filter('#column4:nth-child(2)');
 	if($(cpu).length > 0)
 	{
-		// var progressCPU = '<div class="mb-2 vertical-progress">';
 		var progressCPU = '';
 		var cpuTitle = $(cpu).find('h4').text();
 		
@@ -440,11 +439,7 @@ function updateServerStats(html)
 				</div>\
 			</div>\
 			';
-			
-			// progressCPU += '<input type="text" class="knob" value="'+cpuLoad+'" data-thickness="0.1" data-width="70" data-height="70" data-fgColor="#007bff"><div class="knob-label text-sm">'+cpuName+'</div>';
 		});
-		
-		// progressCPU += '</div>';
 		
 		dataOut += progressCPU
 	}
@@ -484,10 +479,6 @@ function updateServerStats(html)
 		var storage = $(storage).find('.dragbox-content').html();
 		var storagelines = storage.split(brExp);
 		
-		// console.log('spaceTitle: ' + spaceTitle);
-		// console.log('storage: ' + storage);
-		// console.log('storagelines: ' + storagelines);
-		
 		var spaceTotal = storagelines[0].split(':')[1].trim();
 		var spaceUsed = storagelines[1].split(':')[1].trim().split('(')[0].trim();
 		var spaceUsedPerc = storagelines[1].match(/\((.*?)\)/)[1];
@@ -506,17 +497,14 @@ function updateServerStats(html)
 		dataOut += progressStorage
 	}
 	
+	// put all informations into card
 	$('#item7 .card-body').html(dataOut);
-	
 	
 	// Process Monitor
 	var procMonTitle = $(data).filter('#column4:nth-child(5)').find('h4').text();
 	var procMonContent = $(data).filter('#column4:nth-child(5)').find('.dragbox-content').html();
 	$('#item8 .card-title').text(procMonTitle);
 	$('#item8 .card-body').html(procMonContent);
-	
-	// knob init
-	// $('.knob').knob();
 }
 
 

@@ -5,6 +5,7 @@
 }
 .admin-buttons > span {
 	font-size: 0.9rem;
+	display: block;
 }
 .admin-buttons:before {
 	font-size: 40px;

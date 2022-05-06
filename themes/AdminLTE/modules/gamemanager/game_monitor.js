@@ -1,14 +1,15 @@
 $(document).ready(function()
 {
-	$('section.content .container-fluid > form').wrapAll('<div class="row"><div class="col-12"><div class="card"><div class="card-body"></div></div></div></div>');
-	$('section.content .container-fluid > table').wrapAll('<div class="row"><div class="col-12"><div class="card"><div class="card-body"></div></div></div></div>');
-	
 	$('#server_icon.btn').click(function()
 	{
 		$(this).find('[type="radio"]').prop("checked", true);
 	});
 	
-	$('.monitorbutton').addClass('btn btn-primary');
+	$('#server_icon[class^="action-start"]').addClass('btn btn-sm btn-success');
+	$('#server_icon[class^="action-stop"]').addClass('btn btn-sm btn-danger');
+	$('#server_icon[class^="action-restart"]').addClass('btn btn-sm btn-warning');
+	
+	$('.monitorbutton').addClass('btn btn-primary d-flex flex-column justify-content-center align-items-center');
 	
 	$('[id^="refreshed"]').bind("DOMSubtreeModified",function()
 	{
