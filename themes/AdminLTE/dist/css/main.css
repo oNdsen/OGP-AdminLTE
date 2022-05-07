@@ -103,7 +103,8 @@ body:not(.sidebar-collapse) .main-sidebar img.nav-icon {
 }
 
 pre {
-	padding: 0px;
+	padding: 1rem;
+    background-color: var(--dark) !important;
 }
 
 .dark-mode pre {

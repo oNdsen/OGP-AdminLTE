@@ -89,19 +89,8 @@ $(document).ready(function()
 	// padding fix
 	$('.online_servers').parent('.card-body').addClass('p-2');
 	
-	if($('#refreshed-5').length > 0)
-	{
-		// old dashboard behaviour
-		
-		// remove old refresh element
-		$('#refreshed-5').remove();
-	}else
-	{
-		// new dashboard behaviour
-		
-		// remove old refresh element
-		$('#refreshed-0').remove();
-	}
+	// remove old refresh elements
+	$('.row > [id^="refreshed-"]').remove();
 	
 	// hide elements before data refresh mod
 	$('.main > .row > h0, .main > .row > br, .main > .row > #column4').addClass('d-none');

@@ -486,13 +486,13 @@ $(document).ready(function()
 		{
 			var addHeader = ' \
 				<div class="content-header pb-0"> \
-						<div class="container-fluid"> \
-								<div class="row mb-2"> \
-										<div class="col-12"> \
-												<h1 class="m-0">' + $(currentTitle).text() + '</h1> \
-										</div> \
-								</div> \
+					<div class="container-fluid"> \
+						<div class="row mb-2"> \
+							<div class="col-12"> \
+								<h1 class="m-0">' + $(currentTitle).text() + '</h1> \
+							</div> \
 						</div> \
+					</div> \
 				</div> \
 				';
 			$(currentTitle).remove();
@@ -654,7 +654,6 @@ $(document).ready(function()
 		/* *** add missing menu highlights *** */
 		var checkMenuLinks = ['?m=subusers', '?m=user_admin&p=show_groups'];
 		checkMenuLinks.forEach((url, index) => {
-			console.log(url);
 			if(window.location.href.indexOf(url) > -1)
 			{
 				$('.main-sidebar .nav-sidebar [href^="' + url + '"]').addClass('active');
