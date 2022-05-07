@@ -1,4 +1,4 @@
 $(document).ready(function()
 {
-	$('[href="?m=tickets&p=submitticket"]').addClass('btn').addClass('btn-primary').addClass('btn-sm');
+	$('[href="?m=tickets&p=submitticket"]').addClass('btn btn-primary btn-sm');
 });

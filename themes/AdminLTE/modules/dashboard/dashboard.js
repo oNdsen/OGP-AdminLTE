@@ -107,151 +107,154 @@ $(document).ready(function()
 	$('.main > .row > h0, .main > .row > br, .main > .row > #column4').addClass('d-none');
 	
 	/* *** Data Refresh Mod *** */
-	// get columnsettings
-	$.get('themes/AdminLTE/dist/php/settings.php?m=dashboard&p=columnsettings',
-		function(columnsettings){
-			// build server status card
-			var serverStatusTitle = $('.container-fluid h0').last().text();
-			var serverSelectTitle = $('.container-fluid #column4 h3').text();
-			var serverSelectForm = $('.container-fluid #column4 center').html();
-			$('.container-fluid h0').last().remove();
-			$('.container-fluid #column4').remove();
-			
-			// add new sections
-			$('.content > .container-fluid').append("\
-			<div class='row'>\
-				<section class='col-12 col-md-6 connectedSortable' id='column4'></section>\
-				<section class='col-12 col-md-6 connectedSortable' id='column5'></section>\
-			</div>\
-			<div class='row'>\
-				<section class='col-12 connectedSortable' id='column6'></section>\
-			</div>");
-			
-			// add cards to new sections
-			// console.log(columnsettings);
-			Object.keys(columnsettings).forEach(function(key)
-			{
-				item = columnsettings[key]['item']
-				section = columnsettings[key]['section']
-				collapsed = columnsettings[key]['collapsed']
+	if($('.container-fluid h0').last().length)
+	{
+		// get columnsettings
+		$.get('themes/AdminLTE/dist/php/settings.php?m=dashboard&p=columnsettings',
+			function(columnsettings){
+				// build server status card
+				var serverStatusTitle = $('.container-fluid h0').last().text();
+				var serverSelectTitle = $('.container-fluid #column4 h3').text();
+				var serverSelectForm = $('.container-fluid #column4 center').html();
+				$('.container-fluid h0').last().remove();
+				$('.container-fluid #column4').remove();
 				
-				if(item=='item6')
-				{
-					$('#' + section).append(createCard(item, serverSelectTitle, serverSelectForm, collapsed));
-				}
-				else if(item=='item7')
-				{
-					$('#' + section).append(createCard(item, serverStatusTitle, '', true, collapsed));
-				}
-				else
-				{
-					$('#' + section).append(createCard(item, '', '', true, collapsed));
-				}
-			})
-			
-			// define regexes
-			var axrgx = /jQuery\.ajax\(\{(.*?)\}\)\;(.*?)\}\)\;/sg;		// get all ajax definitions
-			var urlrgx = /url\: \"(.*?)\"/m;							// get url from ajax object
-			var destrgx = /\$\(\'(.*?)\'\)\.html/;					// get destination from ajax object
-			
-			// get complete js content
-			var embjs = $('.main > script:not([src])').html();
-			$('.main > script:not([src])').remove();
-			
-			var refreshDashboardServerInterval;
-			// var enableCallbacks = true;
-			var aradded = [];
-			embjs.match(axrgx).forEach((element, index) => {
-				var url = element.match(urlrgx)[1];
-				var dest = element.match(destrgx)[1];
+				// add new sections
+				$('.content > .container-fluid').append("\
+				<div class='row'>\
+					<section class='col-12 col-md-6 connectedSortable' id='column4'></section>\
+					<section class='col-12 col-md-6 connectedSortable' id='column5'></section>\
+				</div>\
+				<div class='row'>\
+					<section class='col-12 connectedSortable' id='column6'></section>\
+				</div>");
 				
-				if(!aradded.includes(url))
+				// add cards to new sections
+				// console.log(columnsettings);
+				Object.keys(columnsettings).forEach(function(key)
 				{
-					if(url.toLowerCase().indexOf("remote_server_id") >= 0)
+					item = columnsettings[key]['item']
+					section = columnsettings[key]['section']
+					collapsed = columnsettings[key]['collapsed']
+					
+					if(item=='item6')
 					{
-						aradded.push(url);
-						
-						function refreshDashboardServerStats()
+						$('#' + section).append(createCard(item, serverSelectTitle, serverSelectForm, collapsed));
+					}
+					else if(item=='item7')
+					{
+						$('#' + section).append(createCard(item, serverStatusTitle, '', true, collapsed));
+					}
+					else
+					{
+						$('#' + section).append(createCard(item, '', '', true, collapsed));
+					}
+				})
+				
+				// define regexes
+				var axrgx = /jQuery\.ajax\(\{(.*?)\}\)\;(.*?)\}\)\;/sg;		// get all ajax definitions
+				var urlrgx = /url\: \"(.*?)\"/m;							// get url from ajax object
+				var destrgx = /\$\(\'(.*?)\'\)\.html/;					// get destination from ajax object
+				
+				// get complete js content
+				var embjs = $('.main > script:not([src])').html();
+				$('.main > script:not([src])').remove();
+				
+				var refreshDashboardServerInterval;
+				// var enableCallbacks = true;
+				var aradded = [];
+				embjs.match(axrgx).forEach((element, index) => {
+					var url = element.match(urlrgx)[1];
+					var dest = element.match(destrgx)[1];
+					
+					if(!aradded.includes(url))
+					{
+						if(url.toLowerCase().indexOf("remote_server_id") >= 0)
 						{
-							jQuery.ajax({
-								url: url,
-								cache: false,
-								// beforeSend: function(xhr)
-								// {
-									// $('a').click(function()
-									// {
-										// xhr.abort();
-										// enableCallbacks = false;
-									// });
-								// },
-								success: function(data, textStatus)
-								{
-									// if (!enableCallbacks) return;
-									updateServerStats(data);
-								}
-							});
-						}
-						
-						if (!refreshDashboardServerInterval)
-						{
-							refreshDashboardServerStats();
+							aradded.push(url);
 							
-							var refreshDashboardServerInterval = setInterval(function()
+							function refreshDashboardServerStats()
+							{
+								jQuery.ajax({
+									url: url,
+									cache: false,
+									// beforeSend: function(xhr)
+									// {
+										// $('a').click(function()
+										// {
+											// xhr.abort();
+											// enableCallbacks = false;
+										// });
+									// },
+									success: function(data, textStatus)
+									{
+										// if (!enableCallbacks) return;
+										updateServerStats(data);
+									}
+								});
+							}
+							
+							if (!refreshDashboardServerInterval)
 							{
 								refreshDashboardServerStats();
-							}, 10000);
+								
+								var refreshDashboardServerInterval = setInterval(function()
+								{
+									refreshDashboardServerStats();
+								}, 10000);
+							}
 						}
 					}
-				}
-			});
-			
-			// clear intervals on link follow
-			$('a:not([data-widget="control-sidebar"]):not([data-widget="pushmenu"])').click(function()
-			{
-				if(typeof refreshServerInterval !== 'undefined')
+				});
+				
+				// clear intervals on link follow
+				$('a:not([data-widget="control-sidebar"]):not([data-widget="pushmenu"])').click(function()
 				{
-					clearInterval(refreshServerInterval);
-					refreshServerInterval = null;
-				}
-			});
-			
-			// Make the dashboard widgets sortable Using jquery UI
-			$('.connectedSortable').sortable(
-			{
-				placeholder: 'sort-highlight',
-				connectWith: '.connectedSortable',
-				handle: '.card-header',
-				forcePlaceholderSize: true,
-				zIndex: 999999,
-				start: function(event, ui){
-					// console.log('start: ' + event + ' - ' + ui);
-					// $(ui.item).toggle();
-				},
-				stop: function(){
-					// console.log('stop');
-					updateNewWidgetData();
-				}
-			});
-			$('.connectedSortable .card-header').css('cursor', 'move');
-			
-			$('[data-card-widget="collapse"]').click(function()
-			{
-				setTimeout(function()
+					if(typeof refreshServerInterval !== 'undefined')
+					{
+						clearInterval(refreshServerInterval);
+						refreshServerInterval = null;
+					}
+				});
+				
+				// Make the dashboard widgets sortable Using jquery UI
+				$('.connectedSortable').sortable(
 				{
-					updateNewWidgetData();
-				}, 1000);
-			})
-			
-			// loading
-			var loading = '\
-			<div class="d-flex justify-content-center w-100 m-1">\
-				<div class="spinner-grow spinner-grow-sm" role="status">\
-					<span class="sr-only">Loading...</span>\
-				</div>\
-			</div>';
-			$('[id^=refreshed]').html(loading);
-		}
-	);
+					placeholder: 'sort-highlight',
+					connectWith: '.connectedSortable',
+					handle: '.card-header',
+					forcePlaceholderSize: true,
+					zIndex: 999999,
+					start: function(event, ui){
+						// console.log('start: ' + event + ' - ' + ui);
+						// $(ui.item).toggle();
+					},
+					stop: function(){
+						// console.log('stop');
+						updateNewWidgetData();
+					}
+				});
+				$('.connectedSortable .card-header').css('cursor', 'move');
+				
+				$('[data-card-widget="collapse"]').click(function()
+				{
+					setTimeout(function()
+					{
+						updateNewWidgetData();
+					}, 1000);
+				})
+				
+				// loading
+				var loading = '\
+				<div class="d-flex justify-content-center w-100 m-1">\
+					<div class="spinner-grow spinner-grow-sm" role="status">\
+						<span class="sr-only">Loading...</span>\
+					</div>\
+				</div>';
+				$('[id^=refreshed]').html(loading);
+			}
+		);
+	}
 });
 
 

@@ -36,6 +36,21 @@ $(document).ready(function()
 		}
 	});
 	
+	
+	/* *** Menu: Tickets Num *** */
+	if($('script[src="js/modules/tickets_global.js"]').length)
+	{
+		$('script[src="js/modules/tickets_global.js"]').remove();
+		
+		$.getJSON("home.php?m=tickets&p=notifications&type=cleared", function(data)
+		{
+			if(data['notificationCount'] > 0)
+			{
+				$('.nav-link[href="?m=tickets"]').append('<span class="badge badge-danger right">' + data['notificationCount'] + '</span>');
+			}
+		});
+	}
+	
 	/* *** Messages *** */
 	var allMessages = ''
 	var errMessages = ''
@@ -47,7 +62,7 @@ $(document).ready(function()
 		$(".failure:not(#errorHeader), .ticketError").each(function ()
 		{
 			var failureText = $(this).text().trim();
-			if(failureText !== "")
+			if(failureText !== "" &&  isNaN(failureText))
 			{
 				// console.log("failureText: " + failureText);
 				errt.push(failureText);
@@ -186,29 +201,26 @@ $(document).ready(function()
 		{
 			var title = $('.content-header h2').text();
 			
-			if ($('.main > strong').length > 0 || $('.main > p').text().toLowerCase().indexOf('smtp')>=0)
+			if($('.main form').length==0)
 			{
 				// *** Error Message ***
 				var err = $('.main strong').text();
-				var err_msg = $('.main p').text();
+				var err_msg = [];
+				$('.main p').each(function()
+				{
+					err_msg.push($(this).html());
+				});
+				
+				var thisErrOut = '';
+				if(allMessages=='')
+				{
+					thisErrOut = '<div class="callout callout-info"><strong>'+err+'</strong><ul><li>'+err_msg.join("</li><li>")+'</li></ul></div>';
+				}
 
 				new_form = '\
-				<div class="callout callout-danger"><strong>'+err+'</strong><p>'+err_msg+'</p></div>\
+				' + thisErrOut + '\
 				<p class="mb-0">\
-					<a href="m=lostpwd">Back</a>\
-				</p>\
-				';
-			}
-			else if ($('.main > p > b[style="color:red;"]').length > 0)
-			{
-				// *** Sent Password ***
-				var msgb = $('.main > p > b[style="color:red;"]').text();
-				var msg = $('.main > p').text();
-				
-				new_form = '\
-				<div class="callout callout-success"><strong>'+msg+'</strong><p>'+msgb+'</p></div>\
-				<p class="mb-0">\
-					<a href="m=lostpwd">Back</a>\
+					<a href="?m=lostpwd">Back</a>\
 				</p>\
 				';
 			}
@@ -241,7 +253,7 @@ $(document).ready(function()
 
 				new_form = '\
 				'+alert+'\
-				<form action="index.php" name="login_form" method="post" class="form-group">\
+				<form action="?m=lostpwd" method="post" class="form-group">\
 					<div class="input-group mb-3">\
 						<input type="text" name="email_address" class="form-control" placeholder="Email">\
 						<div class="input-group-append">\
@@ -489,7 +501,7 @@ $(document).ready(function()
 
 		/* *** Forms *** */
 		var buttons = $('button:not(".btn-tool"), input[type="button"], input[type="submit"], input[type="SUBMIT"], input[type="reset"], [href^="?m=gamemanager&p=update&update=refresh"], .main [href="?m=modulemanager&p=update"], .main [href="?m=simple-billing&p=shop"], .main [href^="home.php?m=TS3Admin&changevServer"], .main [href^="?m=gamemanager&p=game_monitor&home_id="], .serverIdToggle, .main [href="?m=settings&p=api_hosts"]');
-		$(buttons).addClass('btn').addClass('btn-sm').addClass('btn-primary');
+		$(buttons).addClass('btn btn-sm btn-primary');
 
 		var inputs = $('input, textarea, select').not('input[type=button], input[type="submit"], input[type="SUBMIT"], input[type=reset], input[type=radio], input[type=checkbox], input[type=image], input[type="file"]');
 		$(inputs).addClass('form-control').removeAttr('style');
@@ -500,26 +512,14 @@ $(document).ready(function()
 		$('.clear').remove();
 
 
-		/* *** Several Class and Style Stuff *** */
-		$(window).load(function ()
-		{
-			$('tr, td, div:not([class*="nicEdit"])').css("background-color", "");
-			$('div:not([class*="nicEdit"], #refreshed-0)').css("border", "").css("height", "");
-			$('input').css("width", "");
-			if($.trim($("div").text()) == "") {
-				$(this).remove();
-			}
-			$('.footer.center').removeClass('center');
-		});
-
-
 		/* *** MENU *** */
 		// original menu is nested in divs. remove them
 		var menu = $('.menu > ul').html();
 		$('.menu-bg').remove();
 		$('.nav-sidebar').html(menu);
 		
-		$('.menu ul[id^=submenu] span').each(function() {
+		$('.menu ul[id^=submenu] span').each(function()
+		{
 			var img_url = $(this).attr('data-icon_path');
 			$(this).before("<img src='"+img_url+"'/>");
 		});
@@ -605,8 +605,8 @@ $(document).ready(function()
 
 
 		// Remove User Element and update top User Area
-		var lastNavItem = $('.nav-sidebar > li > .user_menu_link').last().parent('.nav-item');
-		var userProfileLink = $(lastNavItem).children('a').attr('href');
+		var userNavItem = $('.nav-sidebar [href^="?m=user_admin&p=edit_user&user_id"]').parent('.nav-item');
+		var userProfileLink = $(userNavItem).children('a').attr('href');
 		var userId = new URLSearchParams(userProfileLink).get('user_id');
 		var setUserAvatar = 'themes/AdminLTE/dist/img/default-avatar.png';
 		
@@ -634,11 +634,31 @@ $(document).ready(function()
 			}
 		}
 		
-		// set user avatar
+		// set user avatar and link
 		$('.user-panel > .image > img').attr('src', setUserAvatar + "?" + d.getTime());
+		$('.user-panel > .info > a').text($(userNavItem).children('a').children('p').text()).attr('href', userProfileLink);
 		
-		$('.user-panel > .info > a').text($(lastNavItem).children('a').children('p').text()).attr('href', userProfileLink);
-		$(lastNavItem).remove();
+		// check if user contains additional submenus
+		if($(userNavItem).find('.nav').find('.nav-item:not(:last-of-type)').length > 0)
+		{
+			$(userNavItem).find('.nav').find('.nav-item:not(:last-of-type)').each(function()
+			{
+				$('.main-sidebar .nav-sidebar').append('<li class="' + $(this).attr('class') + '">' + $(this).html() + '</li>');
+			});
+		}
+		
+		// add missing menu highlights
+		var checkMenuLinks = ['?m=subusers', '?m=user_admin&p=show_groups'];
+		checkMenuLinks.forEach((url, index) => {
+			console.log(url);
+			if(window.location.href.indexOf(url) > -1)
+			{
+				$('.main-sidebar .nav-sidebar [href^="' + url + '"]').addClass('active');
+			}
+		});
+		
+		// remove old user menu item
+		$(userNavItem).remove();
 		
 		
 		/* *** Pagination *** */
@@ -842,10 +862,37 @@ $(document).ready(function()
 
 $(window).load(function()
 {
+	$('tr, td, div:not([class*="nicEdit"])').css("background-color", "");
+	$('div:not([class*="nicEdit"], #refreshed-0)').css("border", "").css("height", "");
+	$('input').css("width", "");
+	if($.trim($("div").text()) == "")
+	{
+		$(this).remove();
+	}
+	$('.footer.center').removeClass('center');
+	
 	$('.main-footer .versionInfo').click(function()
 	{
 		$('.OGPVersionArea, .OGPVersionArea .version, .OGPVersionArea .versionNumber').removeClass('d-none').removeClass('hide');
 	});
+	
+	// circular notifications
+	if($('body > #notification').length > 0)
+	{
+		var noteMsg = $('body > #notification').html().split("<br>");
+		$('body > #notification').remove();
+		
+		$('.content > .container-fluid').prepend('\
+		<div class="row">\
+			<div class="col-12">\
+				<div class="callout callout-info">\
+					<h5>' + noteMsg[0] + '</h5>\
+					<p>' + noteMsg[1] + '</p>\
+				</div>\
+			</div>\
+		</div>\
+		');
+	}
 });
 
 $(function() {
@@ -878,7 +925,6 @@ function themeChanger(changeTo, save = false)
 		$('aside.control-sidebar').removeClass('control-sidebar-light').addClass('control-sidebar-dark');
 		$('img[src^="themes/AdminLTE/dist/img/ogp_logo"]').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_dark_is.svg');
 		
-		console.log('replace jquery ui');
 		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.dark.css');
 		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.dark.css');
 		$('link[href*="jquery-ui.theme.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.theme.min.dark.css');
@@ -907,7 +953,6 @@ function themeChanger(changeTo, save = false)
 		$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');
 		$('img[src^="themes/AdminLTE/dist/img/ogp_logo"]').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_light_is.svg');
 		
-		console.log('replace jquery ui');
 		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.light.css');
 		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.light.css');
 		$('link[href*="jquery-ui.theme.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.theme.min.light.css');

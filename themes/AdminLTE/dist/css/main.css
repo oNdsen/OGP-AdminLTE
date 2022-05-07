@@ -135,6 +135,24 @@ pre {
     border-top: none;
 }
 
+.loading:before {
+	content: "\f110" !important;
+	-webkit-animation: fa-spin 2s infinite linear;
+	animation: fa-spin 2s infinite linear;
+}
+.loading {
+	content: "Loading..." !important;
+}
+
+.dark-mode .white-popup {
+	background-color: var(--dark);
+	border: 10px solid var(--dark);
+	color: var(--light);
+}
+.dark-mode .magnificTitle {
+	background-color: var(--dark);
+}
+
 
 
 
