@@ -9,3 +9,18 @@ input[name="port"]
 #cpu_select span {
 	margin-right: 10px;
 }
+
+td.left select,
+td.left input {
+    display: inline-block;
+    width: auto;
+    margin-right: 1rem;
+}
+
+td.right {
+    font-weight: bold;
+}
+
+td.info {
+    color: var(--info);
+}

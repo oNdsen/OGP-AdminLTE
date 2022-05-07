@@ -15,3 +15,9 @@
 .tr1 {
 	background-color: transparent !important;
 }
+
+
+input[name="search"] {
+	display: inline-block;
+	width: auto;
+}

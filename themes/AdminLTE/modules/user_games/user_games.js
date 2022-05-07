@@ -1,4 +1,5 @@
-$(document).ready(function() {
+$(document).ready(function()
+{
 	$('[href="?m=user_games&p=add"]').addClass('btn btn-primary btn-sm');
 	$('[href^="?m=user_games&p=del&home_id"]').addClass('btn btn-danger btn-xs');
 	$('[href^="?m=user_games&p=edit&home_id"]').addClass('btn btn-primary btn-xs');

@@ -647,7 +647,11 @@ $(document).ready(function()
 			});
 		}
 		
-		// add missing menu highlights
+		// remove old user menu item
+		$(userNavItem).remove();
+		
+		
+		/* *** add missing menu highlights *** */
 		var checkMenuLinks = ['?m=subusers', '?m=user_admin&p=show_groups'];
 		checkMenuLinks.forEach((url, index) => {
 			console.log(url);
@@ -657,8 +661,11 @@ $(document).ready(function()
 			}
 		});
 		
-		// remove old user menu item
-		$(userNavItem).remove();
+		// menu higlight fix for theme settings
+		if(window.location.href.indexOf('?m=settings&p=themes') > -1)
+		{
+			$('.main-sidebar .nav-sidebar [href="?m=settings"]').removeClass('active');
+		}
 		
 		
 		/* *** Pagination *** */
