@@ -411,7 +411,7 @@ $(document).ready(function()
 		var allLinks = [];
 		$('.menu a').each(function()
 		{
-			allLinks.push('<li class="nav-item d-none d-sm-inline-block"><a href="'+$(this).attr('href')+'" class="nav-link">'+$(this).find('span').text()+'</a></li>');
+			allLinks.push('<li class="nav-item d-sm-inline-block"><a class="nav-link" href="'+$(this).attr('href')+'">'+$(this).find('span').text()+'</a></li>');
 		});
 		
 		
@@ -444,12 +444,12 @@ $(document).ready(function()
 		});
 		
 		var new_body = '\
-		<nav class="navbar navbar-expand navbar-dark">\
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">\
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">\
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">\
 				<span class="navbar-toggler-icon"></span>\
 			</button>\
-			<div class="navbar-collapse collapse" id="navbarContent">\
-				<ul class="navbar-nav">\
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">\
+				<ul class="navbar-nav mr-auto">\
 					'+allLinks.join(' ')+'\
 				</ul>\
 			</div>\
@@ -468,7 +468,21 @@ $(document).ready(function()
 		</div>\
 		';
 		
+		// apply new body
 		$('body').empty().html(new_body);
+		
+		// navbar toggler z-index hook
+		$('.navbar-toggler').click(function()
+		{
+			console.log("css: " + $(this).parent('.navbar').css('z-index'));
+			if($(this).parent('.navbar').css('z-index') == 'auto')
+			{
+				$(this).parent('.navbar').css('z-index', 9999);
+			}else
+			{
+				$(this).parent('.navbar').css('z-index', '');
+			}
+		});
 	}
 	else
 	{
