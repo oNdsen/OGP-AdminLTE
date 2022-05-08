@@ -1,11 +1,12 @@
 :root {
-	--dark-dark: #282b2e;
-	--dark-black: #1a1b1c;
+	--dark-1: #2f3439;
+	--dark-2: #2a2e33;
+	--dark-3: #24282d;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--dark-dark) var(--dark);
+  scrollbar-color: var(--dark-3) var(--dark);
 }
 
 *::-webkit-scrollbar {
@@ -13,7 +14,7 @@
 }
 
 *::-webkit-scrollbar-track {
-    background: var(--dark-dark);
+    background: var(--dark-3);
 }
 
 *::-webkit-scrollbar-thumb {
@@ -109,7 +110,7 @@ pre {
 
 .dark-mode pre {
 	color: #fff;
-	background-color: var(--dark-dark);
+	background-color: var(--dark-1);
 }
 
 .light-mode pre {

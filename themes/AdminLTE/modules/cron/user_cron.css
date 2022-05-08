@@ -1,23 +1,28 @@
-.log .table:first-of-type {
+.main .log .table:first-of-type {
 	margin-bottom: 0px;
 }
-.log .table:first-of-type form {
-	margin: 0px;
-}
-.log .table:first-of-type td {
-	vertical-align: bottom;
-}
-.log td {
-	color: #fff !important;
-}
-.log b table {
+
+.main .log b table {
 	width: 100%;
 }	
-.log b table td:not(:last-of-type){
+
+.main .log b table td:not(:last-of-type){
 	width: 60px !important;
 	text-align: center;
 }
 
 input.form-control {
 	width: 46px;
+}
+
+select[name="action"] {
+    width: auto;
+}
+
+.main .log {
+	padding: 0px;
+}
+
+.center td:not(:nth-last-child(1)):not(:nth-last-child(2)) {
+    width: 1px;
 }
