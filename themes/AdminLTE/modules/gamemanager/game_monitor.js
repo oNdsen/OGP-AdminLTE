@@ -1,5 +1,7 @@
 $(document).ready(function()
 {
+	$('.main').addClass('main-content');
+	
 	$('.monitorbutton.size').click(function(){
 		$(this).addClass('loading');
 		$(this).bind("DOMSubtreeModified",function(){

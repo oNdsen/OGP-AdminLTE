@@ -4,3 +4,8 @@ td {
 .form-group {
 	margin-bottom: 0px !important;
 }
+
+.main .form-control:not(.rcon) {
+	display: inline-block;
+	width: auto;
+}

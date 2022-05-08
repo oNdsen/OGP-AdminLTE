@@ -71,6 +71,7 @@ class ThemeDB
 				$stmt->execute();
 				
 				$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				
 				if(count($data)>=1)
 				{
 					return $data;
@@ -145,5 +146,25 @@ class ThemeDB
 		";
 		
 		return $this->query($query);
+	}
+	
+	public function getMaintenanceMode()
+	{
+		$query = "
+			SELECT setting,value
+			FROM ".$this->tablePrefix()."settings
+			WHERE setting = 'maintenance_mode' or setting = 'maintenance_title' or setting = 'maintenance_message'
+		";
+		
+		$data = $this->query($query);
+		if($data)
+		{
+			$dataOut = array();
+			foreach($data as $setting)
+			{
+				$dataOut[$setting['setting']] = $setting['value'];
+			}
+			return $dataOut;
+		}
 	}
 }

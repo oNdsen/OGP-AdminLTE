@@ -1,28 +1,29 @@
-::-webkit-scrollbar {
-	width: 6px;
-	height: 6px;
+:root {
+	--dark-dark: #282b2e;
+	--dark-black: #1a1b1c;
 }
-::-webkit-scrollbar-button {
-	width: 0px;
-	height: 0px;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dark-dark) var(--dark);
 }
-::-webkit-scrollbar-thumb {
-	background: rgba(255,255,255,.4);
-	border: 0px none rgba(255,255,255,.4);
-	border-radius: 10px;
+
+*::-webkit-scrollbar {
+    width: 7px;
 }
-::-webkit-scrollbar-thumb:hover {
-	background: rgba(255,255,255,.4);
+
+*::-webkit-scrollbar-track {
+    background: var(--dark-dark);
 }
-::-webkit-scrollbar-thumb:active {
-	background: rgba(255,255,255,.4);
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--dark);
+    border-radius: 6px;
 }
-::-webkit-scrollbar-track {
-	border: 0px none rgba(255,255,255,.4);
-	border-radius: 10px;
-}
-::-webkit-scrollbar-corner {
-	background: transparent;
+
+.ace_scrollbar-v,
+.ace_scrollbar-inner {
+    width: 6px !important;
 }
 
 input:-webkit-autofill,
@@ -54,7 +55,7 @@ input:-webkit-autofill:active{
 .brand-link {
 	display: inline-block;
 }
-.brand-link .brand-image
+.brand-image
 {
 	max-width: 200px !important;
 	max-height: 35px !important;
@@ -104,11 +105,15 @@ body:not(.sidebar-collapse) .main-sidebar img.nav-icon {
 
 pre {
 	padding: 1rem;
-    background-color: var(--dark) !important;
 }
 
 .dark-mode pre {
 	color: #fff;
+	background-color: var(--dark-dark);
+}
+
+.light-mode pre {
+	background-color: var(--light);
 }
 
 .callout a {
@@ -152,6 +157,10 @@ pre {
 }
 .dark-mode .magnificTitle {
 	background-color: var(--dark);
+}
+
+.btn {
+    margin-bottom: 0.1rem;
 }
 
 

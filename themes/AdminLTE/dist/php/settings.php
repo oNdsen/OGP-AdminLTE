@@ -49,43 +49,63 @@ if(empty($ThemeDB->query($sql)))
 	}
 }
 
-
-// check if user session exists
-if(isset($_SESSION['users_group']))
+// set admin
+if(isset($_SESSION['users_group']) && $_SESSION['users_group']=='admin')
 {
-	// set admin
-	if($_SESSION['users_group']=='admin')
+	$isadmin = true;
+}
+
+if(isset($_GET['m']))
+{
+	if($_GET['m']=='global')
 	{
-		$isadmin = true;
-	}
-	
-	if(isset($_GET['m']))
-	{
-		if($_GET['m']=='global')
+		if(isset($_GET['p']))
 		{
-			if(isset($_GET['p']) && ($_GET['p']=='theme'))
+			if($_GET['p']=='check')
 			{
-				if(isset($_GET['v']) && ($_GET['v']=='light' || $_GET['v']=='dark'))
+				if(isset($_GET['v']))
 				{
-					// write new value to db
-					$theme = $ThemeDB->setSetting('theme', $_GET['v']);
-				}
-				else
-				{
-					$theme = $ThemeDB->getSetting('theme');
-					if(empty($theme))
+					if($_GET['v']=='maintenance')
 					{
-						// write default value to db
-						$theme = $ThemeDB->setSetting('theme', 'dark');
+						$data = $ThemeDB->getMaintenanceMode();
+						
+						header("Content-Type: application/json");
+						echo json_encode($data);
+						exit();
 					}
 				}
-				
-				header("Content-Type: application/json");
-				echo json_encode($theme);
-				exit();
+			}
+			elseif($_GET['p']=='theme')
+			{
+				// check if user session exists
+				if(isset($_SESSION['users_login']))
+				{
+					if(isset($_GET['v']) && ($_GET['v']=='light' || $_GET['v']=='dark'))
+					{
+						// write new value to db
+						$theme = $ThemeDB->setSetting('theme', $_GET['v']);
+					}
+					else
+					{
+						$theme = $ThemeDB->getSetting('theme');
+						if(empty($theme))
+						{
+							// write default value to db
+							$theme = $ThemeDB->setSetting('theme', 'dark');
+						}
+					}
+					
+					header("Content-Type: application/json");
+					echo json_encode($theme);
+					exit();
+				}
 			}
 		}
-		elseif($_GET['m']=='user')
+	}
+	elseif($_GET['m']=='user')
+	{
+		// check if user session exists
+		if(isset($_SESSION['users_login']))
 		{
 			$avatarUploadsPath = "themes/AdminLTE/dist/php/uploads/";
 			if(isset($_GET['p']))
@@ -194,7 +214,11 @@ if(isset($_SESSION['users_group']))
 				}
 			}
 		}
-		elseif($_GET['m']=='dashboard')
+	}
+	elseif($_GET['m']=='dashboard')
+	{
+		// check if user session exists
+		if(isset($_SESSION['users_login']))
 		{
 			if(isset($_GET['p']))
 			{

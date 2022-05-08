@@ -51,6 +51,7 @@ $(document).ready(function()
 		});
 	}
 	
+	
 	/* *** Messages *** */
 	var allMessages = ''
 	var errMessages = ''
@@ -277,7 +278,7 @@ $(document).ready(function()
 		}
 		
 		// register form mod
-		if($('form[name="loginForm"]').length > 0)
+		if($('form[action^="?m=register"]').length > 0)
 		{
 			var title = $('.main h2').text();
 			var user = $('[name="loginForm"] label[for="login_name"]').text().replace(':', '');
@@ -307,10 +308,11 @@ $(document).ready(function()
 
 			if(errt)
 			{
-				var errMessages = '<div class="callout callout-danger col-12"><ul><li>'+errt.join("</li><li>")+'</li></ul></div>';
+				errout = '<div class="callout callout-danger col-12"><ul><li>'+errt.join("</li><li>")+'</li></ul></div>';
 			}
 			
 			new_form = '\
+			' + errout + '\
 			<form action="?m=register&p=exec" name="loginForm" method="post" class="form-group">\
 				<div class="input-group mb-3">\
 					<input type="text" name="login_name" id="login_name" class="form-control" placeholder="'+user+'">\
@@ -393,11 +395,10 @@ $(document).ready(function()
 		
 		if(allMessages && !errMessages && new_form === undefined)
 		{
-			var new_form = '<h1 class="text-center text-success"><i class="fas fa-check-circle"></i></h1>'
+			var new_form = '<h1 class="text-center"><i class="fas fa-spinner fa-spin"></i></h1>'
 		}
 		else if(new_form === undefined)
 		{
-			// var new_form = '<h1 class="text-center"><i class="fas fa-exclamation-circle"></i></h1>'
 			boxClass = 'col-md-8 col-12';
 			headerContent = '<h4>' + $('.main > h2').text() + '</h4>';
 			
@@ -413,6 +414,34 @@ $(document).ready(function()
 			allLinks.push('<li class="nav-item d-none d-sm-inline-block"><a href="'+$(this).attr('href')+'" class="nav-link">'+$(this).find('span').text()+'</a></li>');
 		});
 		
+		
+		// Maintenance Hook
+		$.ajax({
+			async: true,
+			type: 'GET',
+			url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=check&v=maintenance',
+			dataType: 'json',
+			success: function(data)
+			{
+				if(data['maintenance_mode'] > 0)
+				{
+					toastr.info(data['maintenance_message'], data['maintenance_title'], {
+						"timeOut": 0,
+						"extendedTimeOut": 0,
+						"preventDuplicates": true,
+						"disableTimeOut" : true,
+						"closeButton": true,
+					});
+					toastr.error('', langConsts['OGP_LANG_maintenance_mode_on'], {
+						"timeOut": 0,
+						"extendedTimeOut": 0,
+						"preventDuplicates": true,
+						"disableTimeOut" : true,
+						"closeButton": true,
+					});
+				}
+			}
+		});
 		
 		var new_body = '\
 		<nav class="navbar navbar-expand navbar-dark">\
@@ -976,6 +1005,22 @@ function themeChanger(changeTo, save = false)
 					localStorage.setItem('theme', 'light');
 				}
 			});
+		}
+	}
+	
+	// ace editor dark skin
+	if($('.ace_editor').length > 0)
+	{
+		if(changeTo=='dark')
+		{
+			$.getScript('modules/litefm/ace/theme-tomorrow_night.js', function(data, textStatus, jqxhr)
+			{
+				$('.ace_editor').removeClass('ace-tomorrow').addClass('ace-tomorrow-night');
+			});
+		}
+		else if(changeTo=='light')
+		{
+			$('.ace_editor').removeClass('ace-tomorrow-night').addClass('ace-tomorrow');
 		}
 	}
 }
