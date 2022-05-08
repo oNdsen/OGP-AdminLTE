@@ -83,13 +83,14 @@ $(document).ready(function()
 			allMessages += '<div class="callout callout-danger col-12">'+errMessages+'</div>';
 		}
 	}
-	$('.failure, .ticketErrorHolder, #refresh-manual').remove();
 	
 	// refresh message
 	if($('#refresh-manual').length > 0)
 	{
 		allMessages += '<div class="callout callout-info col-12">'+$('#refresh-manual').html()+'</div>';
 	}
+	
+	$('.failure, .ticketErrorHolder, #refresh-manual').remove();
 	
 	
 	/* *** Invalid Image replacement *** */
@@ -400,7 +401,7 @@ $(document).ready(function()
 		}
 		else if(new_form === undefined)
 		{
-			boxClass = 'col-md-8 col-12';
+			boxClass = 'col-md-8 col-12 main';
 			headerContent = '<h4>' + $('.main > h2').text() + '</h4>';
 			
 			$('body').removeClass('login-page');
@@ -510,8 +511,7 @@ $(document).ready(function()
 		/* *** Table Styles *** */
 		$('table:not(".online_servers")').each(function()
 		{
-			// $(this).addClass('table').addClass('table-dark').addClass('table-striped').addClass('table-sm');
-			$(this).addClass('table').addClass('table-striped').addClass('table-sm');
+			$(this).addClass('table table-striped table-sm');
 		});
 		$('table .first_row > td').each(function(){
 			$(this).replaceWith('<th>'+$(this).html()+'</th>');

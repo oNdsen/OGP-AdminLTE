@@ -1,3 +1,13 @@
 td {
 	padding: 5px !important;
 }
+
+button {
+	margin-bottom: 0.1rem;
+}
+
+input.form-control {
+    display: inline-block;
+    width: auto;
+	margin-bottom: 0.1rem;
+}

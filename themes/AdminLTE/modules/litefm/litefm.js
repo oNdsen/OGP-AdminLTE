@@ -20,4 +20,3 @@ $(document).ready(function()
 		$(this).attr('title', $(this).text()).attr('style', 'overflow:hidden;text-overflow:ellipsis;display:inline-block;white-space:nowrap;max-width:100%;');
 	});
 });
-
