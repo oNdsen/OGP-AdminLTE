@@ -83,6 +83,7 @@ $(document).ready(function()
 			allMessages += '<div class="callout callout-danger col-12">'+errMessages+'</div>';
 		}
 	}
+	$('.failure, .ticketErrorHolder, #refresh-manual').remove();
 	
 	// refresh message
 	if($('#refresh-manual').length > 0)
@@ -492,7 +493,6 @@ $(document).ready(function()
 		// {
 			// allMessages = '<div class="row">'+allMessages+'</row>';
 		// }
-		$('.failure, .ticketErrorHolder, #refresh-manual').remove();
 		$('section.content > .container-fluid').prepend(allMessages);
 		
 		/* *** Remove CSS and JS Files *** */
