@@ -24,9 +24,6 @@ b.label {
 	line-height: 30px;
 	padding: 4px;
 }
-.content:nth-child(even) {
-	background-color: rgba(26, 28, 34, 0.3) !important;
-}
 .badge {
 	font-weight: normal !important;
 }

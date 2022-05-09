@@ -2,24 +2,70 @@
 	--dark-1: #2f3439;
 	--dark-2: #2a2e33;
 	--dark-3: #24282d;
+	/* 1a -> 10% */
+	/* 66 -> 40% */
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--dark-3) var(--dark);
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+::-webkit-scrollbar-button {
+	width: 0px;
+	height: 0px;
+}
+::-webkit-scrollbar-corner {
+	background: transparent;
 }
 
-*::-webkit-scrollbar {
-    width: 7px;
+
+.dark-mode::-webkit-scrollbar-thumb,
+.dark-mode *::-webkit-scrollbar-thumb {
+	background: rgba(255,255,255,.4);
+	border: 0px none rgba(255,255,255,.4);
+	border-radius: 10px;
+}
+.dark-mode::-webkit-scrollbar-thumb:hover,
+.dark-mode *::-webkit-scrollbar-thumb:hover {
+	background: rgba(255,255,255,.4);
+}
+.dark-mode::-webkit-scrollbar-thumb:activ,
+.dark-mode *::-webkit-scrollbar-thumb:active {
+	background: rgba(255,255,255,.4);
+}
+.dark-mode::-webkit-scrollbar-track,
+.dark-mode *::-webkit-scrollbar-track {
+	border: 0px none rgba(255,255,255,.4);
+	border-radius: 10px;
 }
 
-*::-webkit-scrollbar-track {
-    background: var(--dark-3);
+
+.light-mode::-webkit-scrollbar-thumb,
+.light-mode *::-webkit-scrollbar-thumb {
+	background: rgba(0,0,0,.4);
+	border: 0px none rgba(0,0,0,.4);
+	border-radius: 10px;
+}
+.light-mode::-webkit-scrollbar-thumb:hover,
+.light-mode *::-webkit-scrollbar-thumb:hover {
+	background: rgba(0,0,0,.4);
+}
+.light-mode::-webkit-scrollbar-thumb:active,
+.light-mode *::-webkit-scrollbar-thumb:active {
+	background: rgba(0,0,0,.4);
+}
+.light-mode::-webkit-scrollbar-track,
+.light-mode *::-webkit-scrollbar-track {
+	border: 0px none rgba(0,0,0,.4);
+	border-radius: 10px;
 }
 
-*::-webkit-scrollbar-thumb {
-    background-color: var(--dark);
-    border-radius: 6px;
+
+.light-mode .os-theme-light > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+    background: rgba(0,0,0,.4) !important;
+}
+.dark-mode .os-theme-light > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+    background: rgba(255,255,255,.4) !important;
 }
 
 .ace_scrollbar-v,
@@ -48,7 +94,7 @@ input:-webkit-autofill:active{
 	width: 350px;
 }
 
-.dark-mode .preloader {
+.preloader {
 	align-items: center;
 	justify-content: center;
 }

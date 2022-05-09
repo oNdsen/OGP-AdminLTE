@@ -553,6 +553,7 @@ $(document).ready(function()
 		/* *** Remove unwanted fixed Styles *** */
 		$('[style]').css('width', '').css('float', '');
 		$('.clear').remove();
+		$('pre').removeAttr('style');
 
 
 		/* *** MENU *** */
@@ -763,23 +764,26 @@ $(document).ready(function()
 		/* *** Message Replacement *** */
 		$('.success, .warning, .error, #refresh-manual').each(function()
 		{
-			if($(this).hasClass('success'))
+			if(!$('.main').hasClass('services'))
 			{
-				var thisClass = 'success';
+				if($(this).hasClass('success'))
+				{
+					var thisClass = 'success';
+				}
+				else if($(this).hasClass('warning'))
+				{
+					var thisClass = 'warning';
+				}
+				else if($(this).hasClass('error'))
+				{
+					var thisClass = 'error';
+				}
+				else if($(this).is('#refresh-manual'))
+				{
+					var thisClass = 'info';
+				}
+				$(this).replaceWith('<div class="callout callout-'+thisClass+'"><p>'+$(this).html()+'</p></div>');
 			}
-			else if($(this).hasClass('warning'))
-			{
-				var thisClass = 'warning';
-			}
-			else if($(this).hasClass('error'))
-			{
-				var thisClass = 'error';
-			}
-			else if($(this).is('#refresh-manual'))
-			{
-				var thisClass = 'info';
-			}
-			$(this).replaceWith('<div class="callout callout-'+thisClass+'"><p>'+$(this).html()+'</p></div>');
 		});
 		
 		
