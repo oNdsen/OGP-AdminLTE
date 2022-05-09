@@ -13,29 +13,34 @@ $(document).ready(function()
 	
 	$('.monitorbutton').addClass('btn btn-primary d-flex flex-column justify-content-center align-items-center');
 	
-	$('#refreshed-0').addClass('row');
+	$('[id^="refreshed"]').addClass('row');
 	
-	let refreshed = document.querySelector('[id^="refreshed"]'),
-	options = {
+	let observerOptions = {
 		childList: true
-	},
-	observer = new MutationObserver(mCallback);
-	function mCallback(mutations)
+	}
+	$('[id^="refreshed"]').each(function()
 	{
-		for (let mutation of mutations)
+		var thisRefresh = $(this);
+		let thisVar = document.getElementById($(thisRefresh).attr('id'))
+		
+		observer = new MutationObserver(mCallback);
+		function mCallback(mutations)
 		{
-			if (mutation.type === 'childList')
+			for (let mutation of mutations)
 			{
-				$('.upload-image').addClass('btn btn-sm btn-primary').removeAttr('onclick').click(function()
+				if (mutation.type === 'childList')
 				{
-					uploadMapImage($(this));
-				});
-				$('#refreshed-0 .monitor-1').addClass('col-md-10 d-flex');
-				$('#refreshed-0 .monitor-2').addClass('col-md-2');
+					$('.upload-image').addClass('btn btn-sm btn-primary').removeAttr('onclick').click(function()
+					{
+						uploadMapImage($(this));
+					});
+					$('#' + $(thisRefresh).attr('id') + ' .monitor-1').addClass('col-md-10 d-flex');
+					$('#' + $(thisRefresh).attr('id') + ' .monitor-2').addClass('col-md-2');
+				}
 			}
 		}
-	}
-	observer.observe(refreshed, options);
+		observer.observe(thisVar, observerOptions);
+	});
 });
 
 $(window).load(function()

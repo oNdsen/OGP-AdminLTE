@@ -124,10 +124,9 @@ form[method="GET"] .form-control {
         border-bottom-right-radius: 5px;
 }
 #servermonitor .monitor-3 {
-        clear: both;
-}
-#servermonitor .monitor-3 table {
-        width: 100%;
+	width: 100%;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 }
 #servermonitor .monitor-3 > div {
 	padding: 10px 0px;
@@ -136,7 +135,7 @@ form[method="GET"] .form-control {
 
 
 .dark-mode #servermonitor .monitor-3 > div {
-	background-color: var(--dark) !important;
+	background-color: var(--dark-1) !important;
 }
 .light-mode #servermonitor .monitor-3 > div {
 	background-color: var(--light) !important;
@@ -145,6 +144,9 @@ form[method="GET"] .form-control {
 	border-radius: 4px;
 	margin-bottom: 5px;
 	padding: 0px;
+}
+.upload-image {
+	white-space: nowrap;
 }
 .owner .form-control {
 	width: auto !important;
