@@ -15,15 +15,27 @@ $(document).ready(function()
 	
 	$('#refreshed-0').addClass('row');
 	
-	$('[id^="refreshed"]').bind("DOMSubtreeModified",function()
+	let refreshed = document.querySelector('[id^="refreshed"]'),
+	options = {
+		childList: true
+	},
+	observer = new MutationObserver(mCallback);
+	function mCallback(mutations)
 	{
-		$('button').addClass('btn btn-sm btn-primary');
-		$('#refreshed-0 .monitor-1').addClass('col-md-10 d-flex');
-		$('#refreshed-0 .monitor-2').addClass('col-md-2');
-	});
-	
-	$('tfoot').removeAttr('style');
-	
+		for (let mutation of mutations)
+		{
+			if (mutation.type === 'childList')
+			{
+				$('.upload-image').addClass('btn btn-sm btn-primary').removeAttr('onclick').click(function()
+				{
+					uploadMapImage($(this));
+				});
+				$('#refreshed-0 .monitor-1').addClass('col-md-10 d-flex');
+				$('#refreshed-0 .monitor-2').addClass('col-md-2');
+			}
+		}
+	}
+	observer.observe(refreshed, options);
 });
 
 $(window).load(function()
@@ -31,28 +43,6 @@ $(window).load(function()
 	$('#server_icon.btn').click(function()
 	{
 		$(this).find('[type="radio"]').prop("checked", true);
-	});
-	
-	$('#mgamemanagerpgamemonitor .user_menu_link').each(function()
-	{
-		if(window.location.href.indexOf($(this).attr('href'))>0)
-		{
-			$(this).attr('aria-expanded', 'true').parent('li').parent('ul').addClass('in').attr('aria-expanded', 'true').prev('a').attr('aria-expanded', 'true');
-		}
-	});
-
-	$('#mgamemanagerpgamemonitor > .panel > a').each(function()
-	{
-		if(window.location.href.indexOf($(this).attr('link'))>0)
-		{
-			$(this).attr('aria-expanded', 'true').removeAttr('class').next('ul').addClass('in').attr('aria-expanded', 'true');
-		}
-	});
-	
-	$('.upload-image').addClass('btn btn-primary btn-sm').removeAttr('onclick');
-	$('.upload-image').click(function()
-	{
-		uploadMapImage($(this));
 	});
 	
 	var timestamp = new Date().getTime(); 
