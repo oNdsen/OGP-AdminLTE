@@ -102,24 +102,15 @@ form[method="GET"] .form-control {
 .srvctrl b {
 	font-weight: normal !important;
 }
-#servermonitor .monitor-1 {
-	float: left;
-	width: calc(100% - 230px);
-	margin-bottom: 20px;
+
+.map-icon {
+	margin-right: 0.5rem;
 }
-#servermonitor .monitor-1 > div {
-	float: left;
+.server-info {
+    width: 100%;
 }
-#servermonitor .server-info {
-	width: calc(100% - 180px);
-}
-#servermonitor .map-icon {
-	margin-right: 10px;
-}
-#servermonitor .monitor-2 {
-        float: right;
-	margin-bottom: 10px;
-}
+
+
 #servermonitor .monitor-2 .srvctrl {
         width: auto;
         border-radius: 5px;
@@ -142,6 +133,8 @@ form[method="GET"] .form-control {
 	padding: 10px 0px;
 	border: 1px solid var(--grey) !important;
 }
+
+
 .dark-mode #servermonitor .monitor-3 > div {
 	background-color: var(--dark) !important;
 }

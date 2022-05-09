@@ -13,9 +13,13 @@ $(document).ready(function()
 	
 	$('.monitorbutton').addClass('btn btn-primary d-flex flex-column justify-content-center align-items-center');
 	
+	$('#refreshed-0').addClass('row');
+	
 	$('[id^="refreshed"]').bind("DOMSubtreeModified",function()
 	{
 		$('button').addClass('btn btn-sm btn-primary');
+		$('#refreshed-0 .monitor-1').addClass('col-md-10 d-flex');
+		$('#refreshed-0 .monitor-2').addClass('col-md-2');
 	});
 	
 	$('tfoot').removeAttr('style');
