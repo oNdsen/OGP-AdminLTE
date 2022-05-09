@@ -45,14 +45,18 @@ $(window).load(function()
 		}
 	});
 	
-	$('.upload-image').addClass('btn btn-primary btn-sm').attr('onclick', 'uploadMapImg2(this);');
+	$('.upload-image').addClass('btn btn-primary btn-sm').removeAttr('onclick');
+	$('.upload-image').click(function()
+	{
+		uploadMapImage($(this));
+	});
 	
 	var timestamp = new Date().getTime(); 
-	$('.mapicon').attr('src', $('.mapicon').attr('src') + '?t=' + timestamp);
+	$('img.mapicon').attr('src', $('.mapicon').attr('src') + '?t=' + timestamp);
 });
 
 
-function uploadMapImg2(button)
+function uploadMapImage(button)
 {
 	var home_id = $(button).attr('id');
 	var mod_id = $(button).attr('data-mod_id');
