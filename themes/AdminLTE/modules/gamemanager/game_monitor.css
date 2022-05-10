@@ -123,6 +123,9 @@ form[method="GET"] .form-control {
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
 }
+#servermonitor .monitor-3 table {
+	width: 100%;
+}
 #servermonitor .monitor-3 {
 	width: 100%;
 	margin-top: 0.5rem;
@@ -249,6 +252,6 @@ tr.maintr td:last-child {
 	font-size: 0.9rem !important;
 }
 
-.ui-dialog .ui-dialog-content {
-	height: auto !important;
+[id^="ui-id"] [class^="status"] {
+	display: none;
 }

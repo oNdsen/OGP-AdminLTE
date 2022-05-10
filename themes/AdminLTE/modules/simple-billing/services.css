@@ -1,0 +1,5 @@
+select[name="service_id"] {
+	display: inline-block;
+	width: auto;
+	margin-right: 0.25rem;
+}
