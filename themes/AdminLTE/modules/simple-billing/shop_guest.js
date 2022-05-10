@@ -15,7 +15,7 @@ $(window).load(function()
 	$('.main [href="?m=simple-billing&p=cart"]').addClass('btn btn-sm btn-primary').prepend('<i class="fa fa-shopping-cart" aria-hidden="true"></i>');
 	$('.main > table').addClass('mb-2');
 	
-	$('.main .card-body').append('<div class="shop-items d-flex"></div>');
+	$('.main .card-body').append('<div class="shop-items d-flex flex-wrap"></div>');
 	
 	$('.main .card-body > div > div').each(function()
 	{
@@ -35,7 +35,7 @@ $(window).load(function()
 		var serviceImageVal = $(serviceImage).val();
 		
 		var newItem = '\
-		<div class="card card-widget widget-user shadow shop-item col-md-4 col-12 p-0">\
+		<div class="card card-widget widget-user shadow shop-item p-0">\
 			<div class="widget-user-header bg-secondary">\
 				<h3 class="widget-user-username">'+serviceTitle+'</h3>\
 			</div>\

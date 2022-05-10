@@ -3,12 +3,11 @@ $(document).ready(function()
 	$('.main [href="?m=simple-billing&p=cart"]').addClass('btn btn-sm btn-primary').prepend('<i class="fa fa-shopping-cart" aria-hidden="true"></i>');
 	$('.main > table').addClass('mb-2');
 	
-	$('.main').append('<div class="shop-items d-flex"></div>');
-	
+	$('.main').append('<div class="shop-items d-flex flex-wrap"></div>');
 	
 	if($('form[action^="?m=simple-billing&p=add_to_cart"]').length==0)
 	{
-		$('.main > div > div').each(function()
+		$('.main > div:not(.shop-items) > div').each(function()
 		{
 			if($(this).find('[type="image"]').length > 0)
 			{
@@ -26,7 +25,7 @@ $(document).ready(function()
 			var serviceImageVal = $(serviceImage).val();
 			
 			var newItem = '\
-			<div class="card card-widget widget-user shadow shop-item col-md-4 col-12 p-0">\
+			<div class="card card-widget widget-user shadow shop-item p-0">\
 				<form action="" method="POST">\
 					<input name="service_id" type="hidden" value="'+serviceId+'" class="form-control">\
 					<div class="widget-user-header bg-secondary">\

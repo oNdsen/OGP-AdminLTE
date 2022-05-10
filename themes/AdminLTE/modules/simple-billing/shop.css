@@ -6,10 +6,17 @@
 }
 
 .shop-item {
-    width: 350px;
+	display: inline-block;
+	margin-bottom: 0.5rem !important;
+	flex-grow: 1;
+	width: calc(100% * (1/4) - 0.5rem - 1px);
+	max-width: calc(100% * (1/4) - 0.5rem - 1px);
 }
 .shop-item + .shop-item {
 	margin-left: 0.5rem;
+}
+.shop-item:nth-child(5) {
+	margin-left: 0;
 }
 
 .widget-user .widget-user-image {
