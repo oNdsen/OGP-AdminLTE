@@ -5,7 +5,7 @@ $(document).ready(function()
 
 	// image replacements
 	$('img[src$="game_monitor.png"]').replaceWith('<h2 class="d-inline float-right m-2"><i class="fas fa-desktop"></i></h2>');
-	$('img[src$="support.png"]').replaceWith('<h2 class="d-inline float-right m-2"><i class="fas fa-question-circle"></i></h2>');
+	$('img[src$="support.png"]').replaceWith('<h2 class="d-inline float-right m-2"><i class="fas fa-hands-helping"></i></h2>');
 
 	// head sections
 	$('.column').each(function()
