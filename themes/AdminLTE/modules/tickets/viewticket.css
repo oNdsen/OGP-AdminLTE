@@ -40,8 +40,13 @@ label.star:before {
 	padding: 1rem 0;
 }
 
+.direct-chat {
+    max-height: calc(100% - 1rem);
+    overflow: scroll;
+}
 .direct-chat-messages
 {
+	max-height: 600px;
 	height: auto !important;
 }
 .direct-chat-footer

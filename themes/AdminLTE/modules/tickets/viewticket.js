@@ -24,6 +24,30 @@ $(document).ready(function()
 	//buttons
 	$('#add_file_attachment').addClass('btn-secondary');
 	$('[name="ticket_close"]').addClass('btn-danger');
+	
+	if($('.ticket_closed').length>0)
+	{
+		$('.ticket_closed').wrap('<div class="callout callout-danger mt-2"><p></p></div>');
+		
+		var newReplyBox = '\
+		<div class="card collapsed-card">\
+			<div class="card-header">\
+				<h3 class="card-title">'+$('#toggleNoticeMessage').text()+'\</h3>\
+				<div class="card-tools">\
+					<button type="button" class="btn btn-tool" data-card-widget="collapse">\
+						<i class="fas fa-plus"></i>\
+					</button>\
+				</div>\
+			</div>\
+			<div class="card-body" style="display: none;">\
+				'+$('.ticket_ReplyBox').html()+'\
+			</div>\
+		</div>\
+		';
+		
+		$('.ticket_reply_notice').remove();
+		$('.ticket_ReplyBox').replaceWith(newReplyBox);
+	}
 });
 
 
@@ -75,7 +99,7 @@ $(window).load(function()
 	var newReplyContainer = '\
 	<div class="col-12 col-md-6">\
 		<div class="card card-primary direct-chat direct-chat-primary">\
-			<div class="card-body">\
+			<div class="card-body p-2">\
 				<div class="direct-chat-messages">\
 	';			
 	
