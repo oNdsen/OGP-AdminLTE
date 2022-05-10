@@ -471,7 +471,9 @@ $(document).ready(function()
 		';
 		
 		// apply new body
-		$('body').empty().html(new_body);
+		var preLoader = $('.preloader');
+		$('body').empty().html(preLoader);
+		$('body').append(new_body);
 		
 		// navbar toggler z-index hook
 		$('.navbar-toggler').click(function()

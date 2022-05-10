@@ -10,15 +10,23 @@ $(document).ready(function()
 	{
 		$('.main > div > div').each(function()
 		{
+			if($(this).find('[type="image"]').length > 0)
+			{
+				var serviceImage = $(this).find('[type="image"]');
+			}else
+			{
+				var serviceImage = $(this).find('img');
+			}
+			
 			var serviceId = $(this).find('[name="service_id"]').val();
-			var serviceImageSrc = $(this).find('[type="image"]').attr('src');
-			var serviceImageAlt = $(this).find('[type="image"]').attr('alt');
-			var serviceImageVal = $(this).find('[type="image"]').val();
 			var serviceTitle = $(this).find('center').first().text();
 			var serviceCost = $(this).find('center').last().find('em').html();
+			var serviceImageSrc = $(serviceImage).attr('src');
+			var serviceImageAlt = $(serviceImage).attr('alt');
+			var serviceImageVal = $(serviceImage).val();
 			
 			var newItem = '\
-			<div class="card card-widget widget-user shadow shop-item">\
+			<div class="card card-widget widget-user shadow shop-item col-md-4 col-12 p-0">\
 				<form action="" method="POST">\
 					<input name="service_id" type="hidden" value="'+serviceId+'" class="form-control">\
 					<div class="widget-user-header bg-secondary">\
@@ -35,11 +43,10 @@ $(document).ready(function()
 									<span class="description-text">'+serviceCost.split(' ')[2]+'</span>\
 								</div>\
 							</div>\
-								<div class="col-sm-6">\
-									<div class="description-block">\
+							<div class="col-sm-6">\
+								<div class="description-block">\
 									<h5 class="description-header">'+serviceCost.split('(')[1].split(')')[0].split(' ')[0]+'</h5>\
 									<span class="description-text">'+serviceCost.split('(')[1].split(')')[0].split(' ')[1]+'</span>\
-									</div>\
 								</div>\
 							</div>\
 						</div>\
