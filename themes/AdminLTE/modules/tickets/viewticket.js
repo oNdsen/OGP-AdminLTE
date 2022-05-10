@@ -1,5 +1,8 @@
 $(document).ready(function()
 {
+	//prepare main row for side by side layout
+	$('section.content > .container-fluid > .row > .col-12').addClass('col-md-6');
+	
 	//replace css table with real table
 	$('.divTableCell').each(function()
 	{
@@ -70,11 +73,10 @@ $(window).load(function()
 	$('.replyContainer').remove();
 	
 	var newReplyContainer = '\
-	<div class="row">\
-		<div class="col-12">\
-			<div class="card card-primary direct-chat direct-chat-primary">\
-				<div class="card-body">\
-					<div class="direct-chat-messages">\
+	<div class="col-12 col-md-6">\
+		<div class="card card-primary direct-chat direct-chat-primary">\
+			<div class="card-body">\
+				<div class="direct-chat-messages">\
 	';			
 	
 	Object.keys(allChats).forEach(function(key)
@@ -113,48 +115,47 @@ $(window).load(function()
 		if(allChats[key]['direction']=='left')
 		{
 			newReplyContainer += '\
-						<div class="direct-chat-msg">\
-							<div class="direct-chat-infos clearfix">\
-								<span class="direct-chat-name float-left">' + allChats[key]['user'] + isAdmin + '</span>\
-								<span class="direct-chat-timestamp float-right">' + allChats[key]['date'] + '</span>\
-							</div>\
-							<img class="direct-chat-img" src="' + avatarUrl + '" data-userid="' + avatarUserId + '" alt="message user image">\
-							<div class="direct-chat-text">\
-								' + allChats[key]['message'] + '\
-							</div>\
-							<div class="direct-chat-footer">\
-								' + allChats[key]['footer'] + '\
-							</div>\
+					<div class="direct-chat-msg">\
+						<div class="direct-chat-infos clearfix">\
+							<span class="direct-chat-name float-left">' + allChats[key]['user'] + isAdmin + '</span>\
+							<span class="direct-chat-timestamp float-right">' + allChats[key]['date'] + '</span>\
 						</div>\
+						<img class="direct-chat-img" src="' + avatarUrl + '" data-userid="' + avatarUserId + '" alt="message user image">\
+						<div class="direct-chat-text">\
+							' + allChats[key]['message'] + '\
+						</div>\
+						<div class="direct-chat-footer">\
+							' + allChats[key]['footer'] + '\
+						</div>\
+					</div>\
 			';
 		}else
 		{
 			newReplyContainer += '\
-						<div class="direct-chat-msg right">\
-							<div class="direct-chat-infos clearfix">\
-								<span class="direct-chat-name float-right">' + isAdmin + allChats[key]['user'] + '</span>\
-								<span class="direct-chat-timestamp float-left">' + allChats[key]['date'] + '</span>\
-							</div>\
-							<img class="direct-chat-img" src="' + avatarUrl + '" data-userid="' + avatarUserId + '" alt="message user image">\
-							<div class="direct-chat-text">\
-								' + allChats[key]['message'] + '\
-							</div>\
-							<div class="direct-chat-footer">\
-								' + allChats[key]['footer'] + '\
-							</div>\
+					<div class="direct-chat-msg right">\
+						<div class="direct-chat-infos clearfix">\
+							<span class="direct-chat-name float-right">' + isAdmin + allChats[key]['user'] + '</span>\
+							<span class="direct-chat-timestamp float-left">' + allChats[key]['date'] + '</span>\
 						</div>\
+						<img class="direct-chat-img" src="' + avatarUrl + '" data-userid="' + avatarUserId + '" alt="message user image">\
+						<div class="direct-chat-text">\
+							' + allChats[key]['message'] + '\
+						</div>\
+						<div class="direct-chat-footer">\
+							' + allChats[key]['footer'] + '\
+						</div>\
+					</div>\
 			';
 		}
 	});
 	
 	newReplyContainer += '\
-					</div>\
 				</div>\
 			</div>\
 		</div>\
 	</div>\
 	';
 	
-	$('section.content > .container-fluid').append(newReplyContainer);
+	$('section.content > .container-fluid > .row').append(newReplyContainer);
 	$('.downloadAttachmentLink').addClass('btn btn-primary btn-sm')
 });
