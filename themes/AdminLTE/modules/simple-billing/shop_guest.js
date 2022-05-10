@@ -44,13 +44,13 @@ $(window).load(function()
 			</div>\
 			<div class="card-footer">\
 				<div class="row">\
-					<div class="col-sm-6 border-right">\
+					<div class="col-sm-8 border-right">\
 						<div class="description-block">\
 							<h5 class="description-header">'+langConsts['OGP_LANG_starting_on']+'</h5>\
 							<span class="description-text">'+serviceCost.split(' ')[2]+'</span>\
 						</div>\
 					</div>\
-					<div class="col-sm-6">\
+					<div class="col-sm-4">\
 						<div class="description-block">\
 							<h5 class="description-header">'+serviceCost.split('(')[1].split(')')[0].split(' ')[0]+'</h5>\
 							<span class="description-text">'+serviceCost.split('(')[1].split(')')[0].split(' ')[1]+'</span>\

@@ -30,7 +30,7 @@
 }
 
 .widget-user .widget-user-image > img {
-    width: 180px !important;
+    width: 200px !important;
 }
 
 .widget-user .widget-user-username {
@@ -44,8 +44,8 @@
 	cursor: pointer;
 }
 .shop-item:hover .widget-user-image img {
-	width: 190px !important;
+	width: 210px !important;
 }
 .shop-item:hover .widget-user-image {
-	top: 23% !important;
+	top: 24% !important;
 }
