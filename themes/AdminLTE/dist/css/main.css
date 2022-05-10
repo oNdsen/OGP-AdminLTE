@@ -206,7 +206,7 @@ pre {
 	background-color: var(--dark);
 }
 
-.btn {
+.btn:not(.btn-tool) {
     margin-bottom: 0.1rem;
 }
 
