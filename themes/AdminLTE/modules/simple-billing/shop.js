@@ -25,9 +25,8 @@ $(document).ready(function()
 			var serviceImageVal = $(serviceImage).val();
 			
 			var newItem = '\
-			<div class="card card-widget widget-user shadow shop-item p-0">\
-				<form action="" method="POST">\
-					<input name="service_id" type="hidden" value="'+serviceId+'" class="form-control">\
+			<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">\
+				<div class="card card-widget widget-user shadow shop-item">\
 					<div class="widget-user-header bg-secondary">\
 						<h3 class="widget-user-username">'+serviceTitle+'</h3>\
 					</div>\
@@ -50,7 +49,7 @@ $(document).ready(function()
 							</div>\
 						</div>\
 					</div>\
-				</form>\
+				</div>\
 			</div>\
 			';
 			
