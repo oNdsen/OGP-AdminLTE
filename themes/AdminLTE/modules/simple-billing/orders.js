@@ -42,7 +42,7 @@ $(document).ready(function()
 						localStorage.setItem('avatar_' + thisUserId, avatar);
 						
 						// set user avatar
-						$('.user-panel > .image > img').attr('src', avatar + "?" + d.getTime()).addClass('elevation-2');
+						$(thisUserImage).attr('src', avatar + "?" + d.getTime()).addClass('elevation-2');
 					}
 				});
 			}else
