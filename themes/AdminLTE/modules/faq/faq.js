@@ -1,8 +1,5 @@
 $(document).ready(function()
 {
-	//remove main card
-	// $('.main').removeClass('card-body').parent('.card').removeClass('card');
-	
 	//icon replacement
 	$('img[src="modules/faq/faq.png"]').replaceWith('<small><i class="fas fa-list-alt mr-1"></i></small>');
 	$('img[src="modules/faq/faqlower.png"]').replaceWith('<small><i class="fas fa-question-circle mr-1"></i></small>');
@@ -37,7 +34,7 @@ $(document).ready(function()
 	});
 	
 	//new search
-	$("#search").jcOnPageFilter({
+	$('#search').jcOnPageFilter({
 		animateHideNShow: false,
 		focusOnLoad: true,
 		highlightColor: "yellow",
@@ -46,5 +43,15 @@ $(document).ready(function()
 		hideNegatives: true,
 		parentLookupClass: "card-faq",
 		childBlockClass: "collapse"
+	});
+	
+	// show all elements if search is empty
+	$('#search').on("keyup input", function()
+	{
+		var inputVal = $(this).val();
+		if(inputVal.length==0)
+		{
+			$('.card-faq').removeAttr('style');
+		}
 	});
 });
