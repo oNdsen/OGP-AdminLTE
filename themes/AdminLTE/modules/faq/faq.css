@@ -1,27 +1,3 @@
-/* .main .footer { */
-	/* font-size: 80%; */
-	/* margin-top: 50px; */
-/* } */
-
-/* .main > .footer > div:nth-child(1) { */
-	/* display: inline-block !important; */
-/* } */
-
-/* .main > .footer > .credits { */
-	/* display: inline-block !important; */
-	/* margin-left: 20px; */
-/* } */
-
-/* .main .maincategory, */
-/* .main .category */
-/* { */
-	/* text-transform: uppercase; */
-	/* padding-bottom: 10px; */
-	/* font-size: 24px; */
-	/* font-weight: 300; */
-	/* margin-top: 20px; */
-/* } */
-/* .main .maincategory > img, */
 li.faqblock {
 	list-style: none;
 	display: inline-block;
@@ -41,6 +17,9 @@ li.faqblock {
 }
 #accordion > .card {
     margin-left: 1rem;
+}
+#accordion > .card > a {
+    color: inherit !important;
 }
 
 input#search {
