@@ -616,7 +616,22 @@ $(document).ready(function()
 				var checkImage = $(this).attr('data-icon_path');
 				if(checkImage !== undefined)
 				{
-					$(this).replaceWith('<img class="nav-icon" src="'+checkImage+'"/><p>' + $(this).html() + '</p>');
+					if($(this).parents('li').hasClass('osIcon'))
+					{
+						$(this).parents('.osIcon').attr('data-icon_path', checkImage);
+						if($(this).parents('.osIcon').attr('class').includes('linux'))
+						{
+							var navIcon = '<i class="nav-icon text-sm fab fa-linux"></i>';
+						}else
+						{
+							var navIcon = '<i class="nav-icon text-sm fab fa-windows"></i>';
+						}
+					}else
+					{
+						var navIcon = '<img class="nav-icon" src="'+checkImage+'"/>';
+					}
+					
+					$(this).replaceWith(navIcon + '<p>' + $(this).html() + '</p>');
 				}else
 				{
 					$(this).replaceWith('<p>' + $(this).html() + '</p>');
@@ -627,21 +642,16 @@ $(document).ready(function()
 		// Add Default Icon to each Link
 		$('.nav-sidebar .nav-link').each(function()
 		{
-			if($(this).find('img').length==0)
+			if($(this).find('.nav-icon').length==0)
 			{
-				if($(this).parents('.nav-item').hasClass('osIcon'))
+				if($(this).parents('li').hasClass('osIcon'))
 				{
-					if($(this).parents('.osIcon').attr('class').includes('linux'))
-					{
-						$(this).prepend('<i class="nav-icon text-sm fab fa-linux"></i>');
-					}else
-					{
-						$(this).prepend('<i class="nav-icon text-sm fab fa-windows"></i>');
-					}
+					$(this).prepend('<img class="nav-icon" src="'+$(this).parents('.osIcon').attr('data-icon_path')+'"/>');
 				}else
 				{
 					$(this).prepend('<i class="nav-icon text-sm fas fa-angle-double-right"></i>');
 				}
+				// $(this).parents('.osIcon').attr('data-icon_path', checkImage);
 			}
 		});
 
@@ -738,7 +748,8 @@ $(document).ready(function()
 		
 		
 		/* *** Pagination *** */
-		$('#pagination').each(function(){
+		$('#pagination').each(function()
+		{
 			$(this).replaceWith('<ul class="pagination justify-content-center mt-3 mb-0">'+$(this).html()+'</ul>');
 			var pm = $('.pagination');
 
@@ -746,14 +757,16 @@ $(document).ready(function()
 			var pp = $(pm).find('[class$="_paginationPages"]');
 			var pe = $(pm).find('[class$="_paginationEnd"]');
 
-			if($(ps).length){
+			if($(ps).length)
+			{
 				$(ps).find('a').each(function()
 				{
 					var tl = $(this).attr('href');
 					var tc = $(this).text();
 					$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
 				});
-				if($(ps).find('span').length){
+				if($(ps).find('span').length)
+				{
 					$(pm).append('<li class="page-item"><a class="page-link">...</a></li>');
 				}
 				$(ps).remove();
@@ -762,15 +775,18 @@ $(document).ready(function()
 			{
 				var tl = $(this).attr('href');
 				var tc = $(this).text().replace('[','').replace(']','');
-				if($(this).is('[class$="_currentPageLink"]')){
+				if($(this).is('[class$="_currentPageLink"]'))
+				{
 					$(pm).append('<li class="page-item active"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
-				}else{
+				}else
+				{
 					$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
 				}
 			});
 			$(pp).remove();
 
-			if($(pe).length){
+			if($(pe).length)
+			{
 				if($(pe).find('span').length)
 				{
 					$(pm).append('<li class="page-item"><a class="page-link">...</a></li>');
