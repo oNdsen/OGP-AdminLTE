@@ -629,7 +629,19 @@ $(document).ready(function()
 		{
 			if($(this).find('img').length==0)
 			{
-				$(this).prepend('<i class="nav-icon text-sm fas fa-angle-double-right"></i>');
+				if($(this).parents('.nav-item').hasClass('osIcon'))
+				{
+					if($(this).parents('.osIcon').attr('class').includes('linux'))
+					{
+						$(this).prepend('<i class="nav-icon text-sm fab fa-linux"></i>');
+					}else
+					{
+						$(this).prepend('<i class="nav-icon text-sm fab fa-windows"></i>');
+					}
+				}else
+				{
+					$(this).prepend('<i class="nav-icon text-sm fas fa-angle-double-right"></i>');
+				}
 			}
 		});
 
@@ -912,7 +924,7 @@ $(document).ready(function()
 	$.fn.input_file_styling = function()
 	{
 		var totalFileInputs = 1
-		$('input[type="file"]').each(function()
+		$('.main input[type="file"]').each(function()
 		{
 			if($(this).parent().hasClass('custom-file')==false)
 			{
@@ -943,6 +955,15 @@ $(document).ready(function()
 	{
 		setTimeout($.fn.input_file_styling, 1);
 	});
+	
+	
+	/* *** Tooltip Replacement *** */
+	$('.main .image-tip').each(function()
+	{
+		$(this).attr('data-toggle', 'tooltip').attr('data-html', 'true').attr('title', $(this).find('.tip').html()).html('<i class="far fa-question-circle"></i>');
+	});
+	// init tooltips
+	$('[data-toggle="tooltip"]').tooltip();
 });
 
 $(window).load(function()

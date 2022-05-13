@@ -2,19 +2,15 @@ $(document).ready(function()
 {
 	//remove main card
 	$('.main').removeClass('card-body').parent('.card').removeClass('card');
-	
-	$('[name="update"]').click(function(){
-		$('body').append('<div class="loading-overlay"><img src="themes/AdminLTE/dist/img/dual_ring.svg"></div>');
-	});
 
 	$('.dragbox-content').html(function(index, text) {
 		return text.replace(/\ - /g, '');
 	});
 
-	$('[href^="#uninstall_"]').addClass('btn btn-danger btn-xs').removeAttr('style');
-	$('[href^="#remove_"]').addClass('btn btn-danger btn-xs').removeAttr('style');
-	$('[href^="#install_"]').addClass('btn btn-success btn-xs').removeAttr('style');
-	$('[href^="?m=extras&searchForUpdates="]').addClass('btn btn-primary btn-xs').removeAttr('style');
+	$('[href^="#uninstall_"]').addClass('btn btn-danger btn-xs').removeAttr('style').prepend('<i class="fas fa-ban mr-1"></i>');
+	$('[href^="#remove_"]').addClass('btn btn-danger btn-xs').removeAttr('style').prepend('<i class="fas fa-trash-alt mr-1"></i>');
+	$('[href^="#install_"]').addClass('btn btn-success btn-xs').removeAttr('style').removeAttr('href').prepend('<i class="fas fa-plus-square mr-1"></i>');
+	$('[href^="?m=extras&searchForUpdates="]').addClass('btn btn-primary btn-xs').removeAttr('style').prepend('<i class="fas fa-globe-americas mr-1"></i>');
 
 	$('.dragbox-content').each(function()
 	{
@@ -70,7 +66,7 @@ $(document).ready(function()
 	<div class='col-12'>\
 		<div class='card'>\
 			<div class='card-body' id='updateButton'>\
-				<button name='update' class='btn btn-sm btn-primary'>" + btnText + "</button>\
+				<button name='update' class='btn btn-sm btn-primary'><i class='fas fa-cloud-download-alt mr-1'></i>" + btnText + "</button>\
 			</div>\
 		</div>\
 	</div>\
@@ -79,3 +75,11 @@ $(document).ready(function()
 	$('.main > table').remove();
 });
 
+
+$(window).load(function()
+{
+	$('[name="update"]').click(function()
+	{
+		$('body').append('<div class="loading-overlay"><img src="themes/AdminLTE/dist/img/dual_ring.svg"></div>');
+	});
+});
