@@ -4,7 +4,7 @@ $(document).ready(function()
 	$('.main td').contents().appendTo('.addons');
 	$('.main > table').remove();
 	
-	$('.main input[type="submit"]').removeClass('btn-primary').addClass('btn-secondary');
+	$('.main [type="submit"]').removeClass('btn-primary').addClass('btn-secondary');
 	
 	$('.main [href*="&addon_type="]').each(function()
 	{

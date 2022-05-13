@@ -1,9 +1,12 @@
-$(document).ready(function() {
-	$('[href$="&delete"]').addClass('btn').addClass('btn-sm').addClass('btn-danger');
+$(document).ready(function()
+{
+	$('[href$="&delete"]').addClass('btn btn-sm btn-danger');
 
-	if(window.location.href.indexOf("home.php?m=config_games&xml_config_creator=Create+XML+Configs") != -1 ){
+	if(window.location.href.indexOf("home.php?m=config_games&xml_config_creator=Create+XML+Configs") != -1 )
+	{
 		$('iframe').attr('id', 'xcc_iframe');
-		$('iframe').load(function() {
+		$('iframe').load(function()
+		{
 			$(this).contents().find("body").addClass('xcc_iframe');
 			var main_css = '<link rel="stylesheet" type="text/css" href="../../themes/SimpleBootstrap/css/main.css">';
 			var bs = '<link rel="stylesheet" href="../../themes/SimpleBootstrap/css/bootstrap.min.css">';
@@ -16,13 +19,10 @@ $(document).ready(function() {
 			$(this).contents().find("head").append(main_css);
 			$(this).contents().find("head").append(xml_css);
 
-			$(this).contents().find("table").removeAttr("style").removeAttr("colspan").addClass('table').addClass('table-sm').addClass('table-striped');
-			$(this).contents().find('button, input[type=button], input[type=submit], input[type=reset], .swfuploadbtn').addClass('btn').addClass('btn-sm').addClass('btn-primary');
+			$(this).contents().find("table").removeAttr("style").removeAttr("colspan").addClass('table table-sm table-striped');
+			$(this).contents().find('button, input[type=button], [type=submit], input[type=reset], .swfuploadbtn').addClass('btn btn-sm btn-primary');
 			$(this).contents().find('textarea, select, input[type=text]').addClass('form-control').removeAttr('style');
 			$(this).contents().find('form').addClass('form-group');
-
-
-
 		});
 	}
 });

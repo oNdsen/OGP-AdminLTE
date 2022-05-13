@@ -26,10 +26,19 @@ $(document).ready(function()
 	
 	
 	/* *** Replacements *** */
+	$('a.btn').each(function()
+	{
+		// Remove all "<<" from Links
+		var thisText = $(this).text();
+		if(thisText.includes("<"))
+		{
+			$(this).text(thisText.substring(thisText.lastIndexOf("<") + 1, thisText.length).trim()).prepend('<i class="fas fa-angle-double-left mr-1"></i>');
+		}
+	});
 	$('input[type="submit"]').each(function()
 	{
-		var thisValue = $(this).val();
 		// Remove all "<<" from Buttons
+		var thisValue = $(this).val();
 		if(thisValue.includes("<"))
 		{
 			$(this).val(thisValue.substring(thisValue.lastIndexOf("<") + 1, thisValue.length).trim());
@@ -616,22 +625,7 @@ $(document).ready(function()
 				var checkImage = $(this).attr('data-icon_path');
 				if(checkImage !== undefined)
 				{
-					if($(this).parents('li').hasClass('osIcon'))
-					{
-						$(this).parents('.osIcon').attr('data-icon_path', checkImage);
-						if($(this).parents('.osIcon').attr('class').includes('linux'))
-						{
-							var navIcon = '<i class="nav-icon text-sm fab fa-linux"></i>';
-						}else
-						{
-							var navIcon = '<i class="nav-icon text-sm fab fa-windows"></i>';
-						}
-					}else
-					{
-						var navIcon = '<img class="nav-icon" src="'+checkImage+'"/>';
-					}
-					
-					$(this).replaceWith(navIcon + '<p>' + $(this).html() + '</p>');
+					$(this).replaceWith('<img class="nav-icon" src="'+checkImage+'"/><p>' + $(this).html() + '</p>');
 				}else
 				{
 					$(this).replaceWith('<p>' + $(this).html() + '</p>');
@@ -642,16 +636,21 @@ $(document).ready(function()
 		// Add Default Icon to each Link
 		$('.nav-sidebar .nav-link').each(function()
 		{
-			if($(this).find('.nav-icon').length==0)
+			if($(this).find('img').length==0)
 			{
-				if($(this).parents('li').hasClass('osIcon'))
+				if($(this).parents('.nav-item').hasClass('osIcon'))
 				{
-					$(this).prepend('<img class="nav-icon" src="'+$(this).parents('.osIcon').attr('data-icon_path')+'"/>');
+					if($(this).parents('.osIcon').attr('class').includes('linux'))
+					{
+						$(this).prepend('<i class="nav-icon text-sm fab fa-linux"></i>');
+					}else
+					{
+						$(this).prepend('<i class="nav-icon text-sm fab fa-windows"></i>');
+					}
 				}else
 				{
 					$(this).prepend('<i class="nav-icon text-sm fas fa-angle-double-right"></i>');
 				}
-				// $(this).parents('.osIcon').attr('data-icon_path', checkImage);
 			}
 		});
 
@@ -663,7 +662,7 @@ $(document).ready(function()
 				$(this).children('li').children('a').children('p').append('<i class="right fas fa-angle-left"></i>');
 			}
 		});
-
+		
 		// Only follow Link when Menu is open
 		$('.nav-sidebar .nav-item > a').click(function(e)
 		{
@@ -673,8 +672,6 @@ $(document).ready(function()
 				window.location = $(this).attr('href');
 			}
 		});
-
-
 		// Remove User Element and update top User Area
 		var userNavItem = $('.nav-sidebar [href^="?m=user_admin&p=edit_user&user_id"]').parent('.nav-item');
 		var userProfileLink = $(userNavItem).children('a').attr('href');

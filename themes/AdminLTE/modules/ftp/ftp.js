@@ -27,7 +27,7 @@ $(document).ready(function()
 			$(this).contents().find("head").append(ftp_css);
 			$(this).contents().find("head").append(fa_css);
 
-			$(this).contents().find('button, input[type=button], input[type=submit], input[type=reset], .swfuploadbtn').addClass('btn btn-sm btn-primary mb-1');
+			$(this).contents().find('button, input[type=button], [type=submit], input[type=reset], .swfuploadbtn').addClass('btn btn-sm btn-primary mb-1');
 			$(this).contents().find('textarea, select, input[type=text]').addClass('form-control').removeAttr('style');
 			$(this).contents().find('form').addClass('form-group');
 
