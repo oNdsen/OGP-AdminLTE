@@ -35,7 +35,7 @@ $(window).load(function()
 		var serviceImageVal = $(serviceImage).val();
 		
 		var newItem = '\
-		<div class="col-12 col-md-4">\
+		<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">\
 			<div class="card card-widget widget-user shadow shop-item">\
 				<div class="widget-user-header bg-secondary">\
 					<h3 class="widget-user-username">'+serviceTitle+'</h3>\

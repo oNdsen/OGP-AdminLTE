@@ -216,7 +216,7 @@ pre {
 /* Icons Default */
 .administration-table a:before,
 .monitorButtonContainer a:before
-{ content: "\f192"; }
+{ content: "\f101"; }
 
 /* Icons Defined */
 /* FA Set */
@@ -322,7 +322,7 @@ pre {
 .monitorButtonContainer [href^="?m=gamemanager&p=rsync_install"]:before { content: "\f381"; }
 .administration-table [href^="?m=administration&p=iframe&external_link="]:before { content: "\f0c1"; }
 .nav-sidebar [href^="?m=tickets"] > .nav-icon:before,
-.administration-table [href^="?m=tickets"]:before { content: "\f059"; }
+.administration-table [href^="?m=tickets"]:before { content: "\f4c4"; }
 .monitorButtonContainer [href^="?m=editconfigfiles"]:before { content: "\f1c9"; }
 .monitorButtonContainer [href^="?m=user_games&p=custom_fields"]:before { content: "\f1de"; }
 .nav-sidebar [href="?m=tshock"] > .nav-icon:before { content: "\f1bb"; }

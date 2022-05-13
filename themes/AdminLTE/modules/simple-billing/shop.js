@@ -26,30 +26,33 @@ $(document).ready(function()
 			
 			var newItem = '\
 			<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">\
-				<div class="card card-widget widget-user shadow shop-item">\
-					<div class="widget-user-header bg-secondary">\
-						<h3 class="widget-user-username">'+serviceTitle+'</h3>\
-					</div>\
-					<div class="widget-user-image">\
-						<img class="elevation-2" src="'+serviceImageSrc+'" alt="'+serviceImageAlt+'">\
-					</div>\
-					<div class="card-footer">\
-						<div class="row">\
-							<div class="col-sm-8 border-right">\
-								<div class="description-block">\
-									<h5 class="description-header">'+langConsts['OGP_LANG_starting_on']+'</h5>\
-									<span class="description-text">'+serviceCost.split(' ')[2]+'</span>\
+				<form action="" method="POST">\
+					<input name="service_id" type="hidden" value="'+serviceId+'" class="form-control">\
+					<div class="card card-widget widget-user shadow shop-item">\
+						<div class="widget-user-header bg-secondary">\
+							<h3 class="widget-user-username">'+serviceTitle+'</h3>\
+						</div>\
+						<div class="widget-user-image">\
+							<img class="elevation-2" src="'+serviceImageSrc+'" alt="'+serviceImageAlt+'">\
+						</div>\
+						<div class="card-footer">\
+							<div class="row">\
+								<div class="col-sm-8 border-right">\
+									<div class="description-block">\
+										<h5 class="description-header">'+langConsts['OGP_LANG_starting_on']+'</h5>\
+										<span class="description-text">'+serviceCost.split(' ')[2]+'</span>\
+									</div>\
 								</div>\
-							</div>\
-							<div class="col-sm-4">\
-								<div class="description-block">\
-									<h5 class="description-header">'+serviceCost.split('(')[1].split(')')[0].split(' ')[0]+'</h5>\
-									<span class="description-text">'+serviceCost.split('(')[1].split(')')[0].split(' ')[1]+'</span>\
+								<div class="col-sm-4">\
+									<div class="description-block">\
+										<h5 class="description-header">'+serviceCost.split('(')[1].split(')')[0].split(' ')[0]+'</h5>\
+										<span class="description-text">'+serviceCost.split('(')[1].split(')')[0].split(' ')[1]+'</span>\
+									</div>\
 								</div>\
 							</div>\
 						</div>\
 					</div>\
-				</div>\
+				</form>\
 			</div>\
 			';
 			
@@ -62,7 +65,7 @@ $(document).ready(function()
 
 $(window).load(function()
 {
-	$('.shop-item form').click(function()
+	$('.shop-items form').click(function()
 	{
 		$(this).submit();
 	});

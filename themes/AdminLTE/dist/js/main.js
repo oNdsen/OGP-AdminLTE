@@ -25,7 +25,7 @@ $(document).ready(function()
 	// $('.brand-text').text(headTitle);
 	
 	
-	/* *** Text Replacement *** */
+	/* *** Replacements *** */
 	$('input[type="submit"]').each(function()
 	{
 		var thisValue = $(this).val();
@@ -35,6 +35,9 @@ $(document).ready(function()
 			$(this).val(thisValue.substring(thisValue.lastIndexOf("<") + 1, thisValue.length).trim());
 		}
 	});
+	$('img[src="modules/addonsmanager/loading.gif"]').replaceWith('<i class="fas fa-spinner fa-spin loadinggif"></i>');
+	$('img[src="images/online.png"], img[src$="icon_online.gif"]').replaceWith('<i class="fa fa-circle" style="color:var(--green)"></i>');
+	$('img[src="images/offline.png"], img[src$="icon_offline.gif"]').replaceWith('<i class="fa fa-circle" style="color:var(--red)"></i>');
 	
 	
 	/* *** Menu: Tickets Num *** */
@@ -626,7 +629,7 @@ $(document).ready(function()
 		{
 			if($(this).find('img').length==0)
 			{
-				$(this).prepend('<i class="nav-icon text-sm fas fa-link"></i>');
+				$(this).prepend('<i class="nav-icon text-sm fas fa-angle-double-right"></i>');
 			}
 		});
 
@@ -660,6 +663,10 @@ $(document).ready(function()
 		{
 			if(!localStorage.getItem('avatar_' + userId))
 			{
+				// set loading avatar
+				setUserAvatar = 'themes/AdminLTE/dist/img/spinner.gif?';
+				$('.user-panel > .image > img').attr('src', setUserAvatar+ d.getTime()).removeClass('elevation-2');
+				
 				// load avatar from db
 				$.ajax({
 					cache: false,
@@ -671,11 +678,16 @@ $(document).ready(function()
 						// set avatar cache
 						localStorage.setItem('avatar_' + userId, avatar);
 						
+						// set user avatar
+						$('.user-panel > .image > img').attr('src', avatar + "?" + d.getTime()).addClass('elevation-2');
+						
+						// set user avatar variable
 						setUserAvatar = avatar;
 					}
 				});
 			}else
 			{
+				// set user avatar variable
 				setUserAvatar = localStorage.getItem('avatar_' + userId);
 			}
 		}
@@ -764,8 +776,19 @@ $(document).ready(function()
 		
 		
 		/* *** Message Replacement *** */
+		var msgReplBodySkip = ['services', 'simple-billing'];
+		var skipMsgRepl = false;
+		for(i = 0; i < msgReplBodySkip.length; i++)
+		{
+			if($('.main').hasClass(msgReplBodySkip[i]))
+			{
+				skipMsgRepl = true;
+			}
+		}
+		
 		$('.success, .warning, .error, #refresh-manual').each(function()
 		{
+			
 			if(!$('.main').hasClass('services'))
 			{
 				if($(this).hasClass('success'))
@@ -784,7 +807,14 @@ $(document).ready(function()
 				{
 					var thisClass = 'info';
 				}
-				$(this).replaceWith('<div class="callout callout-'+thisClass+'"><p>'+$(this).html()+'</p></div>');
+				
+				if(!skipMsgRepl)
+				{
+					$(this).replaceWith('<div class="callout callout-'+thisClass+'"><p>'+$(this).html()+'</p></div>');
+				}else
+				{
+					$(this).addClass('text-' + thisClass);
+				}
 			}
 		});
 		
