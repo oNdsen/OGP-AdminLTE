@@ -40,7 +40,7 @@ form[method="GET"] .form-control {
 	display: block;
 }
 .monitorbutton:last-of-type {
-	margin-bottom: 20px;
+	margin-bottom: 20px !important;
 }
 .monitorbutton.size {
 	font-size: 0.8rem !important;

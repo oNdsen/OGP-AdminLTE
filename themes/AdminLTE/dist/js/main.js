@@ -45,8 +45,9 @@ $(document).ready(function()
 		}
 	});
 	$('img[src="modules/addonsmanager/loading.gif"]').replaceWith('<i class="fas fa-spinner fa-spin loadinggif"></i>');
-	$('img[src="images/online.png"], img[src$="icon_online.gif"]').replaceWith('<i class="fa fa-circle" style="color:var(--green)"></i>');
-	$('img[src="images/offline.png"], img[src$="icon_offline.gif"]').replaceWith('<i class="fa fa-circle" style="color:var(--red)"></i>');
+	$('img[src="images/online.png"], img[src$="icon_online.gif"]').replaceWith('<i class="fa fa-circle text-success"></i>');
+	$('img[src="images/offline.png"], img[src$="icon_offline.gif"]').replaceWith('<i class="fa fa-circle text-danger"></i>');
+	$('img[src="images/magnifglass.png"]').replaceWith('<i class="fas fa-search"></i>');
 	
 	
 	/* *** Menu: Tickets Num *** */
@@ -71,28 +72,41 @@ $(document).ready(function()
 	// error messages
 	if($('.failure:not(#errorHeader), .ticketError').length > 0)
 	{
-		var errt = [];
-		$(".failure:not(#errorHeader), .ticketError").each(function ()
+		// only replace failure message if main has class X
+		if($('.main').hasClass('game-monitor'))
 		{
-			var failureText = $(this).text().trim();
-			if(failureText !== "" &&  isNaN(failureText))
+			$(".failure:not(#errorHeader), .ticketError").each(function ()
 			{
-				// console.log("failureText: " + failureText);
-				errt.push(failureText);
-			}
-		})
+				var failureText = $(this).text().trim();
+				if(failureText !== "" &&  isNaN(failureText))
+				{
+					$(this).replaceWith('<div class="callout callout-danger">'+$(this).text().trim()+'</div>');
+				}
+			});
+		}else
+		{
+			var errt = [];
+			$(".failure:not(#errorHeader), .ticketError").each(function ()
+			{
+				var failureText = $(this).text().trim();
+				if(failureText !== "" &&  isNaN(failureText))
+				{
+					errt.push(failureText);
+				}
+			});
 
-		if(errt.length > 0)
-		{
-			if(errt.length > 1)
+			if(errt.length > 0)
 			{
-				errMessages = '<ul><li>'+errt.join("</li><li>")+'</li></ul>';
-			}else
-			{
-				errMessages = '<p>'+errt[0]+'</p>';
+				if(errt.length > 1)
+				{
+					errMessages = '<ul><li>'+errt.join("</li><li>")+'</li></ul>';
+				}else
+				{
+					errMessages = '<p>'+errt[0]+'</p>';
+				}
+				
+				allMessages += '<div class="callout callout-danger col-12">'+errMessages+'</div>';
 			}
-			
-			allMessages += '<div class="callout callout-danger col-12">'+errMessages+'</div>';
 		}
 	}
 	

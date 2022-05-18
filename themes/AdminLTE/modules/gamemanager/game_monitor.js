@@ -1,6 +1,9 @@
 $(document).ready(function()
 {
-	$('.main').addClass('main-content');
+	$('.main').addClass('main-content game-monitor');
+	
+	// responsive table
+	$('#servermonitor').wrap('<div class="table-responsive"></div>');
 	
 	$('.monitorbutton.size').click(function()
 	{
@@ -15,7 +18,14 @@ $(document).ready(function()
 	$('#server_icon[class^="action-stop"]').addClass('btn btn-sm btn-danger');
 	$('#server_icon[class^="action-restart"]').addClass('btn btn-sm btn-warning');
 	
+	// table header icons
+	$('img[id="action-stop"]').replaceWith('<i class="fas fa-stop-circle text-danger text-sm" id="action-stop"></i>');
+	$('img[id="action-restart"]').replaceWith('<i class="fas fa-arrow-alt-circle-left text-warning text-sm" id="action-restart"></i>');
+	$('img[id="action-start"]').replaceWith('<i class="fas fa-play-circle text-success text-sm" id="action-start"></i>');
+	
 	$('.monitorbutton').addClass('btn btn-primary d-flex flex-column justify-content-center align-items-center');
+	
+	$('.serverIPAddress > a').append('<i class="fas fa-network-wired text-sm ml-1"></i>');
 	
 	$('[id^="refreshed"]').addClass('row');
 	$('[id^="refreshed"] .monitor-1').addClass('col-md-10 d-flex');

@@ -16,7 +16,7 @@ $(document).ready(function()
 		$(this).next('.accordion-content').remove();
 		
 		var newAcc = '\
-		<div class="card card-primary card-outline card-faq">\
+		<div class="card card-faq">\
 			<a class="d-block w-100 collapsed" data-toggle="collapse" href="#faqacc'+allAccs+'" aria-expanded="false">\
 				<div class="card-header">\
 					<h4 class="card-title w-100">'+accTitle+'</h4>\
