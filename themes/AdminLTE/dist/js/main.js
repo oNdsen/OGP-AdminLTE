@@ -48,6 +48,7 @@ $(document).ready(function()
 	$('img[src="images/online.png"], img[src$="icon_online.gif"]').replaceWith('<i class="fa fa-circle text-success"></i>');
 	$('img[src="images/offline.png"], img[src$="icon_offline.gif"]').replaceWith('<i class="fa fa-circle text-danger"></i>');
 	$('img[src="images/magnifglass.png"]').replaceWith('<i class="fas fa-search"></i>');
+	$('[src="modules/administration/images/remove.gif"]').attr('src', 'themes/AdminLTE/dist/img/remove-icon.png').css('max-width', '1rem');
 	
 	
 	/* *** Menu: Tickets Num *** */
@@ -539,7 +540,7 @@ $(document).ready(function()
 		/* *** Table Styles *** */
 		$('table:not(".online_servers")').each(function()
 		{
-			$(this).addClass('table table-striped table-sm');
+			$(this).addClass('table table-striped table-sm').removeAttr('style').wrap('<div class="table-responsive"></div>');;
 		});
 		$('table .first_row > td').each(function(){
 			$(this).replaceWith('<th>'+$(this).html()+'</th>');

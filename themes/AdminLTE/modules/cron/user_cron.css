@@ -13,6 +13,12 @@
 
 input.form-control {
 	width: 46px;
+	min-width: 46px;
+}
+
+[id^="refreshed"] td:not(:last-of-type) {
+	width: 58px;
+	min-width: 58px;
 }
 
 select[name="action"] {
@@ -25,4 +31,12 @@ select[name="action"] {
 
 .center td:not(:nth-last-child(1)):not(:nth-last-child(2)) {
     width: 1px;
+}
+
+/* table responsive */
+[id^="refreshed"] {
+	display: block;
+	width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
 }

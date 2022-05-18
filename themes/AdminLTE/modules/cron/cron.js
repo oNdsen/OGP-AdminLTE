@@ -3,8 +3,6 @@ $(document).ready(function()
 	$('.main [href="?m=administration&p=main"], .main [href="javascript:history.go(-1)"], .main [href="home.php?m=cron&p=cron"], .main a[href="home.php?m=cron&p=user_cron"]').addClass('btn btn-sm btn-primary');
 	$('.main input[name="removeJob"]').removeClass('btn-primary').addClass('btn-danger');
 	$('.main a[href="home.php?m=cron&p=user_cron"]').removeClass('btn-primary').addClass('btn-secondary').prepend('<i class="fas fa-angle-double-left mr-1"></i>');
-
-	$('.main > .log, .main > form, .main > table').wrap('<div class="table-responsive"/>');
 	
 	$('.hundred td[colspan="6"]').attr('colspan',8);
 	$('.main th:last-child').attr('colspan', 2);

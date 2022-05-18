@@ -1,5 +1,7 @@
 $(document).ready(function()
 {
+	// $('.main table').wrap('<div class="table-responsive"></div>');
+	
 	$('[href$="&delete"]').addClass('btn btn-sm btn-danger');
 
 	if(window.location.href.indexOf("home.php?m=config_games&xml_config_creator=Create+XML+Configs") != -1 )
