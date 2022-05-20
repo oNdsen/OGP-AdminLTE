@@ -518,12 +518,8 @@ $(document).ready(function()
 	else
 	{
 		/* *** Messages Replacement *** */
-		// wrap allMessages into row
-		// if(allMessages)
-		// {
-			// allMessages = '<div class="row">'+allMessages+'</row>';
-		// }
 		$('section.content > .container-fluid').prepend(allMessages);
+		
 		
 		/* *** Remove CSS and JS Files *** */
 		$('link[href="css/global.css"]').remove();
@@ -570,7 +566,8 @@ $(document).ready(function()
 			$(currentTitle).remove();
 			$('body > .wrapper > .content-wrapper').prepend(addHeader);
 		}
-
+		
+		
 		/* *** Forms *** */
 		var buttons = $('button:not(".btn-tool"), input[type="button"], input[type="submit"], input[type="SUBMIT"], input[type="reset"], [href^="?m=gamemanager&p=update&update=refresh"], .main [href="?m=modulemanager&p=update"], .main [href="?m=simple-billing&p=shop"], .main [href^="home.php?m=TS3Admin&changevServer"], .main [href^="?m=gamemanager&p=game_monitor&home_id="], .serverIdToggle, .main [href="?m=settings&p=api_hosts"]');
 		$(buttons).addClass('btn btn-sm btn-primary');
@@ -865,6 +862,7 @@ $(document).ready(function()
 		
 		/* *** Footer Mod *** */
 		$('.main-footer .OGPVersionArea').addClass('d-none');
+		$('.main-footer a').attr('target', '_blank');
 		$('.main-footer .footer').html($('.main-footer .footer').html().replace("Theme - ", "Theme for OGP by <a href='https://www.ondsen.ch' target='_blank'>oNdsen</a> - "))
 	}
 	
