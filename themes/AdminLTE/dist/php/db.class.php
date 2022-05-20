@@ -114,7 +114,7 @@ class ThemeDB
 	
 	public function getSetting($name, $userId = false)
 	{
-		if(!$userId)
+		if($userId === false)
 		{
 			$userId = $_SESSION['user_id'];
 		}
@@ -136,13 +136,41 @@ class ThemeDB
 		}
 	}
 	
-	public function setSetting($name, $value)
+	public function setSetting($name, $value, $userId = false)
 	{
+		if($userId === false)
+		{
+			$userId = $_SESSION['user_id'];
+		}
+		
+		// dont use on duplicate key update statement because of the increasing index
+		// so instead check if the entry exists, if yes update, if not create :)
+		if($this->getSetting($name, $userId))
+		{
+			return $this->query("
+				UPDATE ".$this->settingsTable."
+				SET value = '".serialize($value)."'
+				WHERE user = '".$userId."' AND name = '".$name."'
+			");
+		}else
+		{
+			return $this->query("
+				INSERT INTO ".$this->settingsTable." (user, name, value)
+				VALUES('".$userId."', '".$name."', '".serialize($value)."')
+			");
+		}
+	}
+	
+	public function removeSetting($name, $userId = false)
+	{
+		if($userId === false)
+		{
+			$userId = $_SESSION['user_id'];
+		}
+		
 		$query = "
-			INSERT INTO ".$this->settingsTable." (user, name, value)
-				VALUES('".$_SESSION['user_id']."', '".$name."', '".serialize($value)."')
-			ON DUPLICATE KEY UPDATE
-				value = '".serialize($value)."'
+			DELETE FROM ".$this->settingsTable."
+			WHERE user = '".$userId."' and name = '".$name."'
 		";
 		
 		return $this->query($query);

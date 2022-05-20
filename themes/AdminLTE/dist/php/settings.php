@@ -12,6 +12,7 @@ $ThemeDB->settingsTable = $ThemeDB->tablePrefix().'adminlte_settings';
 // declarations
 $isadmin = false;
 $uploadsFolder = dirname(__FILE__).'/uploads';
+$themeUploadsPath = "themes/AdminLTE/dist/php/uploads/";
 
 // check if uploads folder exists and create if not
 if(!file_exists($uploadsFolder))
@@ -100,6 +101,21 @@ if(isset($_GET['m']))
 					exit();
 				}
 			}
+			elseif($_GET['p']=='themeLogo')
+			{
+				// load global setting (id -1)
+				$themeLogo = $ThemeDB->getSetting('themeLogo', -1);
+				
+				if(empty($themeLogo))
+				{
+					echo 0;
+					exit();
+				}
+				
+				header("Content-Type: application/json");
+				echo json_encode($themeLogo);
+				exit();
+			}
 		}
 	}
 	elseif($_GET['m']=='user')
@@ -107,7 +123,6 @@ if(isset($_GET['m']))
 		// check if user session exists
 		if(isset($_SESSION['users_login']))
 		{
-			$avatarUploadsPath = "themes/AdminLTE/dist/php/uploads/";
 			if(isset($_GET['p']))
 			{
 				if($_GET['p']=='getavatar')
@@ -133,82 +148,8 @@ if(isset($_GET['m']))
 						// security; for now, only allow upload for own user id
 						if($_GET['userid']==$_SESSION['user_id'])
 						{
-							if(isset($_FILES['userAvatar']))
-							{
-								// check if uploads folder is writable
-								if(!is_writable($uploadsFolder))
-								{
-									$retArr = array(
-										'code' => 'error',
-										'data' => 'Error: Uploads Folder is not writable.<br>Check Folder: '.$uploadsFolder,
-									);
-									echo json_encode($retArr);
-									exit;
-								}
-								
-								// check if file is an image
-								$isImage = getimagesize($_FILES['userAvatar']['tmp_name']);
-								if($isImage === false)
-								{
-									// file is not an image; break script
-									$retArr = array(
-										'code' => 'error',
-										'data' => 'Error: File is no Image',
-									);
-									echo json_encode($retArr);
-									exit;
-								}
-								
-								// check file size
-								if($_FILES['userAvatar']['size'] > 500000) // 5mb in bytes
-								{
-									// filesize is too big; break script
-									$retArr = array(
-										'code' => 'error',
-										'data' => 'Error: Filesize extends 5mb',
-									);
-									echo json_encode($retArr);
-									exit;
-								}
-								
-								// check if an avatar already exists
-								$oldAvatar = $ThemeDB->getSetting('avatar');
-								if(!empty($oldAvatar))
-								{
-									// delete old avatar
-									if(file_exists($oldAvatar))
-									{
-										unlink($oldAvatar);
-									}
-								}
-								
-								// get file extension
-								$fileExt = pathinfo($_FILES['userAvatar']['name'])['extension'];
-								$destFile = $uploadsFolder."/".$_GET['userid'].".".$fileExt;
-								$avatar = $avatarUploadsPath.$_GET['userid'].".".$fileExt;
-								
-								if(move_uploaded_file($_FILES['userAvatar']['tmp_name'], $destFile))
-								{
-									// write to db
-									$setAvatar = $ThemeDB->setSetting('avatar', $avatar);
-									
-									$retArr = array(
-										'code' => 'success',
-										'data' => $avatar,
-									);
-									echo json_encode($retArr);
-									exit;
-								}
-								else
-								{
-									$retArr = array(
-										'code' => 'error',
-										'data' => 'Error: Could not move uploaded File',
-									);
-									echo json_encode($retArr);
-									exit;
-								}
-							}
+							echo _NewFileUpload($_FILES['userAvatar'], $_GET['userid'], 'avatar');
+							exit;
 						}
 					}
 				}
@@ -276,5 +217,140 @@ if(isset($_GET['m']))
 			}
 		}
 	}
+	elseif($_GET['m']=='settings')
+	{
+		if($isadmin)
+		{
+			if(isset($_GET['p']))
+			{
+				if($_GET['p']=='fileUpload')
+				{
+					echo _NewFileUpload($_FILES['themeLogo'], 'themeLogo', 'themeLogo', true);
+					exit;
+				}
+				elseif($_GET['p']=='themeLogo')
+				{
+					if(isset($_GET['v']) && ($_GET['v']=='remove'))
+					{
+						// load global setting (id -1)
+						$themeLogo = $ThemeDB->getSetting('themeLogo', -1);
+						
+						if(!empty($themeLogo))
+						{
+							// build direct path
+							$oldLogo = $uploadsFolder."/".basename($themeLogo);
+							
+							// delete old logo if exists
+							if(file_exists($oldLogo))
+							{
+								unlink($oldLogo);
+							}
+							
+							// remove logo from db
+							echo $ThemeDB->removeSetting('themeLogo', -1);
+						}
+					}
+				}
+			}
+		}
+	}
 }
+
+
+// file upload function
+function _NewFileUpload($filesField, $uploadName, $settingName, $systemSetting = false)
+{
+	Global $uploadsFolder, $ThemeDB, $themeUploadsPath;
+	
+	if(isset($filesField))
+	{
+		// check if uploads folder is writable
+		if(!is_writable($uploadsFolder))
+		{
+			$retArr = array(
+				'code' => 'error',
+				'data' => 'Error: Uploads Folder is not writable.<br>Check Folder: '.$uploadsFolder,
+			);
+			return json_encode($retArr);
+		}
+		
+		// check if file is an image
+		$isImage = getimagesize($filesField['tmp_name']);
+		if($isImage === false)
+		{
+			// file is not an image; break script
+			$retArr = array(
+				'code' => 'error',
+				'data' => 'Error: File is no Image',
+			);
+			return json_encode($retArr);
+		}
+		
+		// check file size
+		if($filesField['size'] > 500000) // 5mb in bytes
+		{
+			// filesize is too big; break script
+			$retArr = array(
+				'code' => 'error',
+				'data' => 'Error: Filesize extends 5mb',
+			);
+			return json_encode($retArr);
+		}
+		
+		// check if setting/upload already exists
+		if($systemSetting)
+		{
+			$oldUpload = $ThemeDB->getSetting($settingName, -1);
+		}else
+		{
+			$oldUpload = $ThemeDB->getSetting($settingName);
+		}
+		if(!empty($oldUpload))
+		{
+			// build file path
+			$oldLogo = $uploadsFolder."/".basename($oldUpload);
+			
+			// delete old upload
+			if(file_exists($oldLogo))
+			{
+				unlink($oldLogo);
+			}
+		}
+		
+		// get file extension
+		$fileExt = pathinfo($filesField['name'])['extension'];
+		$destFile = $uploadsFolder."/".$uploadName.".".$fileExt;
+		$newUpload = $themeUploadsPath.$uploadName.".".$fileExt;
+		
+		if(move_uploaded_file($filesField['tmp_name'], $destFile))
+		{
+			// write to db
+			if($systemSetting)
+			{
+				$setSetting = $ThemeDB->setSetting($settingName, $newUpload, -1);
+			}else
+			{
+				$setSetting = $ThemeDB->setSetting($settingName, $newUpload);
+			}
+			
+			$retArr = array(
+				'code' => 'success',
+				'data' => $newUpload,
+			);
+			return json_encode($retArr);
+		}
+		else
+		{
+			$retArr = array(
+				'code' => 'error',
+				'data' => 'Error: Could not move uploaded File',
+			);
+			return json_encode($retArr);
+		}
+	}else
+	{
+		return "no files";
+	}
+}
+
 ?>

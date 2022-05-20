@@ -697,9 +697,11 @@ $(document).ready(function()
 		{
 			if(!localStorage.getItem('avatar_' + userId))
 			{
+				var d = new Date();
+				
 				// set loading avatar
-				setUserAvatar = 'themes/AdminLTE/dist/img/spinner.gif?';
-				$('.user-panel > .image > img').attr('src', setUserAvatar+ d.getTime()).removeClass('elevation-2');
+				setUserAvatar = 'themes/AdminLTE/dist/img/spinner.gif';
+				$('.user-panel > .image > img').attr('src', setUserAvatar + "?t=" + d.getTime()).removeClass('elevation-2');
 				
 				// load avatar from db
 				$.ajax({
@@ -709,11 +711,13 @@ $(document).ready(function()
 					url: 'themes/AdminLTE/dist/php/settings.php?m=user&p=getavatar&userid=' + userId,
 					success: function(avatar)
 					{
+						var d = new Date();
+						
 						// set avatar cache
 						localStorage.setItem('avatar_' + userId, avatar);
 						
 						// set user avatar
-						$('.user-panel > .image > img').attr('src', avatar + "?" + d.getTime()).addClass('elevation-2');
+						$('.user-panel > .image > img').attr('src', avatar + "?t=" + d.getTime()).addClass('elevation-2');
 						
 						// set user avatar variable
 						setUserAvatar = avatar;
@@ -727,7 +731,7 @@ $(document).ready(function()
 		}
 		
 		// set user avatar and link
-		$('.user-panel > .image > img').attr('src', setUserAvatar + "?" + d.getTime());
+		$('.user-panel > .image > img').attr('src', setUserAvatar + "?t=" + d.getTime());
 		$('.user-panel > .info > a').text($(userNavItem).children('a').children('p').text()).attr('href', userProfileLink);
 		
 		// check if user contains additional submenus
@@ -892,6 +896,44 @@ $(document).ready(function()
 	}
 	
 	
+	/* *** Get Theme Logo Settings *** */
+	// check if theme logo cache is set
+	if(!localStorage.getItem('themeLogo'))
+	{
+		// load themeLogo settings from db
+		$.ajax({
+			cache: false,
+			async: true,
+			type: 'GET',
+			url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=themeLogo',
+			dataType: 'json',
+			success: function(themeLogo)
+			{
+				if(themeLogo!='0')
+				{
+					// create themeLogo cache
+					localStorage.setItem('themeLogo', themeLogo);
+					
+					var d = new Date();
+					
+					// set themeLogo
+					$('img.brand-image').attr('src', localStorage.getItem('themeLogo') + "?" + d.getTime());
+				}
+			}
+		});
+	}else
+	{
+		// check if file exists and then apply themeLogo
+		$.get(localStorage.getItem('themeLogo')).done(function()
+		{
+			var d = new Date();
+			
+			// set themeLogo
+			$('img.brand-image').attr('src', localStorage.getItem('themeLogo') + "?" + d.getTime());
+		});
+	}
+	
+	
 	$('[href="?logout=true"]').click(function()
 	{
 		// remove theme cookie on logout
@@ -926,13 +968,16 @@ $(document).ready(function()
 						},
 						success: function()
 						{
+							var d = new Date();
+							
 							// overwrite avatar cache
 							localStorage.setItem('avatar_' + userId, jsonData['data']);
 							
+							// launch success toastr
 							toastr.success('Successfully uploaded new Avatar');
 							
 							// set user avatar
-							$('.user-panel > .image > img').attr('src', jsonData['data'] + "?" + d.getTime());
+							$('.user-panel > .image > img').attr('src', jsonData['data'] + "?t=" + d.getTime());
 						}
 					});
 				}else
@@ -1057,7 +1102,11 @@ function themeChanger(changeTo, save = false)
 		$('nav.main-header').addClass('navbar-dark');
 		$('aside.main-sidebar').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-light').addClass('control-sidebar-dark');
-		$('img[src^="themes/AdminLTE/dist/img/ogp_logo"]').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_dark_is.svg');
+		
+		if(!localStorage.getItem('themeLogo'))
+		{
+			$('img.brand-image').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_dark_is.svg');
+		}
 		
 		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.dark.css');
 		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.dark.css');
@@ -1085,7 +1134,11 @@ function themeChanger(changeTo, save = false)
 		$('nav.main-header').removeClass('navbar-dark');
 		$('aside.main-sidebar').removeClass('sidebar-dark-primary').addClass('sidebar-light-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');
-		$('img[src^="themes/AdminLTE/dist/img/ogp_logo"]').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_light_is.svg');
+		
+		if(!localStorage.getItem('themeLogo'))
+		{
+			$('img.brand-image').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_light_is.svg');
+		}
 		
 		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.light.css');
 		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.light.css');
