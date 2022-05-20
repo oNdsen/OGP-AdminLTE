@@ -12,7 +12,7 @@ AdminLTE Theme adapted for OpenGamePanel
 - [x] Custom Shop Style
 - [x] User specific Avatars (will also load other User Avatars if needed)
 - [x] Maintenance Notification on Login Screen
-- [ ] Custom Logo Upload (for Dark and Light Mode)
+- [x] Custom Logo Upload
 - [ ] Text instead of Logo Switcher
 
 ### Images
