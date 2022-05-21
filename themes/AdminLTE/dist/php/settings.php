@@ -287,7 +287,7 @@ function _NewFileUpload($filesField, $uploadName, $settingName, $systemSetting =
 		}
 		
 		// check file size
-		if($filesField['size'] > 500000) // 5mb in bytes
+		if($filesField['size'] > 5242880) // 5mb in bytes
 		{
 			// filesize is too big; break script
 			$retArr = array(

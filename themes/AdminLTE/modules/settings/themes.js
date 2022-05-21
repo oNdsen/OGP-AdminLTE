@@ -58,7 +58,7 @@ $(window).load(function()
 		$(this).simpleUpload('themes/AdminLTE/dist/php/settings.php?m=settings&p=fileUpload', {
 			allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
 			allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
-			maxFileSize: 5000000, // 5mb in bytes
+			maxFileSize: 5242880, // 5mb in bytes
 			limit: 1,
 			start: function()
 			{
@@ -87,8 +87,11 @@ $(window).load(function()
 							// set themeLogo
 							$('img.brand-image').attr('src', jsonData['data'] + "?t=" + d.getTime());
 							
-							// add themeRemoval
-							addThemeRemoval(jsonData['data']);
+							if($('.themeLogoRemoval').length==0)
+							{
+								// add themeRemoval
+								addThemeRemoval(jsonData['data']);
+							}
 							
 							toastr.success('Successfully uploaded new '+langConsts['OGP_LANG_theme']+' Logo');
 						}

@@ -648,10 +648,19 @@ $(document).ready(function()
 		// Add Default Icon to each Link
 		$('.nav-sidebar .nav-link').each(function()
 		{
+			// check if link contains paragraph
+			if($(this).find('p').length==0)
+			{
+				// fix missing paragraph
+				$(this).html('<p>'+$(this).html()+'</p>');
+			}
+			
+			// check if nav-link has icon missing
 			if($(this).find('img').length==0)
 			{
 				if($(this).parents('.nav-item').hasClass('osIcon'))
 				{
+					// add OS icon
 					if($(this).parents('.osIcon').attr('class').includes('linux'))
 					{
 						$(this).prepend('<i class="nav-icon text-sm fab fa-linux"></i>');
@@ -661,6 +670,7 @@ $(document).ready(function()
 					}
 				}else
 				{
+					// Add Default Icon
 					$(this).prepend('<i class="nav-icon text-sm fas fa-angle-double-right"></i>');
 				}
 			}
@@ -946,7 +956,7 @@ $(document).ready(function()
 		$(this).simpleUpload('themes/AdminLTE/dist/php/settings.php?m=user&p=setavatar&userid=' + userId, {
 			allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
 			allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
-			maxFileSize: 5000000, // 5mb in bytes
+			maxFileSize: 5242880, // 5mb in bytes
 			limit: 1,
 			start: function()
 			{
