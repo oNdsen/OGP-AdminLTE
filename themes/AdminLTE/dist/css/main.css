@@ -88,13 +88,6 @@ input:-webkit-autofill:active{
 	width: 100%;
 }
 
-.control-sidebar,
-.control-sidebar::before
-{
-	right: -350px;
-	width: 350px;
-}
-
 .preloader {
 	align-items: center;
 	justify-content: center;
@@ -105,8 +98,8 @@ input:-webkit-autofill:active{
 }
 .brand-image
 {
-	max-width: 200px !important;
-	max-height: 35px !important;
+	max-width: 300px !important;
+	max-height: 50px !important;
 }
 .sidebar-collapse .brand-link > img {
 	margin: 0px;

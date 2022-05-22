@@ -26,7 +26,7 @@ $(document).ready(function()
 			</div>\
 		</td>\
 		<td>\
-			<div class="image-tip" id="0" data-toggle="tooltip" data-html="true" title="'+langConsts['OGP_LANG_theme']+' Logo - Max Size: 200x35px"><i class="far fa-question-circle"></i></div>\
+			<div class="image-tip" id="0" data-toggle="tooltip" data-html="true" title="'+langConsts['OGP_LANG_theme']+' Logo - Max Size: 300x50px"><i class="far fa-question-circle"></i></div>\
 		</td>\
 	</tr>\
 	');
