@@ -58,5 +58,7 @@ $(document).ready(function() {
 		');
 		
 		$('.main > .news-row').remove();
+		
+		$('#go_back_button').prepend('<i class="fas fa-angle-double-left mr-1"></i>');
 	}
 });

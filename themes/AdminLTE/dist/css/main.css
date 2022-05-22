@@ -209,6 +209,7 @@ pre {
 
 .btn:not(.btn-tool) {
     margin-bottom: 0.1rem;
+	margin-right: 0.25rem;
 }
 
 .loading-overlay {

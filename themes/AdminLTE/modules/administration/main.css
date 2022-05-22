@@ -1,7 +1,7 @@
 .admin-buttons {
-	width: 160px;
+	width: 150px;
 	height: 110px;
-	margin: 0px 5px 5px 0px;
+	margin: 0px 5px 5px 0px !important;
 }
 .admin-buttons > span {
 	font-size: 0.9rem;

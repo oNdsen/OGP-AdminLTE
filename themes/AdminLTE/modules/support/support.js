@@ -7,20 +7,29 @@ $(document).ready(function()
 		$(form_selector).prepend('<br>');
 		$(form_selector.find('br')).each(function()
 		{
-			var $set = $();
-			var nxt = this.nextSibling;
-			while(nxt) {
-				if(!$(nxt).is('br'))
-				{
-					$set.push(nxt);
-					nxt = nxt.nextSibling;
-				} else break;
+			// skip if this br is in head paragraph
+			if($(this).parent('p').length==0)
+			{
+				var $set = $();
+				var nxt = this.nextSibling;
+				while(nxt) {
+					if(!$(nxt).is('br'))
+					{
+						$set.push(nxt);
+						nxt = nxt.nextSibling;
+					} else break;
+				}
+				$set.wrapAll('<tr><td></td></tr>');
+				
+				// remove this br after wrap
+				$(this).remove();
 			}
-			$set.wrapAll('<tr><td></td></tr>');
 		});
-		$(form_selector.find('br')).remove();
 		$(form_selector.find('tr')).wrapAll('<table class="table table-sm table-striped" />');
 	});
+	
+	// remove main br
+	$('.main > br').remove();
 	
 	// remove empty rows
 	$('.main .contactForm td').each(function()
@@ -33,4 +42,7 @@ $(document).ready(function()
 	
 	// remove style attr from submit button
 	$('.main .contactForm input[type="submit"]').removeAttr('style');
+	
+	// remove style attribute from paragraphs
+	$('.main p').removeAttr('style');
 });

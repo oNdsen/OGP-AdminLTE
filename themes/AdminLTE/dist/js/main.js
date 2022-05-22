@@ -48,7 +48,7 @@ $(document).ready(function()
 	$('img[src="images/online.png"], img[src$="icon_online.gif"]').replaceWith('<i class="fa fa-circle text-success"></i>');
 	$('img[src="images/offline.png"], img[src$="icon_offline.gif"]').replaceWith('<i class="fa fa-circle text-danger"></i>');
 	$('img[src="images/magnifglass.png"]').replaceWith('<i class="fas fa-search"></i>');
-	$('[src="modules/administration/images/remove.gif"]').attr('src', 'themes/AdminLTE/dist/img/remove-icon.png').css('max-width', '1rem');
+	$('[src="modules/administration/images/remove.gif"]').attr('src', 'themes/AdminLTE/dist/img/remove-icon.png').css('max-width', '1rem').css('margin-bottom', '-2px').addClass('mx-1');
 	
 	
 	/* *** Menu: Tickets Num *** */
@@ -1079,6 +1079,12 @@ $(window).load(function()
 			</div>\
 		</div>\
 		');
+	}
+	
+	/* *** End of JS - Check if .main is empty to remove Element *** */
+	if($('.main').html().trim().length==0)
+	{
+		$('.main').parent('.card').remove();
 	}
 });
 

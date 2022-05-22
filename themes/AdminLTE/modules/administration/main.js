@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-	var adminButtonTable = $('table.administration-table').first();
+	var adminButtonTable = $('.main table.administration-table').first();
 	
 	$('<div class="administration-table d-flex flex-wrap justify-content-start"></div>').insertAfter(adminButtonTable);
 	
@@ -11,4 +11,11 @@ $(document).ready(function()
 	});
 	
 	$(adminButtonTable).remove();
+});
+
+$(window).load(function()
+{
+	$('[name="download"]').prepend('<i class="fas fa-download mr-1"></i>').addClass('btn-secondary');
+	$('[name="restore"]').prepend('<i class="fas fa-upload mr-1"></i>').addClass('btn-warning');
+	$('.main .custom-file').removeAttr('style');
 });
