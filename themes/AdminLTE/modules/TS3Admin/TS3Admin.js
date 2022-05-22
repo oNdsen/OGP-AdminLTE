@@ -3,11 +3,24 @@ $(document).ready(function()
 	$('link[href="modules/TS3Admin/webinterface.css"]').remove();
 	$('#loadingImage').remove();
 	
-	$('section.content .container-fluid > form').wrapAll('<div class="row mt-2"><div class="col-12"><div class="card"><div class="card-body"></div></div></div></div>');
+	$('.main a[href$="changevServer"]').prepend('<i class="fas fa-exchange-alt mr-1"></i>').addClass('btn-secondary mb-2 ');
+	$('.main > form > br').remove();
 	
-	$('section.content .container-fluid > .infoBox').wrapAll('<div class="row"></div>');
+	$('.main span').each(function()
+	{
+		if($(this).attr('style'))
+		{
+			$(this).removeAttr('style');
+		}
+	});
 	
-	$('section.content .container-fluid > .row > .infoBox').each(function()
+	$('.main [name="startvServer"]').addClass('btn-success');
+	$('.main [name="stopvServer"]').addClass('btn-danger');
+	
+	$('.main #clearLink').parent('div').addClass('text-muted mb-1');
+	
+	$('.main > .infoBox').wrapAll('<div class="row"></div>');
+	$('.main > .row > .infoBox').each(function()
 	{
 		$(this).wrapAll('<div class="col-12 col-md-6"><div class="card"><div class="card-body"></div></div></div>');
 	});
@@ -20,7 +33,7 @@ $(document).ready(function()
 		
 		if (imgURL.toLowerCase().indexOf("edit.png") >= 0)
 		{
-			$(this).html('<i class="fas fa-edit"></i>');
+			$(this).addClass('btn-secondary').html('<i class="fas fa-edit"></i>');
 		}
 		else if (imgURL.toLowerCase().indexOf("refresh.png") >= 0)
 		{
