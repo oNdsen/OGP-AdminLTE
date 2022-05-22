@@ -31,6 +31,8 @@ $(document).ready(function()
 	$('[id^="refreshed"] .monitor-1').addClass('col-md-10 d-flex');
 	$('[id^="refreshed"] .monitor-2').addClass('col-md-2');
 	
+	$('.main form > input[value="'+langConsts['OGP_LANG_show_all']+'"]').parent('form').addClass('d-inline-block my-2');
+	
 	// all server images
 	$('[id^="refreshed"]').each(function()
 	{
@@ -113,4 +115,18 @@ $(window).load(function()
 	});
 	
 	$('tfoot').removeAttr('style');
+	
+	// navigation active gameserver link fix
+	if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1 || window.location.href.indexOf('home_cfg_id'))
+	{
+		var uri = window.location.href.substring(window.location.href.indexOf('?'));
+		
+		$('.nav-sidebar .active').removeClass('active');
+		$('.nav-sidebar .nav-link[href="'+uri+'"]').addClass('active');
+		
+		if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1)
+		{
+			$('.nav-sidebar .nav-link[href="'+uri+'"]').parents('.nav-item').addClass('menu-open');
+		}
+	}
 });
