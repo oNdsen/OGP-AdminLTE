@@ -15,8 +15,15 @@
 	font-weight: 900;
 	margin-bottom: 5px;
 }
+.admin-buttons > img,
+.admin-buttons > br {
+	display: none;
+}
 
-.main > h2
-{
-	margin-top: 20px;
+.table tr:first-of-type td {
+    border-top: none;
+}
+
+.main > h2 {
+	margin-top: 2rem;
 }
