@@ -690,7 +690,7 @@ $(document).ready(function()
 		{
 			if($(this).parent('li').hasClass('menu-open'))
 			{
-				e.preventDefault();
+				e.stopPropagation();
 				window.location = $(this).attr('href');
 			}
 		});
