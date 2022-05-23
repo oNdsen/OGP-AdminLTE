@@ -1,5 +1,7 @@
 $(document).ready(function()
 {
+	$('.main > br').remove();
+	
 	// remove original logo link
 	$('#logo_link').parents('tr').remove();
 	
@@ -55,7 +57,7 @@ $(document).ready(function()
 			</div>\
 		</td>\
 		<td>\
-			<div class="image-tip" data-toggle="tooltip" data-html="true" title="'+langConsts['OGP_LANG_theme']+' Logo - Max Size: 300x50px"><i class="far fa-question-circle"></i></div>\
+			<div class="image-tip" data-toggle="tooltip" data-html="true" title="'+langConsts['OGP_LANG_theme']+' Logo - Max Size: '+(localStorage.getItem('themeNavWidth')-32)+'x50px"><i class="far fa-question-circle"></i></div>\
 		</td>\
 	</tr>\
 	');
@@ -96,6 +98,9 @@ $(document).ready(function()
 				
 				// call setNavWidth function from main.js
 				setNavWidth(themeNavWidth);
+				
+				// reset themeLogo tooltip message
+				$('#themeLogo').closest('tr').find('.image-tip').attr('title', langConsts['OGP_LANG_theme']+' Logo - Max Size: '+(themeNavWidth-32)+'x50px');
 				
 				toastr.success('Successfully changed '+langConsts['OGP_LANG_theme']+' Nav Width to ' + themeNavWidth + 'px');
 			}

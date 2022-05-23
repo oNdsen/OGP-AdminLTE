@@ -910,8 +910,8 @@ $(document).ready(function()
 		
 		/* *** Footer Mod *** */
 		$('.main-footer .OGPVersionArea').addClass('d-none');
-		$('.main-footer a').attr('target', '_blank');
-		$('.main-footer .footer').html($('.main-footer .footer').html().replace("Theme - ", "Theme for OGP by <a href='https://www.ondsen.ch' target='_blank'>oNdsen</a> - "))
+		$('.main-footer a').attr('target', '_blank').addClass('text-dark');
+		$('.main-footer .footer').html($('.main-footer .footer').html().replace("Theme - ", "Theme for OGP by <a href='https://www.ondsen.ch' target='_blank' class='text-dark'>oNdsen</a> - "))
 	}
 	
 	
