@@ -116,6 +116,21 @@ if(isset($_GET['m']))
 				echo json_encode($themeLogo);
 				exit();
 			}
+			elseif($_GET['p']=='themeNavWidth')
+			{
+				// load global setting (id -1)
+				$themeNavWidth = $ThemeDB->getSetting('themeNavWidth', -1);
+				
+				if(empty($themeNavWidth))
+				{
+					echo 250;
+					exit();
+				}
+				
+				header("Content-Type: application/json");
+				echo json_encode($themeNavWidth);
+				exit();
+			}
 		}
 	}
 	elseif($_GET['m']=='user')
@@ -249,6 +264,22 @@ if(isset($_GET['m']))
 							// remove logo from db
 							echo $ThemeDB->removeSetting('themeLogo', -1);
 						}
+					}
+				}
+				elseif($_GET['p']=='themeNavWidth')
+				{
+					$allowedWidths = array('250', '300', '350');
+					if(isset($_GET['v']) && in_array($_GET['v'], $allowedWidths))
+					{
+						// save new width
+						$setSetting = $ThemeDB->setSetting('themeNavWidth', $_GET['v'], -1);
+						echo $_GET['v'];
+						exit;
+					}else
+					{
+						// invalid value - return default width
+						echo 250;
+						exit;
 					}
 				}
 			}

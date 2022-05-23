@@ -9,6 +9,35 @@ $(document).ready(function()
 	// add multiform attribute for image upload
 	$('form[action="?m=settings&p=themes"]').attr('enctype','multipart/form-data');
 	
+	// add theme width option
+	var themeNavWidthOptions = {'250px (Default)':'250', '300px':'300', '350px':'350'}
+	var themeNavWidthOptionsOut = ''
+	for(var key in themeNavWidthOptions)
+	{
+		if(themeNavWidthOptions[key]==localStorage.getItem('themeNavWidth'))
+		{
+			themeNavWidthOptionsOut += '<option value="'+themeNavWidthOptions[key]+'" selected>'+key+'</option>';
+		}else
+		{
+			themeNavWidthOptionsOut += '<option value="'+themeNavWidthOptions[key]+'">'+key+'</option>';
+		}
+	}
+	$('.main #theme').parents('tr').after('\
+	<tr>\
+		<td align="right">\
+			<label for="themeNavWidth">'+langConsts['OGP_LANG_theme']+' Nav Width:</label>\
+		</td>\
+		<td align="left">\
+			<select id="themeNavWidth" name="themeNavWidth" class="form-control">\
+				'+themeNavWidthOptionsOut+'\
+			</select>\
+		</td>\
+		<td>\
+			<div class="image-tip" data-toggle="tooltip" data-html="true" title="Sets '+langConsts['OGP_LANG_theme']+' Navigation Width for all Users"><i class="far fa-question-circle"></i></div>\
+		</td>\
+	</tr>\
+	');
+	
 	// add logo upload form
 	$('.main #theme').parents('tr').after('\
 	<tr>\
@@ -26,7 +55,7 @@ $(document).ready(function()
 			</div>\
 		</td>\
 		<td>\
-			<div class="image-tip" id="0" data-toggle="tooltip" data-html="true" title="'+langConsts['OGP_LANG_theme']+' Logo - Max Size: 300x50px"><i class="far fa-question-circle"></i></div>\
+			<div class="image-tip" data-toggle="tooltip" data-html="true" title="'+langConsts['OGP_LANG_theme']+' Logo - Max Size: 300x50px"><i class="far fa-question-circle"></i></div>\
 		</td>\
 	</tr>\
 	');
@@ -46,6 +75,31 @@ $(document).ready(function()
 				addThemeRemoval(themeLogo);
 			}
 		}
+	});
+	
+	// themeNavWidth change
+	$('#themeNavWidth').change(function()
+	{
+		$.ajax({
+			cache: false,
+			async: true,
+			type: 'GET',
+			url: 'themes/AdminLTE/dist/php/settings.php?m=settings&p=themeNavWidth&v='+$(this).val(),
+			start: function()
+			{
+				toastr.info(langConsts['OGP_LANG_theme']+' Nav Width change initiated');
+			},
+			success: function(themeNavWidth)
+			{
+				// reseset themeNavWidth cache
+				localStorage.setItem('themeNavWidth', themeNavWidth);
+				
+				// call setNavWidth function from main.js
+				setNavWidth(themeNavWidth);
+				
+				toastr.success('Successfully changed '+langConsts['OGP_LANG_theme']+' Nav Width to ' + themeNavWidth + 'px');
+			}
+		});
 	});
 });
 

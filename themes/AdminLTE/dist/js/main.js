@@ -691,6 +691,7 @@ $(document).ready(function()
 			if($(this).parent('li').hasClass('menu-open'))
 			{
 				e.stopPropagation();
+				// e.preventDefault();
 				window.location = $(this).attr('href');
 			}
 		});
@@ -938,6 +939,32 @@ $(document).ready(function()
 	{
 		// change theme
 		themeChanger(localStorage.getItem('theme'));
+	}
+	
+	
+	/* *** Get ThemeNavWidth Setting *** */
+	if(!localStorage.getItem('themeNavWidth'))
+	{
+		// load themeNavWidth settings from db
+		$.ajax({
+			cache: false,
+			async: true,
+			type: 'GET',
+			url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=themeNavWidth',
+			dataType: 'json',
+			success: function(themeNavWidth)
+			{
+				// create themeNavWidth cache
+				localStorage.setItem('themeNavWidth', themeNavWidth);
+				
+				// set themeNavWidth
+				setNavWidth(themeNavWidth);
+			}
+		});
+	}else
+	{
+		// set themeNavWidth
+		setNavWidth(localStorage.getItem('themeNavWidth'));
 	}
 	
 	
@@ -1225,5 +1252,63 @@ function themeChanger(changeTo, save = false)
 		{
 			$('.ace_editor').removeClass('ace-tomorrow-night').addClass('ace-tomorrow');
 		}
+	}
+}
+
+function setNavWidth(width)
+{
+	// only set if wider than 250px (default) and smaller than 350px (max)
+	if(width>250 && width<=350)
+	{
+		// avoid dual set
+		if($('style[id="themeNavWidth"]').length>0)
+		{
+			$('style[id="themeNavWidth"]').remove();
+		}
+		
+		// add custom width style to body
+		$('body').prepend('\
+			<style id="themeNavWidth">\
+			.main-sidebar,\
+			.layout-navbar-fixed .wrapper .brand-link,\
+			.layout-fixed .brand-link {\
+				width: '+width+'px;\
+			}\
+			@media (min-width: 768px) {\
+				body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,\
+				body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,\
+				body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {\
+					margin-left: '+width+'px;\
+				}\
+			}\
+			.sidebar-mini .main-sidebar .nav-link {\
+				width: calc('+width+'px - 0.5rem * 2);\
+			}\
+			.sidebar-mini .main-sidebar .nav-child-indent .nav-treeview .nav-link {\
+				width: calc('+width+'px - 0.5rem * 2 - 1rem);\
+			}\
+			.sidebar-mini .main-sidebar .nav-child-indent .nav-treeview .nav-treeview .nav-link {\
+				width: calc('+width+'px - 0.5rem * 2 - 2rem);\
+			}\
+			.brand-image {\
+				max-width: calc('+width+'px - 2rem) !important;\
+			}\
+			</style>\
+		');
+	}else
+	{
+		// remove possible themeNavWidth style
+		if($('style[id="themeNavWidth"]').length>0)
+		{
+			$('style[id="themeNavWidth"]').remove();
+		}
+		
+		$('body').prepend('\
+			<style>\
+			.brand-image {\
+				max-width: calc(250px - 2rem) !important;\
+			}\
+			</style>\
+		');
 	}
 }
