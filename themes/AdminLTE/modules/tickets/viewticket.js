@@ -74,6 +74,9 @@ $(window).load(function()
 			var direction = 'right'
 		}
 		
+		// add text-dark class to userlink
+		$(this).find('.name').find('a').addClass('text-dark');
+		
 		var date = $(this).find('.date').text().replace(/\s+/g, ' ').trim();
 		var user = $(this).find('.name').html().replace(/\s+/g, ' ').trim();
 		var message = $(this).find('.message').html().trim();
@@ -141,7 +144,7 @@ $(window).load(function()
 			newReplyContainer += '\
 					<div class="direct-chat-msg">\
 						<div class="direct-chat-infos clearfix">\
-							<span class="direct-chat-name float-left">' + allChats[key]['user'] + isAdmin + '</span>\
+							<span class="direct-chat-name float-left font-weight-bold">' + allChats[key]['user'] + isAdmin + '</span>\
 							<span class="direct-chat-timestamp float-right">' + allChats[key]['date'] + '</span>\
 						</div>\
 						<img class="direct-chat-img" src="' + avatarUrl + '" data-userid="' + avatarUserId + '" alt="message user image">\
@@ -158,7 +161,7 @@ $(window).load(function()
 			newReplyContainer += '\
 					<div class="direct-chat-msg right">\
 						<div class="direct-chat-infos clearfix">\
-							<span class="direct-chat-name float-right">' + isAdmin + allChats[key]['user'] + '</span>\
+							<span class="direct-chat-name float-right font-weight-bold">' + isAdmin + allChats[key]['user'] + '</span>\
 							<span class="direct-chat-timestamp float-left">' + allChats[key]['date'] + '</span>\
 						</div>\
 						<img class="direct-chat-img" src="' + avatarUrl + '" data-userid="' + avatarUserId + '" alt="message user image">\

@@ -74,6 +74,18 @@ if(isset($_GET['m']))
 						echo json_encode($data);
 						exit();
 					}
+					elseif($_GET['v']=='isadmin')
+					{
+						if($isadmin)
+						{
+							echo 1;
+							exit();
+						}else
+						{
+							echo 0;
+							exit();
+						}
+					}
 				}
 			}
 			elseif($_GET['p']=='theme')
