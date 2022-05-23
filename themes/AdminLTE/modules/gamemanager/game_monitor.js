@@ -115,18 +115,4 @@ $(window).load(function()
 	});
 	
 	$('tfoot').removeAttr('style');
-	
-	// navigation active gameserver link fix
-	if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1 || window.location.href.indexOf('home_cfg_id'))
-	{
-		var uri = window.location.href.substring(window.location.href.indexOf('?'));
-		
-		$('.nav-sidebar .active').removeClass('active');
-		$('.nav-sidebar .nav-link[href="'+uri+'"]').addClass('active');
-		
-		if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1)
-		{
-			$('.nav-sidebar .nav-link[href="'+uri+'"]').parents('.nav-item').addClass('menu-open');
-		}
-	}
 });

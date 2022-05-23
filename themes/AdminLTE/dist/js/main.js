@@ -769,6 +769,43 @@ $(document).ready(function()
 			$('.main-sidebar .nav-sidebar [href="?m=settings"]').removeClass('active');
 		}
 		
+		// menu higlight fix for gameserver
+		if(window.location.href.indexOf('admin')==-1 && window.location.href.indexOf('m=user_games')==-1 && window.location.href.indexOf('m=config_games')==-1 && window.location.href.indexOf('m=fast_download')==-1)
+		{
+			if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1 || window.location.href.indexOf('home_cfg_id') > -1 || window.location.href.indexOf('&home_id') > -1)
+			{
+				// specific server (can also be logs etc)
+				if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1)
+				{
+					var uri = window.location.href.substring(window.location.href.indexOf('home_id-mod_id-ip-port='));
+					uri = 'href$="'+uri+'"';
+				}
+				// all servers by config
+				else if(window.location.href.indexOf('home_cfg_id') > -1)
+				{
+					var uri = window.location.href.substring(window.location.href.indexOf('?'));
+					uri = 'href$="'+uri+'"';
+				}
+				// specific server by home_id
+				else if(window.location.href.indexOf('home_id') > -1)
+				{
+					const urlParams = new URLSearchParams(window.location.search);
+					var homeId = urlParams.get('home_id');
+					
+					var uri = '?m=gamemanager&p=game_monitor&home_id-mod_id-ip-port='+homeId+'-';
+					uri = 'href^="'+uri+'"';
+				}
+				
+				$('.nav-sidebar .active').removeClass('active');
+				$('.nav-sidebar .nav-link['+uri+']').addClass('active');
+				
+				if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1 || window.location.href.indexOf('home_cfg_id') > -1 || window.location.href.indexOf('home_id') > -1)
+				{
+					$('.nav-sidebar .nav-link['+uri+']').parents('.nav-item').addClass('menu-open');
+				}
+			}
+		}
+		
 		
 		/* *** Pagination *** */
 		$('#pagination').each(function()
