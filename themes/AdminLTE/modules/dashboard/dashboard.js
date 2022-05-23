@@ -150,51 +150,53 @@ $(document).ready(function()
 				$('.main > script:not([src])').remove();
 				
 				var refreshDashboardServerInterval;
-				// var enableCallbacks = true;
 				var aradded = [];
-				embjs.match(axrgx).forEach((element, index) => {
-					var url = element.match(urlrgx)[1];
-					var dest = element.match(destrgx)[1];
-					
-					if(!aradded.includes(url))
-					{
-						if(url.toLowerCase().indexOf("remote_server_id") >= 0)
+				if(axrgx.test(embjs))
+				{
+					embjs.match(axrgx).forEach((element, index) => {
+						var url = element.match(urlrgx)[1];
+						var dest = element.match(destrgx)[1];
+						
+						if(!aradded.includes(url))
 						{
-							aradded.push(url);
-							
-							function refreshDashboardServerStats()
+							if(url.toLowerCase().indexOf("remote_server_id") >= 0)
 							{
-								jQuery.ajax({
-									url: url,
-									cache: false,
-									// beforeSend: function(xhr)
-									// {
-										// $('a').click(function()
-										// {
-											// xhr.abort();
-											// enableCallbacks = false;
-										// });
-									// },
-									success: function(data, textStatus)
-									{
-										// if (!enableCallbacks) return;
-										updateServerStats(data);
-									}
-								});
-							}
-							
-							if (!refreshDashboardServerInterval)
-							{
-								refreshDashboardServerStats();
+								aradded.push(url);
 								
-								var refreshDashboardServerInterval = setInterval(function()
+								function refreshDashboardServerStats()
+								{
+									jQuery.ajax({
+										url: url,
+										cache: false,
+										// beforeSend: function(xhr)
+										// {
+											// $('a').click(function()
+											// {
+												// xhr.abort();
+												// enableCallbacks = false;
+											// });
+										// },
+										success: function(data, textStatus)
+										{
+											// if (!enableCallbacks) return;
+											updateServerStats(data);
+										}
+									});
+								}
+								
+								if (!refreshDashboardServerInterval)
 								{
 									refreshDashboardServerStats();
-								}, 10000);
+									
+									var refreshDashboardServerInterval = setInterval(function()
+									{
+										refreshDashboardServerStats();
+									}, 10000);
+								}
 							}
 						}
-					}
-				});
+					});
+				}
 				
 				// clear intervals on link follow
 				$('a:not([data-widget="control-sidebar"]):not([data-widget="pushmenu"])').click(function()
@@ -207,6 +209,7 @@ $(document).ready(function()
 				});
 				
 				// Make the dashboard widgets sortable Using jquery UI
+				var topItems = ['item1','item2','item3','item4','item5'];
 				$('.connectedSortable').sortable(
 				{
 					placeholder: 'sort-highlight',
@@ -214,17 +217,35 @@ $(document).ready(function()
 					handle: '.card-header',
 					forcePlaceholderSize: true,
 					zIndex: 999999,
-					start: function(event, ui){
-						// console.log('start: ' + event + ' - ' + ui);
-						// $(ui.item).toggle();
-					},
-					stop: function(){
-						// console.log('stop');
-						updateNewWidgetData();
+					stop: function(event, ui){
+						// check if element is on a valid location
+						if(topItems.includes($(ui['item'][0]).attr('id')))
+						{
+							// item is in top row - check if its in .main card
+							if($(ui['item'][0]).parents('.main').length==1)
+							{
+								updateNewWidgetData();
+							}else
+							{
+								toastr.warning('Top Elements only in Top Region allowed', 'Warning');
+								event.preventDefault();
+							}
+						}else
+						{
+							if($(ui['item'][0]).parents('.main').length==0)
+							{
+								updateNewWidgetData();
+							}else
+							{
+								toastr.warning('Bottom Elements only in Bottom Region allowed', 'Warning');
+								event.preventDefault();
+							}
+						}
 					}
 				});
 				$('.connectedSortable .card-header').css('cursor', 'move');
 				
+				// update widget data when collapsing card
 				$('[data-card-widget="collapse"]').click(function()
 				{
 					setTimeout(function()
@@ -298,8 +319,6 @@ function updateNewWidgetData()
 			items.push(item);
 		});
 	});
-	
-	// console.log(items);
 	
 	//Assign items array to sortorder JSON variable
 	var sortorder = {items: items};
