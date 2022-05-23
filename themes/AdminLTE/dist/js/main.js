@@ -1281,6 +1281,17 @@ function setNavWidth(width)
 					margin-left: '+width+'px;\
 				}\
 			}\
+			@media (max-width: 991.98px) {\
+				body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,\
+				body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,\
+				body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {\
+					margin-left: 0;\
+				}\
+			}\
+			.sidebar-collapse .main-sidebar,\
+			.sidebar-collapse .main-sidebar::before {\
+				margin-left: -'+width+'px;\
+			}\
 			.sidebar-mini .main-sidebar .nav-link {\
 				width: calc('+width+'px - 0.5rem * 2);\
 			}\
