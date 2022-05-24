@@ -280,8 +280,7 @@ if(isset($_GET['m']))
 				}
 				elseif($_GET['p']=='themeNavWidth')
 				{
-					$allowedWidths = array('250', '300', '350');
-					if(isset($_GET['v']) && in_array($_GET['v'], $allowedWidths))
+					if(isset($_GET['v']) && is_numeric($_GET['v']) && $_GET['v']>250 && $_GET['v']<=350)
 					{
 						// save new width
 						$setSetting = $ThemeDB->setSetting('themeNavWidth', $_GET['v'], -1);

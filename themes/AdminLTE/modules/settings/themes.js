@@ -12,33 +12,21 @@ $(document).ready(function()
 	$('form[action="?m=settings&p=themes"]').attr('enctype','multipart/form-data');
 	
 	// add theme width option
-	var themeNavWidthOptions = {'250px (Default)':'250', '300px':'300', '350px':'350'}
-	var themeNavWidthOptionsOut = ''
-	for(var key in themeNavWidthOptions)
-	{
-		if(themeNavWidthOptions[key]==localStorage.getItem('themeNavWidth'))
-		{
-			themeNavWidthOptionsOut += '<option value="'+themeNavWidthOptions[key]+'" selected>'+key+'</option>';
-		}else
-		{
-			themeNavWidthOptionsOut += '<option value="'+themeNavWidthOptions[key]+'">'+key+'</option>';
-		}
-	}
 	$('.main #theme').parents('tr').after('\
 	<tr>\
 		<td align="right">\
 			<label for="themeNavWidth">'+langConsts['OGP_LANG_theme']+' Nav Width:</label>\
 		</td>\
 		<td align="left">\
-			<select id="themeNavWidth" name="themeNavWidth" class="form-control">\
-				'+themeNavWidthOptionsOut+'\
-			</select>\
+			<div class="form-group">\
+				<input type="range" class="form-control-range" min="250" max="350" value="'+localStorage.getItem('themeNavWidth')+'" id="themeNavWidth" name="themeNavWidth">\
+			</div>\
 		</td>\
 		<td>\
 			<div class="image-tip" data-toggle="tooltip" data-html="true" title="Sets '+langConsts['OGP_LANG_theme']+' Navigation Width for all Users"><i class="far fa-question-circle"></i></div>\
 		</td>\
 	</tr>\
-	');
+	');	
 	
 	// add logo upload form
 	$('.main #theme').parents('tr').after('\

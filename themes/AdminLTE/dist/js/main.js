@@ -1292,13 +1292,13 @@ function setNavWidth(width)
 			.sidebar-collapse .main-sidebar::before {\
 				margin-left: -'+width+'px;\
 			}\
-			.sidebar-mini .main-sidebar .nav-link {\
+			.sidebar-mini:not(.sidebar-collapse) .main-sidebar .nav-link {\
 				width: calc('+width+'px - 0.5rem * 2);\
 			}\
-			.sidebar-mini .main-sidebar .nav-child-indent .nav-treeview .nav-link {\
+			.sidebar-mini:not(.sidebar-collapse) .main-sidebar .nav-child-indent .nav-treeview .nav-link {\
 				width: calc('+width+'px - 0.5rem * 2 - 1rem);\
 			}\
-			.sidebar-mini .main-sidebar .nav-child-indent .nav-treeview .nav-treeview .nav-link {\
+			.sidebar-mini:not(.sidebar-collapse) .main-sidebar .nav-child-indent .nav-treeview .nav-treeview .nav-link {\
 				width: calc('+width+'px - 0.5rem * 2 - 2rem);\
 			}\
 			.brand-image {\
