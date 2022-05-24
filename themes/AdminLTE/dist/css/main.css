@@ -247,6 +247,20 @@ table.tablesorter thead tr .tablesorter-headerDesc {
 	width: 100%;
 }
 
+/* *** mfp popup *** */
+.mfp-bg {
+	opacity: 0.3;
+}
+.light-mode .white-popup {
+	border-color: var(--gray);
+    border-radius: 6px;
+	background-color: var(--light);
+}
+.light-mode .magnificTitle {
+	background-color: var(--gray);
+}
+
+
 
 
 /* Icons Default */
