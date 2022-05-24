@@ -15,10 +15,11 @@ $(document).ready(function()
 	$('.main #theme').parents('tr').after('\
 	<tr>\
 		<td align="right">\
-			<label for="themeNavWidth">'+langConsts['OGP_LANG_theme']+' Nav Width:</label>\
+			<label for="themeNavWidth" class="mb-0">'+langConsts['OGP_LANG_theme']+' Nav Width:</label>\
+			<small class="currentNavWidth text-muted d-block"></small>\
 		</td>\
 		<td align="left">\
-			<div class="form-group">\
+			<div class="form-group mb-0">\
 				<input type="range" class="form-control-range" min="250" max="350" value="'+localStorage.getItem('themeNavWidth')+'" id="themeNavWidth" name="themeNavWidth">\
 			</div>\
 		</td>\
@@ -67,6 +68,9 @@ $(document).ready(function()
 		}
 	});
 	
+	// display current themeNavWidth
+	$('.currentNavWidth').text('Current Width: '+localStorage.getItem('themeNavWidth')+'px');
+	
 	// themeNavWidth change
 	$('#themeNavWidth').change(function()
 	{
@@ -86,6 +90,9 @@ $(document).ready(function()
 				
 				// call setNavWidth function from main.js
 				setNavWidth(themeNavWidth);
+				
+				// display current themeNavWidth
+				$('.currentNavWidth').text('Current Width: '+themeNavWidth+'px');
 				
 				// reset themeLogo tooltip message
 				$('#themeLogo').closest('tr').find('.image-tip').attr('title', langConsts['OGP_LANG_theme']+' Logo - Max Size: '+(themeNavWidth-32)+'x50px');
