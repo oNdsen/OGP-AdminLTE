@@ -116,9 +116,9 @@ input:-webkit-autofill:active{
 	display: none;
 }
 
-body.sidebar-collapse .main-sidebar:not(:hover) .text-truncate {
-	text-overflow: inherit !important;
-	white-space: inherit !important;
+body.sidebar-collapse .main-sidebar:not(.main-siderbar.hover) .text-truncate
+{
+	text-overflow: unset;
 }
 
 .main-sidebar img.nav-icon {

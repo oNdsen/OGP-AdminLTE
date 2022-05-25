@@ -1152,24 +1152,21 @@ $(window).load(function()
 	}
 });
 
-$(function() {
-	$.fn.EveryWhat = function(arg1)
-	{
-		var arr = [];
-		if($.isNumeric(arg1))
+
+/* *** menu sidebar hover hack because firefox doesnt support nested pseudo classes *** */
+$(document).on('collapsed.lte.pushmenu', function()
+{
+	$('body.sidebar-collapse .main-sidebar').hover(
+		function()
 		{
-			$.each(this, function(idx, item)
-			{
-				var newNum = idx + 1;
-				if(newNum%arg1 == 0)
-				{
-					arr.push(item);
-				}
-			});
+			$(this).addClass('hover');
+		}, function()
+		{
+			$(this).removeClass('hover');
 		}
-		return this.pushStack(arr, "EveryWhat", "");
-	}
+	);
 });
+
 
 function themeChanger(changeTo, save = false)
 {
