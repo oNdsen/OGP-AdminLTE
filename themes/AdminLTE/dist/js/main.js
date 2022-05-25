@@ -1153,21 +1153,6 @@ $(window).load(function()
 });
 
 
-/* *** menu sidebar hover hack because firefox doesnt support nested pseudo classes *** */
-$(document).on('collapsed.lte.pushmenu', function()
-{
-	$('body.sidebar-collapse .main-sidebar').hover(
-		function()
-		{
-			$(this).addClass('hover');
-		}, function()
-		{
-			$(this).removeClass('hover');
-		}
-	);
-});
-
-
 function themeChanger(changeTo, save = false)
 {
 	if(changeTo=='dark')
