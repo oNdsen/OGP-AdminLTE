@@ -116,7 +116,7 @@ input:-webkit-autofill:active{
 	display: none;
 }
 
-body.sidebar-collapse .main-sidebar:not(.main-siderbar:hover) .text-truncate
+body.sidebar-collapse .main-sidebar:not(.hover) .text-truncate
 {
 	text-overflow: unset;
 }

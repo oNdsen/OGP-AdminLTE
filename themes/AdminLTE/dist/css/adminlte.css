@@ -14207,7 +14207,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
     display: none;
   }
   .sidebar-mini.sidebar-collapse .sidebar .nav-sidebar .nav-link p {
-    width: 0;
+    /* width: 0; */
     white-space: nowrap;
   }
   .sidebar-mini.sidebar-collapse .sidebar .user-panel > .info,
@@ -14270,7 +14270,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   .sidebar-mini.sidebar-collapse .main-sidebar:not(.sidebar-no-expand).sidebar-focused .sidebar .nav-sidebar .nav-link p,
   .sidebar-mini.sidebar-collapse .main-sidebar:not(.sidebar-no-expand).sidebar-focused .brand-text,
   .sidebar-mini.sidebar-collapse .main-sidebar:not(.sidebar-no-expand).sidebar-focused .logo-xl {
-    display: inline-block;
+    /* display: inline-block; */
     margin-left: 0;
     -webkit-animation-name: fadeIn;
     animation-name: fadeIn;
