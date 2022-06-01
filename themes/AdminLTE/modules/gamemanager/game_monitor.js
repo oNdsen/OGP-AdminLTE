@@ -27,6 +27,11 @@ $(document).ready(function()
 	
 	$('.serverIPAddress > a').append('<i class="fas fa-network-wired text-sm ml-1"></i>');
 	
+	$('.main .serverIPAddress[data-status="offline"]').each(function()
+	{
+		$(this).html('<span class="badge badge-danger">' + $(this).text() + '</span>');
+	});
+	
 	$('[id^="refreshed"]').addClass('row');
 	$('[id^="refreshed"] .monitor-1').addClass('col-md-10 d-flex');
 	$('[id^="refreshed"] .monitor-2').addClass('col-md-2');
