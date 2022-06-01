@@ -1310,6 +1310,7 @@ function setNavWidth(width)
 			}\
 			.brand-image {\
 				max-width: calc('+width+'px - 2rem) !important;\
+				max-height: 33px;\
 			}\
 			</style>\
 		');

@@ -71,6 +71,13 @@ $(document).ready(function()
 	// display current themeNavWidth
 	$('.currentNavWidth').text('Current Width: '+localStorage.getItem('themeNavWidth')+'px');
 	
+	// themeNavWidth slide
+	$(document).on('input', '#themeNavWidth', function()
+	{
+		// preview nav width
+		setNavWidth($(this).val());
+	});
+	
 	// themeNavWidth change
 	$('#themeNavWidth').change(function()
 	{
@@ -95,7 +102,7 @@ $(document).ready(function()
 				$('.currentNavWidth').text('Current Width: '+themeNavWidth+'px');
 				
 				// reset themeLogo tooltip message
-				$('#themeLogo').closest('tr').find('.image-tip').attr('title', langConsts['OGP_LANG_theme']+' Logo - Max Size: '+(themeNavWidth-32)+'x50px');
+				$('#themeLogo').closest('tr').find('.image-tip').attr('title', langConsts['OGP_LANG_theme']+' Logo - Max Size: '+(themeNavWidth-32)+' x 33px');
 				
 				toastr.success('Successfully changed '+langConsts['OGP_LANG_theme']+' Nav Width to ' + themeNavWidth + 'px');
 			}
