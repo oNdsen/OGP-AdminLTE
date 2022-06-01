@@ -316,14 +316,17 @@ function _NewFileUpload($filesField, $uploadName, $settingName, $systemSetting =
 			return json_encode($retArr);
 		}
 		
-		// check if file is an image
+		// define svg mime types
+		$svgMimeTypes = array('image/svg+xml', 'image/svg');
+		
+		// check if file is an image or a valid svg mime type
 		$isImage = getimagesize($filesField['tmp_name']);
-		if($isImage === false)
+		if($isImage === false && !in_array(mime_content_type($filesField['tmp_name']), $svgMimeTypes))
 		{
 			// file is not an image; break script
 			$retArr = array(
 				'code' => 'error',
-				'data' => 'Error: File is no Image',
+				'data' => 'Error: File is no Image ('.mime_content_type($filesField['tmp_name']).')',
 			);
 			return json_encode($retArr);
 		}

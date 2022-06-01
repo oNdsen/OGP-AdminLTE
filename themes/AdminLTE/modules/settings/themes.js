@@ -110,8 +110,8 @@ $(window).load(function()
 	$('input[type=file]#themeLogo').change(function()
 	{
 		$(this).simpleUpload('themes/AdminLTE/dist/php/settings.php?m=settings&p=fileUpload', {
-			allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
-			allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
+			allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif", "svg"],
+			allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif", "image/svg", "image/svg+xml"],
 			maxFileSize: 5242880, // 5mb in bytes
 			limit: 1,
 			start: function()
