@@ -1154,9 +1154,12 @@ $(window).load(function()
 	}
 	
 	/* *** End of JS - Check if .main is empty to remove Element *** */
-	if($('.main').html().trim().length==0)
+	if($('.main').length > 0)
 	{
-		$('.main').parent('.card').remove();
+		if($('.main').html().trim().length==0)
+		{
+			$('.main').parent('.card').remove();
+		}
 	}
 });
 
