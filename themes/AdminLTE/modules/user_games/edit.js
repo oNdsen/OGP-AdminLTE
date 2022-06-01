@@ -1,11 +1,13 @@
 $(document).ready(function()
 {
-	$('p > a').addClass('btn btn-primary btn-sm');
+	$('.main p > a').addClass('btn btn-primary btn-sm');
 
-	$('[name="change_user_id_main"]').removeClass('btn-primary').addClass('btn-warning');
-	$('[href*="&delete_ip&"]').addClass('btn btn-xs btn-danger');
+	$('.main [name="change_user_id_main"]').removeClass('btn-primary').addClass('btn-warning');
+	$('.main [href*="&delete_ip&"]').addClass('btn btn-xs btn-danger');
 
-	$('#mods').bind("DOMSubtreeModified",function()
+	$('.main form[action^="?m=user_games&p=edit&home_id="]').addClass('mb-1');
+
+	$('.main #mods').bind("DOMSubtreeModified",function()
 	{
 		$(this).find('table').addClass('table table-sm table-striped');
 		$(this).find('select').addClass('form-control');
@@ -15,5 +17,14 @@ $(document).ready(function()
 		$(this).find('.set_options').addClass('btn btn-sm btn-primary');
 		$(this).find('[type="submit"]').addClass('btn btn-sm btn-primary');
 		$(this).find('[id^="mod_cfg_id_"] > td').find('br').remove();
+		
+		$(this).find('[href$="&submit=delete_mod"]').each(function()
+		{
+			var thisValue = $(this).text();
+			if(thisValue.includes('['))
+			{
+				$(this).text(thisValue.replace('[','').replace(']','').trim());
+			}
+		});
 	});
 });
