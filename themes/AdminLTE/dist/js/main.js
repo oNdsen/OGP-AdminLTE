@@ -779,6 +779,14 @@ $(document).ready(function()
 				if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1)
 				{
 					var uri = window.location.href.substring(window.location.href.indexOf('home_id-mod_id-ip-port='));
+					
+					// check if uri contains other parameters
+					if(uri.includes('&'))
+					{
+						// cut uri before next parameter
+						uri = uri.substring(0, uri.lastIndexOf("&"));
+					}
+					
 					uri = 'href$="'+uri+'"';
 				}
 				// all servers by config
