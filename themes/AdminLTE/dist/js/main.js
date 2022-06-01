@@ -1277,6 +1277,7 @@ function setNavWidth(width)
 			<style id="themeNavWidth">\
 			.main-sidebar,\
 			.layout-navbar-fixed .wrapper .brand-link,\
+			.layout-navbar-fixed .wrapper .main-sidebar:hover .brand-link,\
 			.layout-fixed .brand-link {\
 				width: '+width+'px;\
 			}\
