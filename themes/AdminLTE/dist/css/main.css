@@ -195,7 +195,7 @@ pre {
 }
 
 .shortblink {
-	animation: blink 1s;
+	animation: blink 1s infinite;
 }
 @keyframes blink {
 	50% {
@@ -272,6 +272,10 @@ table.tablesorter thead tr .tablesorter-headerDesc {
 }
 .light-mode .magnificTitle {
 	background-color: var(--gray);
+}
+
+.ui-dialog .ui-dialog-content {
+	min-height: 60px !important;
 }
 
 
