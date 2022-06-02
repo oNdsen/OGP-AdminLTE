@@ -920,6 +920,10 @@ $(document).ready(function()
 		$('.main-footer .OGPVersionArea').addClass('d-none');
 		$('.main-footer a').attr('target', '_blank').addClass('text-dark');
 		$('.main-footer .footer').html($('.main-footer .footer').html().replace("Theme - ", "Theme for OGP by <a href='https://www.ondsen.ch' target='_blank' class='text-dark'>oNdsen</a> - "))
+		$('.main-footer .footer.center').removeClass('center');
+		$('.main-footer .OGPVersionArea .version').remove()
+		$('.main-footer .OGPVersionArea').removeClass('inline-block').addClass('d-inline-block');
+		$('.main-footer .footer > br').last().remove()
 	}
 	
 	
@@ -1128,11 +1132,20 @@ $(window).load(function()
 	{
 		$(this).remove();
 	}
-	$('.footer.center').removeClass('center');
 	
 	$('.main-footer .versionInfo').click(function()
 	{
 		$('.OGPVersionArea, .OGPVersionArea .version, .OGPVersionArea .versionNumber').removeClass('d-none').removeClass('hide');
+		
+		// add blink class to versionNumber
+		$('.OGPVersionArea .versionNumber').addClass('shortblink');
+		// remove after 4 seconds
+		setTimeout(function(){
+			$('.OGPVersionArea .versionNumber').removeClass('shortblink');
+		}, 4000);
+		
+		var copy = copyToClipboard($('.OGPVersionArea .versionNumber'));
+		toastr.info('"' + copy + '" ' + $('.OGPVersionArea .copyVersionResult').attr('lang'));
 	});
 	
 	// circular notifications
@@ -1330,4 +1343,18 @@ function setNavWidth(width)
 			</style>\
 		');
 	}
+}
+
+function copyToClipboard(node)
+{
+	var elementText = $(node).text().replace(/\s/g, "");
+	
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(elementText).select();
+    document.execCommand("copy");
+    $temp.remove();
+	
+	return elementText;
+
 }
