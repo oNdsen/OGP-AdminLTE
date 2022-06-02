@@ -74,8 +74,11 @@ $(document).ready(function()
 	// themeNavWidth slide
 	$(document).on('input', '#themeNavWidth', function()
 	{
-		// preview nav width
+		// call setNavWidth function from main.js
 		setNavWidth($(this).val());
+		
+		// change currentNavWidth text
+		$('.currentNavWidth').text('Current Width: ' + $(this).val() + 'px');
 	});
 	
 	// themeNavWidth change
@@ -175,9 +178,9 @@ function addThemeRemoval(themeLogo)
 {
 	var d = new Date();
 	$('.main #themeLogo').parents('.form-group').after('\
-		<div class="themeLogoRemoval mt-1">\
+		<div class="themeLogoRemoval my-2">\
 			<img src="' + themeLogo + '?t=' + d.getTime() + '" class="brand-image">\
-			<a class="btn btn-sm btn-danger ml-1" id="removeThemeLogo">\
+			<a class="btn btn-xs btn-danger m-1" id="removeThemeLogo">\
 				<i class="fas fa-trash-alt mr-1"></i>Remove ' + langConsts['OGP_LANG_theme'] + ' Logo\
 			</a>\
 		</div>\
