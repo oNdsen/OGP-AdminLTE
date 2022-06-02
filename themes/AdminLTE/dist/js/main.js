@@ -157,6 +157,9 @@ $(document).ready(function()
 		// login form mod
 		if($('form[name="login_form"]').length > 0)
 		{
+			// clear possible storage vars
+			clearLocalStorageItems();
+		
 			$('select[name=lang]').addClass('form-control');
 
 			var title = $('.main h4').text();
@@ -1018,13 +1021,6 @@ $(document).ready(function()
 	}
 	
 	
-	$('[href="?logout=true"]').click(function()
-	{
-		// remove theme cookie on logout
-		Cookies.remove('theme')
-	});
-	
-	
 	/* *** Avatar Upload *** */
 	$('input[type=file]#userAvatar').change(function()
 	{
@@ -1364,5 +1360,16 @@ function copyToClipboard(node)
     $temp.remove();
 	
 	return elementText;
+}
 
+function clearLocalStorageItems()
+{
+	// loop trough all localStorage Items
+	Object.keys(localStorage).forEach(function(key)
+	{
+		// remove item
+		localStorage.removeItem(key);
+		
+		// console.log('Removed localStorage Item: ' + key)
+	});
 }
