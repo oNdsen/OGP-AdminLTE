@@ -2,17 +2,22 @@ $(document).ready(function()
 {
 	//remove main card
 	$('.main').removeClass('card-body').parent('.card').removeClass('card');
+	
+	// add new row
+	$('.main').append('<div class="row"></div>');
 
-	$('.dragbox-content').html(function(index, text) {
+	// remove all minus
+	$('.main .dragbox-content').html(function(index, text)
+	{
 		return text.replace(/\ - /g, '');
 	});
 
-	$('[href^="#uninstall_"]').addClass('btn btn-danger btn-xs').removeAttr('style').prepend('<i class="fas fa-ban mr-1"></i>');
-	$('[href^="#remove_"]').addClass('btn btn-danger btn-xs').removeAttr('style').prepend('<i class="fas fa-trash-alt mr-1"></i>');
-	$('[href^="#install_"]').addClass('btn btn-success btn-xs').removeAttr('style').removeAttr('href').prepend('<i class="fas fa-plus-square mr-1"></i>');
-	$('[href^="?m=extras&searchForUpdates="]').addClass('btn btn-primary btn-xs').removeAttr('style').prepend('<i class="fas fa-globe-americas mr-1"></i>');
+	$('.main [href^="#uninstall_"]').addClass('btn btn-danger btn-xs order-9').removeAttr('style').prepend('<i class="fas fa-upload mr-1"></i>');
+	$('.main [href^="#remove_"]').addClass('btn btn-danger btn-xs order-9').removeAttr('style').prepend('<i class="fas fa-trash-alt mr-1"></i>');
+	$('.main [href^="#install_"]').addClass('btn btn-success btn-xs order-9').removeAttr('style').removeAttr('href').prepend('<i class="fas fa-download mr-1"></i>');
+	$('.main [href^="?m=extras&searchForUpdates="]').addClass('btn btn-primary btn-xs order-9').removeAttr('style').prepend('<i class="fas fa-search mr-1"></i>');
 
-	$('.dragbox-content').each(function()
+	$('.main .dragbox-content').each(function()
 	{
 		var form_selector = $(this);
 		$(form_selector).prepend('<br>');
@@ -26,23 +31,22 @@ $(document).ready(function()
 					nxt = nxt.nextSibling;
 				} else break;
 			}
-			$set.wrapAll('<tr><td></td></tr>');
+			$set.wrapAll('<tr><td class="d-flex"></td></tr>');
 		});
 		$(form_selector.find('br')).remove();
 		$(form_selector.find('tr')).wrapAll('<table class="table table-sm table-striped" />');
 	});
 
-    $('b[style*="green"]').addClass('badge').addClass('badge-success').css("color", "");
-    $('b[style*="red"]').addClass('badge').addClass('badge-danger').css("color", "");
-	$('b[style*="orange"]').addClass('badge').addClass('badge-warning').css("color", "");
+    $('.main b[style*="green"]').addClass('badge badge-success').prepend('<i class="fas fa-check-circle mr-1"></i>');
+    $('.main b[style*="red"]').addClass('badge badge-secondary');
+	$('.main b[style*="orange"]').addClass('badge badge-warning').prepend('<i class="fas fa-exclamation-circle mr-1"></i>');
+	$('.main b[style]').removeAttr('style').wrap('<span class="order-1"></span>');
 
-	$('.search').click(function(){
+	$('.main .search').click(function(){
 		$(this).replaceWith('<a class="search btn btn-primary btn-xs" href="'+$(this).attr('href')+'" disabled>'+$(this).text()+' <i class="fa fa-refresh fa-spin fa-fw" aria-hidden="true"></i></a>');
 	});
 	
-	$('.main').append('<div class="row"></div>');
-	
-	$('.dragbox').each(function()
+	$('.main .dragbox').each(function()
 	{
 		var boxTitle = $(this).find('h4').text();
 		var boxContent = $(this).find('.dragbox-content').html();
@@ -61,18 +65,45 @@ $(document).ready(function()
 		");
 	});
 	
+	
+	// add buttons below each table
 	var btnText = $('button[name="update"]').text();
-	$('.main > .row').append("\
-	<div class='col-12'>\
-		<div class='card'>\
-			<div class='card-body' id='updateButton'>\
-				<button name='update' class='btn btn-sm btn-primary'><i class='fas fa-cloud-download-alt mr-1'></i>" + btnText + "</button>\
-			</div>\
+	$('.main .card-body').each(function()
+	{
+		$(this).append("\
+		<div id='updateButton' class='ml-3 mb-3'>\
+			<button name='update' class='btn btn-sm btn-primary'><i class='fas fa-download mr-1'></i>" + btnText + "</button>\
 		</div>\
-	</div>\
-	");
+		");
+	});
 	
 	$('.main > table').remove();
+	
+	// replace checkboxes
+	$('.main [type="checkbox"]').each(function()
+	{
+		var checkboxName = $(this).attr('name');
+		var checkboxValue = $(this).attr('value');
+		var checkboxDisabled = $(this).attr('disabled');
+		var checkboxText = $(this).next('b').text();
+		
+		// remove old text
+		$(this).next('b').remove();
+		
+		var disabledAttr = '';
+		if($(this).is(':disabled'))
+		{
+			disabledAttr = ' disabled="disabled"'
+		}
+		
+		$(this).replaceWith('\
+		<div class="custom-control custom-checkbox d-inline-block mr-auto">\
+			<input class="custom-control-input" type="checkbox" id="' + checkboxName + '_' + checkboxValue + '" name="' + checkboxName + '" value="' + checkboxValue + '"' + disabledAttr + '>\
+			<label for="' + checkboxName + '_' + checkboxValue + '" class="custom-control-label">' + checkboxText + '</label>\
+		</div>\
+		');
+	});
+
 });
 
 
