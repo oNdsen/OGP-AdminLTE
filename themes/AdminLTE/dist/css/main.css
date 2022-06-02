@@ -21,7 +21,7 @@
 
 @media (min-width: 768px) {
 	body {
-		padding-bottom: 40px;
+		padding-bottom: 25px;
 	}
 }
 
@@ -192,6 +192,15 @@ pre {
 }
 .loading {
 	content: "Loading..." !important;
+}
+
+.shortblink {
+	animation: blink 1s;
+}
+@keyframes blink {
+	50% {
+		opacity: 0.3;
+	}
 }
 
 .dark-mode .white-popup {
