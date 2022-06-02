@@ -1308,11 +1308,19 @@ function setNavWidth(width)
 					margin-left: 0;\
 				}\
 			}\
+			@media (min-width: 992px) {\
+				.sidebar-mini.sidebar-collapse .main-sidebar:not(.sidebar-no-expand):hover,\
+				.sidebar-mini.sidebar-collapse .main-sidebar:not(.sidebar-no-expand).sidebar-focused,\
+				.sidebar-mini.sidebar-collapse.layout-fixed .main-sidebar:hover .brand-link {\
+					width: '+width+'px;\
+				}\
+			}\
 			.sidebar-collapse .main-sidebar,\
 			.sidebar-collapse .main-sidebar::before {\
 				margin-left: -'+width+'px;\
 			}\
-			.sidebar-mini:not(.sidebar-collapse) .main-sidebar .nav-link {\
+			.sidebar-mini:not(.sidebar-collapse) .main-sidebar .nav-link,\
+			.sidebar-mini.sidebar-collapse .main-sidebar:hover .nav-child-indent .nav-link {\
 				width: calc('+width+'px - 0.5rem * 2);\
 			}\
 			.sidebar-mini:not(.sidebar-collapse) .main-sidebar .nav-child-indent .nav-treeview .nav-link {\
