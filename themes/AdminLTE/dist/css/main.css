@@ -19,6 +19,11 @@
 	background: transparent;
 }
 
+@media (min-width: 768px) {
+	body {
+		padding-bottom: 40px;
+	}
+}
 
 .dark-mode::-webkit-scrollbar-thumb,
 .dark-mode *::-webkit-scrollbar-thumb {
