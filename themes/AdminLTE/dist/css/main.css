@@ -388,7 +388,7 @@ table.tablesorter thead tr .tablesorter-headerDesc {
 .monitorbutton.size:before { content: "\f07c"; }
 .monitorbutton.getAutoUpdateLink:before { content: "\f0c1"; }
 .monitorButtonContainer [href^="?m=gamemanager&p=rsync_install"]:before { content: "\f381"; }
-.administration-table [href^="?m=administration&p=iframe&external_link="]:before { content: "\f0c1"; }
+.administration-table.externalLinks a:before { content: "\f0c1"; }
 .nav-sidebar [href^="?m=tickets"] > .nav-icon:before,
 .administration-table [href^="?m=tickets"]:before { content: "\f4c4"; }
 .monitorButtonContainer [href^="?m=editconfigfiles"]:before { content: "\f1c9"; }
