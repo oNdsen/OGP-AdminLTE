@@ -34,13 +34,13 @@ $(document).ready(function()
 			$set.wrapAll('<tr><td class="d-flex"></td></tr>');
 		});
 		$(form_selector.find('br')).remove();
-		$(form_selector.find('tr')).wrapAll('<table class="table table-sm table-striped" />');
+		$(form_selector.find('tr')).wrapAll('<table class="table table-sm table-striped mb-1" />');
 	});
 
     $('.main b[style*="green"]').addClass('badge badge-success').prepend('<i class="fas fa-check-circle mr-1"></i>');
     $('.main b[style*="red"]').addClass('badge badge-secondary');
 	$('.main b[style*="orange"]').addClass('badge badge-warning').prepend('<i class="fas fa-exclamation-circle mr-1"></i>');
-	$('.main b[style]').removeAttr('style').wrap('<span class="order-1"></span>');
+	$('.main b[style]').removeAttr('style').wrap('<span class="order-1" />');
 
 	$('.main .search').click(function(){
 		$(this).replaceWith('<a class="search btn btn-primary btn-xs" href="'+$(this).attr('href')+'" disabled>'+$(this).text()+' <i class="fa fa-refresh fa-spin fa-fw" aria-hidden="true"></i></a>');
@@ -53,7 +53,7 @@ $(document).ready(function()
 		
 		$('.main > .row').append("\
 		<div class='col-md-6 col-12'>\
-			<div class='card'>\
+			<div class='card extra'>\
 				<div class='card-header'>\
 					<h3 class='card-title'>" + boxTitle + "</h3>\
 				</div>\
@@ -71,7 +71,7 @@ $(document).ready(function()
 	$('.main .card-body').each(function()
 	{
 		$(this).append("\
-		<div id='updateButton' class='ml-3 mb-3'>\
+		<div id='updateButton' class='ml-3 mb-3 mt-1'>\
 			<button name='update' class='btn btn-sm btn-primary'><i class='fas fa-download mr-1'></i>" + btnText + "</button>\
 		</div>\
 		");
@@ -104,6 +104,11 @@ $(document).ready(function()
 		');
 	});
 
+	// wrap all links/buttons
+	$('.main .extra a').each(function()
+	{
+		$(this).wrap('<span class="order-2" />');
+	});
 });
 
 
