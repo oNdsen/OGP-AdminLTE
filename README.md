@@ -1,8 +1,6 @@
 # OGP-AdminLTE
 AdminLTE Theme adapted for OpenGamePanel
 
-## This Theme is in Beta Status!
-
 ### Features
 - [x] Installs a Theme Database for User specific Theme Settings
 - [x] Responsive
@@ -13,7 +11,6 @@ AdminLTE Theme adapted for OpenGamePanel
 - [x] User specific Avatars (will also load other User Avatars if needed)
 - [x] Maintenance Notification on Login Screen
 - [x] Custom Logo Upload
-- [ ] Text instead of Logo Switcher
 
 ### Images
 ![This is an image](../main/adminlte_dark.png)
