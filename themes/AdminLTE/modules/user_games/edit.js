@@ -27,4 +27,7 @@ $(document).ready(function()
 			}
 		});
 	});
+	
+	$('.main td.right').attr('rowspan', 2);
+	$('.main td.info').addClass('text-sm text-muted').css('border-top', 'none');
 });

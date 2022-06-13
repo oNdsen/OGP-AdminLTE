@@ -20,7 +20,3 @@ td.left input {
 td.right {
     font-weight: bold;
 }
-
-td.info {
-    color: var(--info);
-}
