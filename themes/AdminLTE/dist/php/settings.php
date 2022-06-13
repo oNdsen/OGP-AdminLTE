@@ -135,8 +135,7 @@ if(isset($_GET['m']))
 				
 				if(empty($themeNavWidth))
 				{
-					echo 250;
-					exit();
+					$themeNavWidth = 250;
 				}
 				
 				header("Content-Type: application/json");
@@ -280,10 +279,11 @@ if(isset($_GET['m']))
 				}
 				elseif($_GET['p']=='themeNavWidth')
 				{
-					if(isset($_GET['v']) && is_numeric($_GET['v']) && $_GET['v']>250 && $_GET['v']<=350)
+					if(isset($_GET['v']) && is_numeric($_GET['v']) && $_GET['v']>=250 && $_GET['v']<=350)
 					{
 						// save new width
 						$setSetting = $ThemeDB->setSetting('themeNavWidth', $_GET['v'], -1);
+						
 						echo $_GET['v'];
 						exit;
 					}else

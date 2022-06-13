@@ -70,15 +70,22 @@ class ThemeDB
 				$stmt = $this->link->prepare($query);
 				$stmt->execute();
 				
-				$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				
-				if(count($data)>=1)
+				if(strpos($query, 'SELECT') !== false)
 				{
-					return $data;
+					$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+					
+					if(count($data)>=1)
+					{
+						return $data;
+					}
+					else
+					{
+						return false;
+					}
 				}
 				else
 				{
-					return false;
+					return true;
 				}
 			}
 			catch(PDOException $e)
@@ -101,12 +108,19 @@ class ThemeDB
 				}
 				else
 				{
-					$output = array();
-					while($row = $result->fetch_assoc())
+					if(strpos($query, 'SELECT') !== false)
 					{
-						$output[] = $row;
+						$output = array();
+						while($row = $result->fetch_assoc())
+						{
+							$output[] = $row;
+						}
+						return $output;
 					}
-					return $output;
+					else
+					{
+						return true;
+					}
 				}
 			}
 		}
