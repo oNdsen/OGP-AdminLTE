@@ -1,13 +1,41 @@
-form[action="home.php"] {
-	float: right;
+@media only screen and (min-width: 500px) {
+	.main > form[action="home.php"] {
+		float: right;
+	}
+	
+	.main > form[action="home.php"] .form-control {
+		display: inline-block;
+	}
+	
+	.main select.form-control {
+		width: auto;
+		display: inline;
+	}
+	
+	.main > form[action="home.php"] .form-control,
+	.main > form[method="GET"] .form-control {
+		width: auto !important;
+	}
 }
-form[action="home.php"] .form-control {
-	display: inline-block;
+
+@media only screen and (max-width: 499px) {
+	.main > form[method="GET"]:not(form[method="GET"]:last-of-type) {
+		overflow: auto;
+	}
+	
+	.main > form:last-of-type,
+	.main > form .btn,
+	.serverIdToggle {
+		display: block;
+		width: 100%;
+	}
+	
+	.serverIdToggle,
+	.main > form[action="home.php"]	{
+		margin-bottom: 0.5rem !important;
+	}
 }
-form[action="home.php"] .form-control,
-form[method="GET"] .form-control {
-    width: auto !important;
-}
+
 
 .form-control {
 	margin-bottom: 4px;
@@ -222,10 +250,6 @@ tr.maintr td:last-child {
 	color: #fff !important;
 }
 
-.main select.form-control {
-	width: auto;
-	display: inline;
-}
 .table-responsive {
 	clear: both;
 }
