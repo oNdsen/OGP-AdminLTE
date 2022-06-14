@@ -18,7 +18,7 @@ $(document).ready(function()
 			var main_css = '<link rel="stylesheet" type="text/css" href="../../themes/AdminLTE/dist/css/main.css">';
 			var ftp_css = '<link rel="stylesheet" type="text/css" href="../../themes/AdminLTE/modules/ftp/main.css">';
 			var fa_css = '<link rel="stylesheet" type="text/css" href="../../themes/AdminLTE/plugins/fontawesome-free/css/all.min.css">';
-			var bs = '<link rel="stylesheet" href="../../themes/AdminLTE/dist/css/adminlte.min.css">';
+			var bs = '<link rel="stylesheet" href="../../themes/AdminLTE/dist/css/adminlte.css">';
 			var js = '<link rel="stylesheet" href="../../themes/AdminLTE/dist/js/main.js">';
 			
 			$(this).contents().find("head").append(bs);
