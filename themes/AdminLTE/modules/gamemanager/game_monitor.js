@@ -23,6 +23,12 @@ $(document).ready(function()
 	$('img[id="action-restart"]').replaceWith('<i class="fas fa-arrow-alt-circle-left text-warning text-sm" id="action-restart"></i>');
 	$('img[id="action-start"]').replaceWith('<i class="fas fa-play-circle text-success text-sm" id="action-start"></i>');
 	
+	// bulk update buttons
+	$('.main .tablesorter-header-inner > [id^="action-"]').click(function()
+	{
+		$('div[class^="' + $(this).attr('id') + '"]').trigger('click');
+	});
+	
 	$('.monitorbutton').addClass('btn btn-primary d-flex flex-column justify-content-center align-items-center');
 	
 	$('.serverIPAddress > a').append('<i class="fas fa-network-wired text-sm ml-1"></i>');
