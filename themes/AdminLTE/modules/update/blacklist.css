@@ -1,4 +1,7 @@
-i.fa.fa-folder-open {
+.main i.fa.fa-folder-open {
 	color: #ffe699;
 }
 
+.main .table tr > td:first-of-type {
+    width: 3rem;
+}
