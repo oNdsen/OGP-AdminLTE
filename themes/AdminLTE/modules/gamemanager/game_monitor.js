@@ -1,10 +1,12 @@
 $(document).ready(function()
 {
+	// add additional classes to main for ogp scripts
 	$('.main').addClass('main-content game-monitor');
 	
 	// responsive table
 	$('#servermonitor').wrap('<div class="table-responsive"></div>');
 	
+	// add loading class on size click
 	$('.monitorbutton.size').click(function()
 	{
 		$(this).addClass('loading');
@@ -14,25 +16,25 @@ $(document).ready(function()
 		});
 	});
 	
-	$('#server_icon[class^="action-start"]').addClass('btn btn-sm btn-success');
-	$('#server_icon[class^="action-stop"]').addClass('btn btn-sm btn-danger');
-	$('#server_icon[class^="action-restart"]').addClass('btn btn-sm btn-warning');
-	
 	// table header icons
 	$('img[id="action-stop"]').replaceWith('<i class="fas fa-stop-circle text-danger text-sm" id="action-stop"></i>');
 	$('img[id="action-restart"]').replaceWith('<i class="fas fa-arrow-alt-circle-left text-warning text-sm" id="action-restart"></i>');
 	$('img[id="action-start"]').replaceWith('<i class="fas fa-play-circle text-success text-sm" id="action-start"></i>');
 	
 	// bulk update buttons
+	$('#server_icon[class^="action-start"]').addClass('btn btn-sm btn-success');
+	$('#server_icon[class^="action-stop"]').addClass('btn btn-sm btn-danger');
+	$('#server_icon[class^="action-restart"]').addClass('btn btn-sm btn-warning');
 	$('.main .tablesorter-header-inner > [id^="action-"]').click(function()
 	{
 		$('div[class^="' + $(this).attr('id') + '"]').trigger('click');
 	});
 	
-	$('.monitorbutton').addClass('btn btn-primary d-flex flex-column justify-content-center align-items-center');
+	// style monitorbuttons
+	$('.main .monitorbutton').addClass('btn btn-primary d-flex flex-column justify-content-center align-items-center');
 	
-	$('.serverIPAddress > a').append('<i class="fas fa-network-wired text-sm ml-1"></i>');
-	
+	// ip's add badge
+	$('.main .serverIPAddress[data-status="online"] > a').addClass('badge badge-success');
 	$('.main .serverIPAddress[data-status="offline"]').each(function()
 	{
 		$(this).html('<span class="badge badge-danger">' + $(this).text() + '</span>');
@@ -120,6 +122,19 @@ $(document).ready(function()
 
 $(window).load(function()
 {
+	// add loader icon to collapsed servers
+	$('.main .serverIPAddress[data-status="online"]').parent('tr').next('.expand-child').find('td').each(function()
+	{
+		if($(this).css('display')=='none')
+		{
+			$(this).find('[id^="refreshed-"]').html('\
+				<div class="spinner-grow spinner-grow-sm m-3" role="status">\
+					<span class="sr-only">Loading...</span>\
+				</div>\
+			');
+		}
+	});
+	
 	$('#server_icon.btn').click(function()
 	{
 		$(this).find('[type="radio"]').prop("checked", true);
