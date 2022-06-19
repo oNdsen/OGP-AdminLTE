@@ -1030,7 +1030,6 @@ $(document).ready(function()
 			async: true,
 			type: 'GET',
 			url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=themeServerstats',
-			dataType: 'json',
 			success: function(themeServerstats)
 			{
 				// create themeServerstats cache

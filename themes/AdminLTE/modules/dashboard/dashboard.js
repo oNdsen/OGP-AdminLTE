@@ -575,6 +575,11 @@ function animateProgressBars()
 			{
 				$('.onlineServers').attr('data-init', 'load');
 				
+				if($('#item2 .onlineServers > p').length>0)
+				{
+					$('#item2 .onlineServers > p').addClass('px-2');
+				}
+				
 				var loading = '\
 				<div class="listServers">\
 					<div class="d-flex justify-content-center w-100 m-1 serverLoading">\
@@ -585,7 +590,13 @@ function animateProgressBars()
 				</div>';
 				
 				// add loader
-				$('.onlineServers').prepend(loading);
+				if($('#item2 .onlineServers > b').length>0)
+				{
+					$('#item2 .onlineServers > b').replaceWith(loading);
+				}else
+				{
+					$('.onlineServers').prepend(loading);
+				}
 				
 				// initial load serverlist
 				loadServerList();
