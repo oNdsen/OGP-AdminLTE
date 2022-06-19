@@ -135,10 +135,18 @@ $(window).load(function()
 		}
 	});
 	
+	// loading fix when click on ServerID (nothing is loading then)
+	$('.serverId').click(function()
+	{
+		$(this).parent('tr').find('.serverName').trigger('click');
+	});
+	
+	// global buttons radio fix
 	$('#server_icon.btn').click(function()
 	{
 		$(this).find('[type="radio"]').prop("checked", true);
 	});
 	
+	// remvoe foot style
 	$('tfoot').removeAttr('style');
 });
