@@ -537,15 +537,89 @@ function animateProgressBars()
 	$('img[src$="magnifglass.png"]').replaceWith('<i class="fas fa-search mr-2"></i>');
 	
 	// online servers
-	$('.online_servers [id^=refreshed]').each(function()
-	{
-		var thisLink = $(this).find('.name').find('a').attr('href');
-		$(this).addClass('btn btn-sm btn-primary').attr('onclick', 'location.href=\''+thisLink+'\'');
-	});
-	
 	$('#item2 .card-body > br').remove();
 	$('#item2 .card-body > center br').replaceWith('&nbsp;');
 	$('.currently-online').addClass('table table-striped table-sm');
 	$('.currently-online td').removeAttr('style');
 	$('.currently-online > tr:first-of-type > td').replaceWith('<th>'+$('.currently-online > tr:first-of-type td').text()+'</th>');
+	
+	if(localStorage.getItem('themeServerstats')=='remove')
+	{
+		$('.online_servers [id^=refreshed]').each(function()
+		{
+			var thisLink = $(this).find('.name').find('a').attr('href');
+			$(this).addClass('btn btn-sm btn-primary').attr('onclick', 'location.href=\''+thisLink+'\'');
+		});
+	}else
+	{
+		if($('#item2 .card-body').length>0)
+		{
+			if(!$('#item2 .card-body').hasClass('onlineServers'))
+			{
+				$('#item2 .card-body').addClass('onlineServers p-2');
+			}
+			
+			// get server satistics, update title and remove statisctic
+			if($('#item2 .card-body').find('center').length>0)
+			{
+				var serverStats = $('#item2 .card-body').find('center').text();
+				const serversRegex = /(\d*?)\/(\d*?) Servers/m;
+				if(serversRegex.test(serverStats))
+				{
+					$('#item2 .card-title').append(' (' + serverStats.match(serversRegex)[1] + '/' + serverStats.match(serversRegex)[2] + ' ' + langConsts['OGP_LANG_server'] + ')');
+					$('#item2 .card-body').find('center').remove();
+				}
+			}
+			
+			if($('.onlineServers').data('init')===undefined)
+			{
+				$('.onlineServers').attr('data-init', 'load');
+				
+				var loading = '\
+				<div class="listServers">\
+					<div class="d-flex justify-content-center w-100 m-1 serverLoading">\
+						<div class="spinner-grow spinner-grow-sm" role="status">\
+							<span class="sr-only">Loading...</span>\
+						</div>\
+					</div>\
+				</div>';
+				
+				// add loader
+				$('.onlineServers').prepend(loading);
+				
+				// initial load serverlist
+				loadServerList();
+				
+				// setInterval for ServerList Refresh
+				setInterval(function()
+				{
+					loadServerList();
+				}, 60000);
+			}
+		}
+		
+		if($('table.online_servers').length>0)
+		{
+			// remove old table
+			$('table.online_servers').remove();
+			
+		}
+	}
+}
+
+
+function loadServerList()
+{
+	// initial load serverlist
+	$.ajax({
+		cache: false,
+		async: true,
+		type: 'GET',
+		url: 'themes/AdminLTE/dist/php/settings.php?m=dashboard&p=listservers',
+		success: function(html)
+		{
+			// update server boxes
+			$('.listServers').html(html);
+		}
+	});
 }

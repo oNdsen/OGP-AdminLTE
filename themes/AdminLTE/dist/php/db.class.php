@@ -3,11 +3,19 @@
 class ThemeDB
 {
 	protected $link;
-	public $settingsTable = false;
+	
+	public $settingsTable, $serverStatsTable;
+	private $absolutePath = "../../../..";
+	
+	public function __construct()
+	{
+		$this->settingsTable = $this->tablePrefix().'adminlte_settings';
+		$this->serverStatsTable = $this->tablePrefix().'adminlte_serverstats';
+	}
 	
 	public function tablePrefix()
 	{
-		require("../../../../includes/config.inc.php");
+		include($this->absolutePath."/includes/config.inc.php");
 		
 		return $table_prefix;
 	}
@@ -31,7 +39,7 @@ class ThemeDB
 	
 	private function connect()
 	{
-		require("../../../../includes/config.inc.php");
+		include($this->absolutePath."/includes/config.inc.php");
 		
 		if($this->getConnType()=='pdo')
 		{
@@ -60,7 +68,7 @@ class ThemeDB
 		}
 	}
 	
-	public function query($query)
+	public function query($query, $returnData = true)
 	{
 		$this->connect();
 		
@@ -70,22 +78,9 @@ class ThemeDB
 				$stmt = $this->link->prepare($query);
 				$stmt->execute();
 				
-				if(strpos($query, 'SELECT') !== false)
+				if($returnData)
 				{
-					$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-					
-					if(count($data)>=1)
-					{
-						return $data;
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					return true;
+					$output = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				}
 			}
 			catch(PDOException $e)
@@ -108,21 +103,29 @@ class ThemeDB
 				}
 				else
 				{
-					if(strpos($query, 'SELECT') !== false)
+					$output = array();
+					while($row = $result->fetch_assoc())
 					{
-						$output = array();
-						while($row = $result->fetch_assoc())
-						{
-							$output[] = $row;
-						}
-						return $output;
-					}
-					else
-					{
-						return true;
+						$output[] = $row;
 					}
 				}
 			}
+		}
+		
+		if($returnData)
+		{
+			if(count($output)>=1)
+			{
+				return $output;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
 		}
 	}
 	

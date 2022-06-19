@@ -1021,6 +1021,25 @@ $(document).ready(function()
 	}
 	
 	
+	/* *** Get themeServerstats Setting *** */
+	if(!localStorage.getItem('themeServerstats'))
+	{
+		// load themeServerstats settings from db
+		$.ajax({
+			cache: false,
+			async: true,
+			type: 'GET',
+			url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=themeServerstats',
+			dataType: 'json',
+			success: function(themeServerstats)
+			{
+				// create themeServerstats cache
+				localStorage.setItem('themeServerstats', themeServerstats);
+			}
+		});
+	}
+	
+	
 	/* *** Avatar Upload *** */
 	$('input[type=file]#userAvatar').change(function()
 	{

@@ -27,7 +27,7 @@ $(document).ready(function()
 			<div class="image-tip" data-toggle="tooltip" data-html="true" title="Sets '+langConsts['OGP_LANG_theme']+' Navigation Width for all Users"><i class="far fa-question-circle"></i></div>\
 		</td>\
 	</tr>\
-	');	
+	');
 	
 	// add logo upload form
 	$('.main #theme').parents('tr').after('\
@@ -67,6 +67,39 @@ $(document).ready(function()
 			}
 		}
 	});
+	
+	// add theme serverstats option
+	var themeServerstatsOptions = {'remove' : langConsts['OGP_LANG_off'], 'activate' : langConsts['OGP_LANG_on']}
+	var themeServerstatsOptionsOut = ''
+	for(var key in themeServerstatsOptions)
+	{
+		if(key==localStorage.getItem('themeServerstats'))
+		{
+			themeServerstatsOptionsOut += '<option value="'+key+'" selected>'+themeServerstatsOptions[key]+'</option>';
+		}else
+		{
+			themeServerstatsOptionsOut += '<option value="'+key+'">'+themeServerstatsOptions[key]+'</option>';
+		}
+	}
+	$('.main #theme').parents('tr').after('\
+	<tr>\
+		<td align="right">\
+			<label for="themeServerstats" class="mb-0">Server Player Stats:</label>\
+			<small class="text-muted d-block">Displays custom Server Boxes on Dashboard</small>\
+		</td>\
+		<td align="left">\
+			<div class="form-group mb-0">\
+				<select id="themeServerstats" name="themeServerstats" class="form-control">\
+					' + themeServerstatsOptionsOut + '\
+				</select>\
+			</div>\
+		</td>\
+		<td>\
+			<div class="image-tip" data-toggle="tooltip" data-html="true" title="Activates user stats for each server, also installs a running cronjob on first server (1/5min check each server)"><i class="far fa-question-circle"></i></div>\
+		</td>\
+	</tr>\
+	');
+	
 	
 	// display current themeNavWidth
 	$('.currentNavWidth').text('Current Width: '+localStorage.getItem('themeNavWidth')+'px');
@@ -109,6 +142,42 @@ $(document).ready(function()
 				
 				toastr.success('Successfully changed '+langConsts['OGP_LANG_theme']+' Nav Width to ' + themeNavWidth + 'px');
 			}
+		});
+	});
+	
+	// themeServerstats change
+	$('#themeServerstats').change(function()
+	{
+		// disable form button
+		$('[name="update_settings"]').attr('disabled', 'disabled');
+		
+		// message
+		toastr.info('themeServerstats change initiated');
+		
+		var themeServerstatsVal = $(this).val();
+		
+		// console.log('themes/AdminLTE/dist/php/settings.php?m=settings&p=themeServerstats&v='+$(this).val());
+		$.ajax({
+			cache: false,
+			async: true,
+			type: 'GET',
+			url: 'themes/AdminLTE/dist/php/settings.php?m=settings&p=themeServerstats&v=' + themeServerstatsVal,
+			success: function(html)
+			{
+				// message
+				toastr.success('Successfully ' + themeServerstatsVal + 'd themeServerstats');
+				
+				// set localStorage cache
+				localStorage.setItem('themeServerstats', themeServerstatsVal);
+			},
+			error: function(error)
+			{
+				toastr.error('Error: ' + error);
+			}	
+		}).done(function()
+		{
+			// enable form button
+			$('[name="update_settings"]').removeAttr('disabled');
 		});
 	});
 });

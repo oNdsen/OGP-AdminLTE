@@ -40,3 +40,18 @@
 .online_servers #gamelink {
 	display: inline-block;
 }
+
+@media (max-width: 500px) {
+	.serverstatus .info-box-icon {
+		display: none;
+	}
+}
+
+.serverstatus .server-infos > div {
+	line-height: 1.2rem;
+}
+
+.serverstatus .server-name {
+    font-weight: bold;
+	margin-bottom: 0.3rem;
+}

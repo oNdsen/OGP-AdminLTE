@@ -1,13 +1,14 @@
 <?php
 include("../../../../includes/helpers.php");
-include("db.class.php");
+include("./db.class.php");
+include("./theme.class.php");
 
 // start ogp session
 startSession();
 
-// initialize dbclass
+// initialize classes
 $ThemeDB = new ThemeDB;
-$ThemeDB->settingsTable = $ThemeDB->tablePrefix().'adminlte_settings';
+$Theme = new Theme;
 
 // declarations
 $isadmin = false;
@@ -20,35 +21,60 @@ if(!file_exists($uploadsFolder))
 	mkdir($uploadsFolder, 0744, true);
 }
 
+// echo "<pre>";
+// print_r($_SESSION);
+// echo "</pre>";
+
+// declare themeTables
+$themeTables = array(
+	array(
+		'name' => $ThemeDB->settingsTable,
+		'query' => '
+			CREATE TABLE '.$ThemeDB->settingsTable.' (
+				id int(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user int(4) NOT NULL,
+				name varchar(255) NOT NULL,
+				value mediumtext NOT NULL,
+				UNIQUE KEY UniqueSetting (user,name)
+			);
+		'
+	),
+	// id int(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	array(
+		'name' => $ThemeDB->serverStatsTable,
+		'query' => '
+			CREATE TABLE '.$ThemeDB->serverStatsTable.' (
+				home_id int(4) NOT NULL,
+				users_online int(4) NOT NULL,
+				current_stamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+			);
+		'
+	)
+);
+
 // check if theme settings db exists and create if not
-$sql = 'show tables like "'.$ThemeDB->settingsTable.'"';
-if(empty($ThemeDB->query($sql)))
+foreach($themeTables AS $themeTable)
 {
-	// create settings table
-	$query = "
-	CREATE TABLE ".$ThemeDB->settingsTable." (
-		id int(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		user int(4) NOT NULL,
-		name varchar(255) NOT NULL,
-		value mediumtext NOT NULL,
-		UNIQUE KEY UniqueSetting (user,name)
-	);
-	";
-	$ThemeDBCreate = $ThemeDB->query($query);
-	
-	if($ThemeDBCreate===true)
+	$sql = 'show tables like "'.$themeTable['name'].'"';
+	if($ThemeDB->query($sql) === false)
 	{
-		// echo 'table "'.$ThemeDB->settingsTable.'" successfully created';
-	}
-	else
-	{
-		// throw error
-		echo "<pre>";
-		print_r($ThemeDBCreate);
-		echo "</pre>";
-		exit();
+		// create settings table
+		$ThemeDBCreate = $ThemeDB->query($themeTable['query'], false);
+		if($ThemeDBCreate===true)
+		{
+			// echo 'table "'.$themeTable['name'].'" successfully created';
+		}
+		else
+		{
+			// throw error
+			echo "<pre>Error:";
+			print_r($ThemeDBCreate);
+			echo "</pre>";
+			exit();
+		}
 	}
 }
+
 
 // set admin
 if(isset($_SESSION['users_group']) && $_SESSION['users_group']=='admin')
@@ -84,6 +110,13 @@ if(isset($_GET['m']))
 						{
 							echo 0;
 							exit();
+						}
+					}
+					elseif($_GET['v']=='updateserverstats')
+					{
+						if(isset($_GET['token']))
+						{
+							$Theme->updateGameserverStats($_GET['token']);
 						}
 					}
 				}
@@ -130,16 +163,36 @@ if(isset($_GET['m']))
 			}
 			elseif($_GET['p']=='themeNavWidth')
 			{
-				// load global setting (id -1)
-				$themeNavWidth = $ThemeDB->getSetting('themeNavWidth', -1);
-				
-				if(empty($themeNavWidth))
+				if(isset($_SESSION['users_login']))
 				{
-					$themeNavWidth = 250;
+					// load global setting (id -1)
+					$themeNavWidth = $ThemeDB->getSetting('themeNavWidth', -1);
+					
+					if(empty($themeNavWidth))
+					{
+						$themeNavWidth = 250;
+					}
+					
+					header("Content-Type: application/json");
+					echo json_encode($themeNavWidth);
 				}
-				
-				header("Content-Type: application/json");
-				echo json_encode($themeNavWidth);
+				exit();
+			}
+			elseif($_GET['p']=='themeServerstats')
+			{
+				if(isset($_SESSION['users_login']))
+				{
+					if(isset($_GET['v']) && $_GET['v']=='listServers')
+					{
+						
+					}else
+					{
+						// check if token is set to check if themeServerstats are enabled or not
+						$themeServerstats = $ThemeDB->getSetting('updateToken', -1);
+						
+						echo empty($themeServerstats) ? 'remove' : 'activate';
+					}
+				}
 				exit();
 			}
 		}
@@ -240,6 +293,11 @@ if(isset($_GET['m']))
 					echo "success";
 					exit();
 				}
+				elseif($_GET['p']=='listservers')
+				{
+					echo $Theme->listServersFromSession();
+					exit();
+				}
 			}
 		}
 	}
@@ -291,6 +349,31 @@ if(isset($_GET['m']))
 						// invalid value - return default width
 						echo 250;
 						exit;
+					}
+				}
+				elseif($_GET['p']=='themeServerstats')
+				{
+					if(isset($_GET['v']))
+					{
+						if($_GET['v']=='activate')
+						{
+							// generate token
+							$newToken = bin2hex(random_bytes(20));
+							
+							// set token
+							$ThemeDB->setSetting('updateToken', $newToken, -1);
+							
+							// set cronjob
+							$Theme->checkForCronjob();
+						}
+						elseif($_GET['v']=='remove')
+						{
+							// remove token
+							$ThemeDB->removeSetting('updateToken', -1);
+							
+							// remove cronjob
+							$Theme->checkForCronjob(true);
+						}
 					}
 				}
 			}
