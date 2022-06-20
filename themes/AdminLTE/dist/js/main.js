@@ -1210,7 +1210,7 @@ function themeChanger(changeTo, save = false)
 	{
 		$('#themeChanger').prop("checked", true);
 		$('body').removeClass('light-mode').addClass('dark-mode');
-		$('nav.main-header').addClass('navbar-dark');
+		$('nav.main-header').removeClass('navbar-light').addClass('navbar-dark');
 		$('aside.main-sidebar').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-light').addClass('control-sidebar-dark');
 		
@@ -1242,7 +1242,7 @@ function themeChanger(changeTo, save = false)
 	{
 		$('#themeChanger').prop("checked", false);
 		$('body').removeClass('dark-mode').addClass('light-mode');
-		$('nav.main-header').removeClass('navbar-dark');
+		$('nav.main-header').removeClass('navbar-dark').addClass('navbar-light');
 		$('aside.main-sidebar').removeClass('sidebar-dark-primary').addClass('sidebar-light-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');
 		
