@@ -365,7 +365,7 @@ class Theme
 			<span class="info-box-icon">
 				<i class="fas fa-gamepad"></i>
 			</span>
-			<div class="info-box-content d-flex flex-row">
+			<div class="info-box-content d-flex flex-row flex-wrap">
 				<span class="server-infos mr-auto">
 					<div class="server-name">
 						<a href="'.$gameMonitorLink.'" class="text-dark">'.$serverObject['home_name'].'</a>
@@ -374,15 +374,93 @@ class Theme
 					<div class="server-gamename text-muted text-sm">'.$gameName.'</div>
 				</span>
 				<span class="player-infos">
-					<h4 class="server-player">
+					<h5 class="server-player text-right ml-2">
 						<span class="server-current-player">'.$currentPlayer.'</span>/<span class="server-max-player">'.$maxPlayer.'</span>
-					</h4>
+					</h5>
+					'.$this->buildPlayerChart($serverObject).'
 				</span>
 			</div>
 		</div>
 		';
 		
 		return $serverBox;
+	}
+	
+	private function buildPlayerChart($serverObject)
+	{
+		// load ThemeDB class
+		require_once("./db.class.php");
+		$ThemeDB = new ThemeDB;
+		
+		$chartWidth = '120px';
+		$chartHeight = '35px';
+		$showElements = 10;
+		
+		$onlineStatsQuery = $ThemeDB->query("
+			SELECT users_online
+			FROM ".$ThemeDB->serverStatsTable."
+			WHERE home_id = ".$serverObject['home_id']."
+			ORDER BY current_stamp DESC
+			LIMIT ".$showElements."
+		");
+		
+		$labels = array();
+		$onlineStats = array();
+		foreach($onlineStatsQuery AS $osq)
+		{
+			$labels[] = '';
+			$onlineStats[] = $osq['users_online'];
+		}
+		
+		$chart = '
+		<div class="playerChart">
+			<canvas id="playerChart-'.$serverObject['home_id'].'" style="min-height:'.$chartHeight.'; height:'.$chartHeight.'; max-height:'.$chartHeight.'; min-width:'.$chartWidth.'; width:'.$chartWidth.'; max-width:'.$chartWidth.';"></canvas>
+			
+			<script>
+			
+			var primaryThemeColor = window.getComputedStyle(document.body).getPropertyValue("--light");
+			
+			var lineChartCanvas = $("#playerChart-'.$serverObject['home_id'].'").get(0).getContext("2d");
+			var lineChart = new Chart(lineChartCanvas, {
+				type: "line",
+				data: {
+					labels: ["'.implode('","', $labels).'"],
+					datasets: [{
+						label: "Online Users",
+						// backgroundColor: primaryThemeColor,
+						data: ["'.implode('","', array_reverse($onlineStats)).'"],
+						borderWidth: 0
+					}]
+				},
+				options: {
+					"title": {
+						"display": false,
+					},
+					"legend": {
+						"display": false,
+					},
+					"scales": {
+						"yAxes": [
+							{
+								"display": false
+							}
+						],
+						"xAxes": [
+							{
+								"display": false
+							}
+						],
+					},
+					"tooltip": {
+						"caretSize": 0
+					},
+				},
+			});
+			</script>
+		</div>
+		';
+		
+		return $chart;
 	}
 	
 	public function getMapImage($serverObject)
@@ -418,5 +496,4 @@ class Theme
 		// get_map_path($query_name,$mod,$map)
 	}
 }
-
 ?>
