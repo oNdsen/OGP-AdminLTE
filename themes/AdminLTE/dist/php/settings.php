@@ -116,7 +116,7 @@ if(isset($_GET['m']))
 					{
 						if(isset($_GET['token']))
 						{
-							$Theme->updateGameserverStats($_GET['token']);
+							echo $Theme->updateGameserverStats($_GET['token']);
 						}
 					}
 				}

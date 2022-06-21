@@ -76,6 +76,10 @@ class Theme
 			{
 				return false;
 			}
+		}else
+		{
+			// no server available
+			return false;
 		}
 		
 		if($type=="get")
@@ -146,7 +150,7 @@ class Theme
 		if(!$remove && ($foundCron || !$validCron))
 		{
 			// specify cron url
-			$goodCronEntry = '*/10 * * * * wget -qO- "'.$checkURL.'&token='.$updateToken.'" --no-check-certificate > /dev/null 2>&1';
+			$goodCronEntry = '*/10 * * * * wget -qO- "'.$checkURL.'&token='.$updateToken.'" --no-check-certificate';
 			
 			if($foundCron && !$validCron)
 			{
@@ -325,7 +329,10 @@ class Theme
 						DELETE FROM ogp_adminlte_serverstats WHERE current_stamp < DATE_ADD(NOW(), INTERVAL -2 DAY)
 					");
 					
-					return true;
+					return "successfully updated";
+				}else
+				{
+					return "no running gameserver found";
 				}
 			}else
 			{
@@ -333,7 +340,7 @@ class Theme
 			}
 		}
 		
-		return false;
+		return "no token";
 	}
 	
 	public function listServersFromSession()
