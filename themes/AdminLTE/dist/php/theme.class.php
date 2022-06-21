@@ -477,11 +477,20 @@ class Theme
 							{
 								tooltipEl = document.createElement("div");
 								tooltipEl.id = "chartjs-tooltip";
+								tooltipEl.innerHTML = tooltipModel.body[0].lines[0];
 								document.body.appendChild(tooltipEl);
+							}else
+							{
+								// hide if mouse got away from dot
+								if(typeof(tooltipModel.body)=="undefined")
+								{
+									tooltipEl.style.opacity = 0;
+									return;
+								}
+								
+								// update innerHTML
+								tooltipEl.innerHTML = tooltipModel.body[0].lines[0];
 							}
-							
-							// update innerHTML
-							tooltipEl.innerHTML = tooltipModel.body[0].lines[0];
 
 							// Hide if no tooltip
 							if(tooltipModel.opacity === 0)
@@ -499,10 +508,6 @@ class Theme
 							else
 							{
 								tooltipEl.classList.add("no-transform");
-							}
-
-							function getBody(bodyItem) {
-								return bodyItem.lines;
 							}
 
 							var position = this._chart.canvas.getBoundingClientRect();
