@@ -361,11 +361,21 @@ class Theme
 	private function buildServerBox($serverObject)
 	{
 		$gameName = (strtolower($serverObject['mod_name'])=='none') ? $serverObject['game_name'] : $serverObject['game_name'].' ('.$serverObject['mod_name'].')';
-		
-		$currentPlayer = (isset($serverObject['server_players'])) ? $serverObject['server_players'] : 0;
-		$maxPlayer = (isset($serverObject['server_playersmax'])) ? $serverObject['server_playersmax'] : 0;
-		
 		$gameMonitorLink = 'home.php?m=gamemanager&p=game_monitor&home_id-mod_id-ip-port='.$serverObject['home_id'].'-'.$serverObject['mod_id'].'-'.$serverObject['ip'].'-'.$serverObject['port'];
+		
+		if(!isset($serverObject['protocol']))
+		{
+			$serverObject['protocol'] = $this->getProtocol($serverObject);
+		}
+		
+		$users = array(
+			'online' => 0,
+			'max' => 0
+		);
+		if($serverObject['protocol'])
+		{
+			$users = $this->gameServerQuery($serverObject);
+		}
 		
 		$serverBox = '
 		<div class="info-box serverstatus mb-2" data-id="'.$serverObject['home_id'].'">
@@ -382,7 +392,7 @@ class Theme
 				</span>
 				<span class="player-infos">
 					<h5 class="server-player text-right ml-2">
-						<span class="server-current-player">'.$currentPlayer.'</span>/<span class="server-max-player">'.$maxPlayer.'</span>
+						<span class="server-current-player">'.$users['online'].'</span>/<span class="server-max-player">'.$users['max'].'</span>
 					</h5>
 					'.$this->buildPlayerChart($serverObject).'
 				</span>
@@ -470,18 +480,10 @@ class Theme
 		return $chart;
 	}
 	
-	public function getMapImage($serverObject)
+	private function getProtocol($serverObject)
 	{
-		// for later use...
-		return false;
-		
-		// return $this->gameServerQuery($serverObject);
-		
 		// load ogp server_config_parser to get SERVER_CONFIG_LOCATION variable
-		require($this->absolutePath."/modules/config_games/server_config_parser.php");
-		
-		// load ogp functions
-		include($this->absolutePath."/includes/functions.php");
+		require_once($this->absolutePath."/modules/config_games/server_config_parser.php");
 		
 		// load home config file
 		$serverConfig = simplexml_load_file($this->absolutePath."/".SERVER_CONFIG_LOCATION.$serverObject['home_cfg_file']);
@@ -496,6 +498,12 @@ class Theme
 			{
 				$queryName = (string)$serverConfig->lgsl_query_name;
 			}
+			else
+			{
+				$queryName = (string)$serverConfig->{'protocol'};
+			}
+			
+			return $queryName;
 		}
 		
 		return false;
