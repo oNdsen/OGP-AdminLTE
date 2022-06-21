@@ -541,7 +541,7 @@ function animateProgressBars()
 	$('#item2 .card-body > center br').replaceWith('&nbsp;');
 	$('.currently-online').addClass('table table-striped table-sm');
 	$('.currently-online td').removeAttr('style');
-	$('.currently-online > tr:first-of-type > td').replaceWith('<th>'+$('.currently-online > tr:first-of-type td').text()+'</th>');
+	$('.currently-online > tbody > tr:first-of-type > td').replaceWith('<th>'+$('.currently-online > tbody > tr:first-of-type td').text()+'</th>');
 	
 	if(localStorage.getItem('themeServerstats')=='remove')
 	{
