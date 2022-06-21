@@ -467,6 +467,7 @@ class Theme
 						],
 					},
 					tooltips: {
+						intersect: false,
 						enabled: false,
 						custom: function(tooltipModel)
 						{
