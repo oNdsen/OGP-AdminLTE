@@ -155,6 +155,16 @@ body:not(.sidebar-collapse) .main-sidebar img.nav-icon {
 	margin-right: 0.5rem;
 }
 
+.card .card-body > pre {
+	padding: 0px;
+	background: transparent;
+}
+
+.card:not(.maximized-card) .card-body > pre {
+	max-height: 400px;
+	overflow: auto;
+}
+
 pre {
 	padding: 1rem;
 }
