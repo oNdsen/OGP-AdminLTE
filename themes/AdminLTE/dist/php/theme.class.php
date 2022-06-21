@@ -434,7 +434,7 @@ class Theme
 			<canvas id="playerChart-'.$serverObject['home_id'].'" style="min-height:'.$chartHeight.'; height:'.$chartHeight.'; max-height:'.$chartHeight.'; min-width:'.$chartWidth.'; width:'.$chartWidth.'; max-width:'.$chartWidth.';"></canvas>
 			
 			<script>
-			var onlineUsersText = langConsts[langConstPrefix + "online"] + " " + langConsts[langConstPrefix + "players"];
+			var onlineUsersText = langConsts[langConstPrefix + "online"];
 			var primaryThemeColor = window.getComputedStyle(document.body).getPropertyValue("--light");
 			var lineChartCanvas = $("#playerChart-'.$serverObject['home_id'].'").get(0).getContext("2d");
 			var lineChart = new Chart(lineChartCanvas, {
