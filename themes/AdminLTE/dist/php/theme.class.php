@@ -102,7 +102,7 @@ class Theme
 		require_once("./db.class.php");
 		$ThemeDB = new ThemeDB;
 		
-		$checkURL = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/themes/AdminLTE/dist/php/settings.php?m=global&p=check&v=updateserverstats';
+		$checkURL = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'].'?m=global&p=check&v=updateserverstats';
 		
 		$updateToken = $ThemeDB->getSetting('updateToken', -1);
 		
