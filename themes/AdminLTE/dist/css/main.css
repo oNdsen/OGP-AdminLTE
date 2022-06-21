@@ -71,6 +71,9 @@
 	margin-left: 4px;
 }
 
+.dark-mode a.text-dark:hover {
+    color: #fff !important;
+}
 
 .light-mode .os-theme-light > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
 	background: rgba(0,0,0,.4) !important;
