@@ -434,9 +434,7 @@ class Theme
 			<canvas id="playerChart-'.$serverObject['home_id'].'" style="min-height:'.$chartHeight.'; height:'.$chartHeight.'; max-height:'.$chartHeight.'; min-width:'.$chartWidth.'; width:'.$chartWidth.'; max-width:'.$chartWidth.';"></canvas>
 			
 			<script>
-			
 			var primaryThemeColor = window.getComputedStyle(document.body).getPropertyValue("--light");
-			
 			var lineChartCanvas = $("#playerChart-'.$serverObject['home_id'].'").get(0).getContext("2d");
 			var lineChart = new Chart(lineChartCanvas, {
 				type: "line",
@@ -468,8 +466,54 @@ class Theme
 							}
 						],
 					},
-					"tooltip": {
-						"caretSize": 0
+					tooltips: {
+						enabled: false,
+						custom: function(tooltipModel)
+						{
+							// console.log(tooltipModel.body);
+							
+							var tooltipEl = document.getElementById("chartjs-tooltip");
+
+							// Create element on first render
+							if(!tooltipEl)
+							{
+								tooltipEl = document.createElement("div");
+								tooltipEl.id = "chartjs-tooltip";
+								tooltipEl.innerHTML = tooltipModel.body[0].lines[0];
+								document.body.appendChild(tooltipEl);
+							}
+
+							// Hide if no tooltip
+							if(tooltipModel.opacity === 0)
+							{
+								tooltipEl.style.opacity = 0;
+								return;
+							}
+
+							// Set caret Position
+							tooltipEl.classList.remove("above", "below", "no-transform");
+							if(tooltipModel.yAlign)
+							{
+								tooltipEl.classList.add(tooltipModel.yAlign);
+							}
+							else
+							{
+								tooltipEl.classList.add("no-transform");
+							}
+
+							function getBody(bodyItem) {
+								return bodyItem.lines;
+							}
+
+							var position = this._chart.canvas.getBoundingClientRect();
+
+							// Display, position, and set styles for font
+							tooltipEl.style.opacity = 1;
+							tooltipEl.style.position = "absolute";
+							tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + "px";
+							tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + "px";
+							tooltipEl.style.pointerEvents = "none";
+						},
 					},
 				},
 			});
