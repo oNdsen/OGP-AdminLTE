@@ -42,7 +42,8 @@
 }
 
 @media (max-width: 500px) {
-	.serverstatus .info-box-icon {
+	.serverstatus .info-box-icon,
+	.serverstatus .playerChart	{
 		display: none !important;
 	}
 }

@@ -372,7 +372,7 @@ class Theme
 			<span class="info-box-icon">
 				<i class="fas fa-gamepad"></i>
 			</span>
-			<div class="info-box-content d-flex flex-row flex-wrap">
+			<div class="info-box-content d-flex flex-row">
 				<span class="server-infos mr-auto">
 					<div class="server-name">
 						<a href="'.$gameMonitorLink.'" class="text-dark">'.$serverObject['home_name'].'</a>
