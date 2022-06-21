@@ -44,18 +44,14 @@ $(window).load(function()
 					<img class="elevation-2" src="'+serviceImageSrc+'" alt="'+serviceImageAlt+'">\
 				</div>\
 				<div class="card-footer">\
-					<div class="row">\
-						<div class="col-sm-8 border-right">\
-							<div class="description-block">\
-								<h5 class="description-header">'+langConsts['OGP_LANG_starting_on']+'</h5>\
-								<span class="description-text">'+serviceCost.split(' ')[2]+'</span>\
-							</div>\
+					<div class="d-flex justify-content-around flex-row flex-wrap">\
+						<div class="description-block d-inline-block mx-2">\
+							<h5 class="description-header">'+langConsts['OGP_LANG_starting_on']+'</h5>\
+							<span class="description-text">'+serviceCost.split(' ')[2]+'</span>\
 						</div>\
-						<div class="col-sm-4">\
-							<div class="description-block">\
-								<h5 class="description-header">'+serviceCost.split('(')[1].split(')')[0].split(' ')[0]+'</h5>\
-								<span class="description-text">'+serviceCost.split('(')[1].split(')')[0].split(' ')[1]+'</span>\
-							</div>\
+						<div class="description-block d-inline-block mx-2">\
+							<h5 class="description-header">'+serviceCost.split('(')[1].split(')')[0].split(' ')[0]+'</h5>\
+							<span class="description-text">'+serviceCost.split('(')[1].split(')')[0].split(' ')[1]+'</span>\
 						</div>\
 					</div>\
 				</div>\
