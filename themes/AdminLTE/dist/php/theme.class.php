@@ -150,7 +150,7 @@ class Theme
 		if(!$remove && ($foundCron || !$validCron))
 		{
 			// specify cron url
-			$goodCronEntry = '*/10 * * * * wget -qO- "'.$checkURL.'&token='.$updateToken.'" --no-check-certificate';
+			$goodCronEntry = '*/5 * * * * wget -qO- "'.$checkURL.'&token='.$updateToken.'" --no-check-certificate';
 			
 			if($foundCron && !$validCron)
 			{
@@ -324,9 +324,9 @@ class Theme
 						");
 					}
 					
-					// delete old stats (keep only entries from last 2 days)
+					// delete old stats (keep only entries from last 1 day)
 					$ThemeDB->query("
-						DELETE FROM ogp_adminlte_serverstats WHERE current_stamp < DATE_ADD(NOW(), INTERVAL -2 DAY)
+						DELETE FROM ogp_adminlte_serverstats WHERE current_stamp < DATE_ADD(NOW(), INTERVAL -1 DAY)
 					");
 					
 					return "successfully updated";
