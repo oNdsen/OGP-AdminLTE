@@ -470,8 +470,6 @@ class Theme
 						enabled: false,
 						custom: function(tooltipModel)
 						{
-							// console.log(tooltipModel.body);
-							
 							var tooltipEl = document.getElementById("chartjs-tooltip");
 
 							// Create element on first render
@@ -479,9 +477,11 @@ class Theme
 							{
 								tooltipEl = document.createElement("div");
 								tooltipEl.id = "chartjs-tooltip";
-								tooltipEl.innerHTML = tooltipModel.body[0].lines[0];
 								document.body.appendChild(tooltipEl);
 							}
+							
+							// update innerHTML
+							tooltipEl.innerHTML = tooltipModel.body[0].lines[0];
 
 							// Hide if no tooltip
 							if(tooltipModel.opacity === 0)
