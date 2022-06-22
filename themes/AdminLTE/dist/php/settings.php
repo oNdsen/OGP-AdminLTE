@@ -21,10 +21,6 @@ if(!file_exists($uploadsFolder))
 	mkdir($uploadsFolder, 0744, true);
 }
 
-// echo "<pre>";
-// print_r($_SESSION);
-// echo "</pre>";
-
 // declare themeTables
 $themeTables = array(
 	array(
@@ -295,7 +291,7 @@ if(isset($_GET['m']))
 				}
 				elseif($_GET['p']=='listservers')
 				{
-					echo $Theme->listServersFromSession();
+					echo $Theme->listServersFromDB();
 					exit();
 				}
 			}

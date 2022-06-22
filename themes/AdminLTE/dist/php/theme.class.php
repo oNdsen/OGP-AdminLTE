@@ -174,46 +174,77 @@ class Theme
 		return false;
 	}
 	
-	private function getGameServer($home_id = false)
+	public function getGameServer($user_id = false)
 	{
 		// load ThemeDB class
 		require_once("./db.class.php");
 		$ThemeDB = new ThemeDB;
 		
 		// load ogp server_config_parser to get SERVER_CONFIG_LOCATION variable
-		require($this->absolutePath."/modules/config_games/server_config_parser.php");
+		require_once($this->absolutePath."/modules/config_games/server_config_parser.php");
+		
+		// load ogp lib_remote
+		require_once($this->absolutePath."/includes/lib_remote.php");
 		
 		// first get all server homes, specific configs and ip/port config
 		$query = "
-			SELECT sh.home_id, sh.home_cfg_id, ch.game_name, ch.home_cfg_file, hip.port, rs.use_nat, rs.agent_ip, rsi.ip
-			FROM ".$ThemeDB->tablePrefix()."server_homes AS sh
-			LEFT JOIN ".$ThemeDB->tablePrefix()."config_homes AS ch
-			ON sh.home_cfg_id = ch.home_cfg_id
-			LEFT JOIN ".$ThemeDB->tablePrefix()."home_ip_ports AS hip
-			ON sh.home_id = hip.home_id
-			LEFT JOIN ".$ThemeDB->tablePrefix()."remote_servers AS rs
-			ON sh.remote_server_id = rs.remote_server_id
-			LEFT JOIN ".$ThemeDB->tablePrefix()."remote_server_ips AS rsi
-			ON hip.ip_id = rsi.ip_id
+		SELECT *
+			FROM ".$ThemeDB->tablePrefix()."home_ip_ports
+			NATURAL JOIN ".$ThemeDB->tablePrefix()."remote_servers
+			NATURAL JOIN ".$ThemeDB->tablePrefix()."server_homes
+			NATURAL JOIN ".$ThemeDB->tablePrefix()."config_homes
+			NATURAL JOIN ".$ThemeDB->tablePrefix()."remote_server_ips
+			NATURAL JOIN ".$ThemeDB->tablePrefix()."config_mods
+			NATURAL JOIN ".$ThemeDB->tablePrefix()."game_mods
 		";
 		
-		if($home_id && is_numeric($home_id))
+		if($user_id !== false)
 		{
-			$query += "WHERE sh.home_id = ".$home_id;
+			$query .= "
+			NATURAL JOIN
+			(
+				SELECT home_id
+				FROM ".$ThemeDB->tablePrefix()."user_homes
+				WHERE user_id = ".$user_id."
+				UNION
+				SELECT home_id
+				FROM ".$ThemeDB->tablePrefix()."user_groups
+				NATURAL JOIN ".$ThemeDB->tablePrefix()."user_group_homes
+				WHERE user_id = ".$user_id."
+			) temp
+			";
 		}
+		
+		$query .= "
+			WHERE force_mod_id IN
+			(
+				SELECT force_mod_id
+				FROM ".$ThemeDB->tablePrefix()."home_ip_ports
+				WHERE force_mod_id = ".$ThemeDB->tablePrefix()."game_mods.mod_id OR force_mod_id = 0
+			) ORDER BY home_user_order ASC, ".$ThemeDB->tablePrefix()."server_homes.home_id ASC
+		";
 		
 		$serverHomes = $ThemeDB->query($query);
 		if($serverHomes)
 		{
 			foreach($serverHomes AS $key => $shData)
 			{
-				$queryData = $this->getProtocolAndQuery($serverHomes[$key]);
-				$serverHomes[$key]['qProtocol'] = $queryData['qProtocol'];
-				$serverHomes[$key]['qName'] = $queryData['qName'];
-				$serverHomes[$key]['qMod'] = $queryData['qMod'];
+				// check if the screen running the server is running.
+				$remote = new OGPRemoteLibrary($shData['agent_ip'], $shData['agent_port'], $shData['encryption_key'], $shData['timeout']);
+				if( $remote->is_screen_running(OGP_SCREEN_TYPE_HOME, $shData['home_id']))
+				{
+					$queryData = $this->getProtocolAndQuery($serverHomes[$key]);
+					$serverHomes[$key]['qProtocol'] = $queryData['qProtocol'];
+					$serverHomes[$key]['qName'] = $queryData['qName'];
+					$serverHomes[$key]['qMod'] = $queryData['qMod'];
+				}
+				else
+				{
+					// server screen stopped - remove server from array
+					unset($serverHomes[$key]);
+				}
 			}
 			
-			// return serverHomes
 			return $serverHomes;
 		}
 		else
@@ -371,13 +402,15 @@ class Theme
 		return "no token";
 	}
 	
-	public function listServersFromSession()
+	public function listServersFromDB()
 	{
-		// get all servers from session
 		$allServers = '';
-		foreach($_SESSION as $key => $val)
+		
+		// get all servers from db
+		$getGameServer = $this->getGameServer($_SESSION['user_id']);
+		if($getGameServer)
 		{
-			if(substr($key, 0, strlen('server_')) === 'server_')
+			foreach($this->getGameServer($_SESSION['user_id']) as $key => $val)
 			{
 				$allServers .= $this->buildServerBox($val);
 			}
@@ -397,9 +430,9 @@ class Theme
 		$serverObject['qName'] = $queryData['qName'];
 		$serverObject['qMod'] = $queryData['qMod'];
 		
-		// start server query to get online/offline status and map parameter
+		// start server query to get online/unknown status and map parameter
 		$gsq = $this->gameServerQuery($serverObject);
-		$serverOnline = ($gsq['serverOnline']) ? 'online' : 'offline';
+		$serverOnline = ($gsq['serverOnline']) ? 'online' : 'unknown';
 		$serverObject['qMap'] = $gsq['map'];
 		
 		// small map fix for special servers
@@ -421,7 +454,7 @@ class Theme
 				$iconBox = '
 					<span class="info-box-icon" style="
 						background-image: url(\''.$mapImage.'\');
-						background-size: cover;
+						background-size: contain;
 						background-repeat: no-repeat;
 					">
 					</span>
@@ -494,7 +527,6 @@ class Theme
 					labels: ["'.implode('","', $labels).'"],
 					datasets: [{
 						label: onlineUsersText,
-						// backgroundColor: primaryThemeColor,
 						data: ["'.implode('","', array_reverse($onlineStats)).'"],
 						borderWidth: 0
 					}]
