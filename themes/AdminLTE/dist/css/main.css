@@ -66,6 +66,10 @@
 	border-radius: 10px;
 }
 
+.main-sidebar .sidebar {
+	overflow-x: hidden !important;
+}
+
 .sidebar .os-scrollbar-handle {
 	width: 3px;
 	margin-left: 4px;
