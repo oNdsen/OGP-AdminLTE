@@ -391,38 +391,44 @@ class Theme
 		$gameName = (strtolower($serverObject['mod_name'])=='none') ? $serverObject['game_name'] : $serverObject['game_name'].' ('.$serverObject['mod_name'].')';
 		$gameMonitorLink = 'home.php?m=gamemanager&p=game_monitor&home_id-mod_id-ip-port='.$serverObject['home_id'].'-'.$serverObject['mod_id'].'-'.$serverObject['ip'].'-'.$serverObject['port'];
 		
+		// call game config file to get protocol, query and mod values
 		$queryData = $this->getProtocolAndQuery($serverObject);
 		$serverObject['qProtocol'] = $queryData['qProtocol'];
 		$serverObject['qName'] = $queryData['qName'];
 		$serverObject['qMod'] = $queryData['qMod'];
 		
+		// start server query to get online/offline status and map parameter
 		$gsq = $this->gameServerQuery($serverObject);
 		$serverOnline = ($gsq['serverOnline']) ? 'online' : 'offline';
 		$serverObject['qMap'] = $gsq['map'];
 		
-		$mapImage = $this->getServerImage($serverObject);
-		if($mapImage==$this->getOGPPublicPath().'images/online_big.png')
-		{
-			$iconBox = '
+		// small map fix for special servers
+		$serverObject['qMap'] = ($serverObject['qMap']=='-') ? '_' : $serverObject['qMap'];
+		
+		// declare icon box
+		$iconBox = '
 			<span class="info-box-icon">
 				<i class="fas fa-gamepad"></i>
 			</span>
-			';
-		}else
+		';
+		
+		if($gsq['serverOnline'])
 		{
-			$iconBox = '
-			<span class="info-box-icon" style="
-				background-image: url(\''.$mapImage.'\');
-				background-size: cover;
-				background-repeat: no-repeat;
-			">
-			</span>
-			';
+			// check if a map image exists
+			$mapImage = $this->getServerImage($serverObject);
+			if($mapImage!=$this->getOGPPublicPath().'images/online_big.png')
+			{
+				$iconBox = '
+					<span class="info-box-icon" style="
+						background-image: url(\''.$mapImage.'\');
+						background-size: cover;
+						background-repeat: no-repeat;
+					">
+					</span>
+				';
+			}
 		}
 		
-		// echo "<pre>";
-		// print_r($mapImage);
-		// echo "</pre>";
 		
 		$serverBox = '
 		<div class="info-box serverstatus mb-2" data-id="'.$serverObject['home_id'].'" data-status="'.$serverOnline.'">
@@ -636,6 +642,9 @@ class Theme
 				$mod_gt = "tf2";
 		}
 		
+		// ts3 fix
+		$query_name = ($query_name == "teamspeak3") ? "ts3" : $query_name;
+		
 		$mod_gt = $mod == "fof" ? "hl2dm" : $mod_gt;
 		$mod_gt = $mod == "insurgency" ? "ins" : $mod_gt;
 		$mod_gt = $mod == "redorchestra2" ? "ro2" : $mod_gt;
@@ -649,7 +658,7 @@ class Theme
 		$mod_gt = $query_name == "callofdutywaw" ? "codww" : $mod_gt;
 		$mod_gt = $query_name == "callofdutymw3" ? "mw3" : $mod_gt;
 		$mod_gt = $query_name == "conanexiles" ? "conan" : $mod_gt;
-
+		
 		$map_paths = array(
 			$this->getOGPPublicPath()."protocol/lgsl/maps/$query_name/$mod/$map.jpg",
 			$this->getOGPPublicPath()."protocol/lgsl/maps/$query_name/$mod/$map.gif",
