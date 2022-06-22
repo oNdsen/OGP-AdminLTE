@@ -11,7 +11,7 @@
 	text-align: center;
 }
 
-.content-wrapper input.form-control {
+.content-wrapper input.form-control:not([name="command"]) {
 	width: 46px;
 	min-width: 46px;
 }
