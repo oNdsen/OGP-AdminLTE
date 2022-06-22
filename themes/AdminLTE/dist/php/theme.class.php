@@ -25,6 +25,11 @@ class Theme
 		
 		return false;
 	}
+	
+	private function getOGPPublicPath()
+	{
+		return str_replace("themes/AdminLTE/dist/php/settings.php", "", $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
+	}
 
 	private function getOGPServers($all = false)
 	{
@@ -106,7 +111,7 @@ class Theme
 		require_once("./db.class.php");
 		$ThemeDB = new ThemeDB;
 		
-		$checkURL = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'].'?m=global&p=check&v=updateserverstats';
+		$checkURL = $this->getOGPPublicPath().'themes/AdminLTE/dist/php/settings.php?m=global&p=check&v=updateserverstats';
 		
 		$updateToken = $ThemeDB->getSetting('updateToken', -1);
 		
@@ -169,7 +174,7 @@ class Theme
 		return false;
 	}
 	
-	private function getGameServers()
+	private function getGameServer($home_id = false)
 	{
 		// load ThemeDB class
 		require_once("./db.class.php");
@@ -192,28 +197,20 @@ class Theme
 			ON hip.ip_id = rsi.ip_id
 		";
 		
+		if($home_id && is_numeric($home_id))
+		{
+			$query += "WHERE sh.home_id = ".$home_id;
+		}
+		
 		$serverHomes = $ThemeDB->query($query);
 		if($serverHomes)
 		{
 			foreach($serverHomes AS $key => $shData)
 			{
-				// load home config file
-				$serverConfig = simplexml_load_file($this->absolutePath."/".SERVER_CONFIG_LOCATION.$shData['home_cfg_file']);
-				if($serverConfig)
-				{
-					// add protcol to $serverHomes
-					$serverHomes[$key]['protocol'] = (string)$serverConfig->{'protocol'};
-					
-					// get protocol query name
-					if($serverHomes[$key]['protocol']=='gameq')
-					{
-						$serverHomes[$key]['queryName'] = (string)$serverConfig->gameq_query_name;
-					}
-					elseif($serverHomes[$key]['protocol']=='lgsl')
-					{
-						$serverHomes[$key]['queryName'] = (string)$serverConfig->lgsl_query_name;
-					}
-				}
+				$queryData = $this->getProtocolAndQuery($serverHomes[$key]);
+				$serverHomes[$key]['qProtocol'] = $queryData['qProtocol'];
+				$serverHomes[$key]['qName'] = $queryData['qName'];
+				$serverHomes[$key]['qMod'] = $queryData['qMod'];
 			}
 			
 			// return serverHomes
@@ -228,72 +225,104 @@ class Theme
 	private function gameServerQuery($serverObject)
 	{
 		// declarations
-		$timeout = 30;
+		$timeout = 5;
 		
 		// default output
-		$users = array(
+		$gsq = array(
 			'online' => 0,
-			'max' => 0
+			'max' => 0,
+			'serverOnline' => false,
+			'map' => false,
 		);
 		
 		// change serverIP to agent ip if server is behind nat
 		$serverIP = ($serverObject['use_nat']==0) ? $serverObject['ip'] : $serverObject['agent_ip'];
 		
 		// gameq
-		if($serverObject['protocol']=='gameq')
+		if($serverObject['qProtocol']=='gameq')
 		{
-			require($this->absolutePath."/protocol/GameQ/GameQ.php");
+			// load gameq class
+			require_once($this->absolutePath."/protocol/GameQ/Autoloader.php");
 			
-			$gq = new GameQ();
+			// ogp lgsl_port_conversion
+			require_once($this->absolutePath."/protocol/lgsl/lgsl_protocol.php");
+			$portConversion = lgsl_port_conversion($serverObject['qName'], $serverObject['port'], "", "");
+			$c_port = $portConversion['0'];	// conn port
+			$q_port = $portConversion['1'];	// query port
+			$s_port = $portConversion['2'];	// software port
+			
+			$gq = new \GameQ\GameQ();
 			$gq->addServer(array(
 			   'id' => 'server',
-			   'type' => $serverObject['queryName'],
+			   'type' => $serverObject['qName'],
 			   'host' => $serverIP.':'.$serverObject['port'],
+			   'options' => [
+					'query_port' => $q_port,
+				],
 			));
 			$gq->setOption('timeout', $timeout);
 			
-			return $gq->requestData();
+			// process gameq request
+			$data = $gq->process();
+			
+			// only update if server is running
+			if(!empty($data['gq_online']) && $data['gq_online'])
+			{
+				$gsq['online'] = $data['gq_numplayers'];
+				$gsq['max'] = $data['gq_maxplayers'];
+				$gsq['serverOnline'] = true;
+			}else
+			{
+				$gsq['serverOnline'] = false;
+			}
 		}
 		// lgsl
-		elseif($serverObject['protocol']=='lgsl')
+		elseif($serverObject['qProtocol']=='lgsl')
 		{
-			require($this->absolutePath."/protocol/lgsl/lgsl_protocol.php");
-			
 			// ogp lgsl_port_conversion
-			$portConversion = lgsl_port_conversion($serverObject['queryName'], $serverObject['port'], "", "");
+			require_once($this->absolutePath."/protocol/lgsl/lgsl_protocol.php");
+			$portConversion = lgsl_port_conversion($serverObject['qName'], $serverObject['port'], "", "");
 			$c_port = $portConversion['0'];	// conn port
 			$q_port = $portConversion['1'];	// query port
 			$s_port = $portConversion['2'];	// software port
 			
 			// get live data
-			$data = lgsl_query_live($serverObject['queryName'], $serverIP, $c_port, $q_port, $s_port, "sa");
+			$data = lgsl_query_live($serverObject['qName'], $serverIP, $c_port, $q_port, $s_port, "sa");
 			
 			// only update if server is running
 			if($data['b']['status'])
 			{
-				$users['online'] = $data['s']['players'];
-				$users['max'] = $data['s']['playersmax'];
+				$gsq['online'] = $data['s']['players'];
+				$gsq['max'] = $data['s']['playersmax'];
+				$gsq['serverOnline'] = true;
+				$gsq['map'] = $data['s']['map'];
+			}else
+			{
+				$gsq['serverOnline'] = false;
 			}
 		}
 		// ts3
-		elseif($serverObject['protocol']=='teamspeak3')
+		elseif($serverObject['qProtocol']=='teamspeak3')
 		{
-			require($this->absolutePath."/protocol/TeamSpeak3/TeamSpeak3.php");
+			require_once($this->absolutePath."/protocol/TeamSpeak3/TeamSpeak3.php");
 			
 			try
 			{
 				$ts3_VirtualServer = TeamSpeak3::factory('serverquery://'.$serverIP.':'.($serverObject['port'] + 24).'/?server_port='.$serverObject['port'].'&timeout='.$timeout);
 				$ts3_VirtualServer->setExcludeQueryClients(true);
-				$users['online'] = $ts3_VirtualServer->virtualserver_clientsonline-$ts3_VirtualServer->virtualserver_queryclientsonline;
-				$users['max'] = $ts3_VirtualServer->virtualserver_maxclients;
+				
+				$gsq['online'] = $ts3_VirtualServer->virtualserver_clientsonline-$ts3_VirtualServer->virtualserver_queryclientsonline;
+				$gsq['max'] = $ts3_VirtualServer->virtualserver_maxclients;
+				$gsq['serverOnline'] = true;
+				$gsq['map'] = 'teamspeak3';
 			}
 			catch(Exception $e)
 			{
-				// dont do anything on error
+				$gsq['serverOnline'] = false;
 			}
 		}
 
-		return $users;
+		return $gsq;
 	}
 	
 	public function updateGameserverStats($token = false)
@@ -309,18 +338,17 @@ class Theme
 			if($token==$checkToken)
 			{
 				// get all GameServers
-				$getGameServers = $this->getGameServers();
-				if($getGameServers)
+				$getGameServer = $this->getGameServer();
+				if($getGameServer)
 				{
-					foreach($getGameServers AS $key => $gameServer)
+					foreach($getGameServer AS $key => $gameServer)
 					{
-						$users = $this->gameServerQuery($gameServer);
-						$getGameServers[$key]['users'] = $users;
+						$gsq = $this->gameServerQuery($gameServer);
 						
 						// write player stats into db
 						$ThemeDB->query("
 							INSERT INTO ".$ThemeDB->serverStatsTable." (home_id, users_online)
-							VALUES('".$gameServer['home_id']."', '".$users['online']."')
+							VALUES('".$gameServer['home_id']."', '".$gsq['online']."')
 						");
 					}
 					
@@ -363,25 +391,42 @@ class Theme
 		$gameName = (strtolower($serverObject['mod_name'])=='none') ? $serverObject['game_name'] : $serverObject['game_name'].' ('.$serverObject['mod_name'].')';
 		$gameMonitorLink = 'home.php?m=gamemanager&p=game_monitor&home_id-mod_id-ip-port='.$serverObject['home_id'].'-'.$serverObject['mod_id'].'-'.$serverObject['ip'].'-'.$serverObject['port'];
 		
-		if(!isset($serverObject['protocol']))
-		{
-			$serverObject['protocol'] = $this->getProtocol($serverObject);
-		}
+		$queryData = $this->getProtocolAndQuery($serverObject);
+		$serverObject['qProtocol'] = $queryData['qProtocol'];
+		$serverObject['qName'] = $queryData['qName'];
+		$serverObject['qMod'] = $queryData['qMod'];
 		
-		$users = array(
-			'online' => 0,
-			'max' => 0
-		);
-		if($serverObject['protocol'])
-		{
-			$users = $this->gameServerQuery($serverObject);
-		}
+		$gsq = $this->gameServerQuery($serverObject);
+		$serverOnline = ($gsq['serverOnline']) ? 'online' : 'offline';
+		$serverObject['qMap'] = $gsq['map'];
 		
-		$serverBox = '
-		<div class="info-box serverstatus mb-2" data-id="'.$serverObject['home_id'].'">
+		$mapImage = $this->getServerImage($serverObject);
+		if($mapImage==$this->getOGPPublicPath().'images/online_big.png')
+		{
+			$iconBox = '
 			<span class="info-box-icon">
 				<i class="fas fa-gamepad"></i>
 			</span>
+			';
+		}else
+		{
+			$iconBox = '
+			<span class="info-box-icon" style="
+				background-image: url(\''.$mapImage.'\');
+				background-size: cover;
+				background-repeat: no-repeat;
+			">
+			</span>
+			';
+		}
+		
+		// echo "<pre>";
+		// print_r($mapImage);
+		// echo "</pre>";
+		
+		$serverBox = '
+		<div class="info-box serverstatus mb-2" data-id="'.$serverObject['home_id'].'" data-status="'.$serverOnline.'">
+			'.$iconBox.'
 			<div class="info-box-content d-flex flex-row">
 				<span class="server-infos mr-auto">
 					<div class="server-name">
@@ -392,7 +437,7 @@ class Theme
 				</span>
 				<span class="player-infos">
 					<h5 class="server-player text-right ml-2">
-						<span class="server-current-player">'.$users['online'].'</span>/<span class="server-max-player">'.$users['max'].'</span>
+						<span class="server-current-player">'.$gsq['online'].'</span>/<span class="server-max-player">'.$gsq['max'].'</span>
 					</h5>
 					'.$this->buildPlayerChart($serverObject).'
 				</span>
@@ -531,7 +576,7 @@ class Theme
 		return $chart;
 	}
 	
-	private function getProtocol($serverObject)
+	private function getProtocolAndQuery($serverObject)
 	{
 		// load ogp server_config_parser to get SERVER_CONFIG_LOCATION variable
 		require_once($this->absolutePath."/modules/config_games/server_config_parser.php");
@@ -554,12 +599,70 @@ class Theme
 				$queryName = (string)$serverConfig->{'protocol'};
 			}
 			
-			return $queryName;
+			return array(
+				'qName' => $queryName,
+				'qProtocol' => (string)$serverConfig->{'protocol'},
+				'qMod' => (string)$serverConfig->{'mods'}->{'mod'}['key'],
+			);
 		}
 		
 		return false;
+	}
+	
+	private function getServerImage($serverObject)
+	{
+		// load ogp helpers
+		require_once($this->absolutePath."/includes/helpers.php");
 		
-		// get_map_path($query_name,$mod,$map)
+		$query_name = $serverObject['qName'];
+		$mod = $serverObject['qMod'];
+		$map = $serverObject['qMap'];
+		
+		// adapting get_map_path() from OGP
+		$mod_gt = $mod;
+	
+		if($mod == "cstrike")
+		{
+			if ($query_name == "halflife")
+				$mod_gt = "cs";
+			elseif($query_name == "source")
+				$mod_gt = "css";
+		}
+		if($mod == "tf")
+		{
+			if ($query_name == "halflife")
+				$mod_gt = "tf";
+			elseif($query_name == "source")
+				$mod_gt = "tf2";
+		}
+		
+		$mod_gt = $mod == "fof" ? "hl2dm" : $mod_gt;
+		$mod_gt = $mod == "insurgency" ? "ins" : $mod_gt;
+		$mod_gt = $mod == "redorchestra2" ? "ro2" : $mod_gt;
+		$mod_gt = $mod == "risingstorm2" ? "ro2" : $mod_gt;
+		$mod_gt = $mod == "killingfloor2" ? "kf2" : $mod_gt;
+		$mod_gt = $query_name == "7dtd" ? "7daystodie" : $mod_gt;
+		$mod_gt = $query_name == "callofduty" ? "cod" : $mod_gt;
+		$mod_gt = $query_name == "callofdutyuo" ? "uo" : $mod_gt;
+		$mod_gt = $query_name == "callofduty2" ? "cod2" : $mod_gt;
+		$mod_gt = $query_name == "callofduty4mw" ? "cod4" : $mod_gt;
+		$mod_gt = $query_name == "callofdutywaw" ? "codww" : $mod_gt;
+		$mod_gt = $query_name == "callofdutymw3" ? "mw3" : $mod_gt;
+		$mod_gt = $query_name == "conanexiles" ? "conan" : $mod_gt;
+
+		$map_paths = array(
+			$this->getOGPPublicPath()."protocol/lgsl/maps/$query_name/$mod/$map.jpg",
+			$this->getOGPPublicPath()."protocol/lgsl/maps/$query_name/$mod/$map.gif",
+			$this->getOGPPublicPath()."protocol/lgsl/maps/$query_name/$mod/$map.png",
+			$this->getOGPPublicPath()."protocol/lgsl/maps/$query_name/$map.jpg",
+			$this->getOGPPublicPath()."protocol/lgsl/maps/$query_name/$map.gif",
+			$this->getOGPPublicPath()."protocol/lgsl/maps/$query_name/$map.png",
+			"https://image.gametracker.com/images/maps/160x120/$mod_gt/$map.jpg",
+			"https://image.gametracker.com/images/maps/160x120/$query_name/$map.jpg",
+			$this->getOGPPublicPath()."images/online_big.png"
+		);
+
+		return get_first_existing_file($map_paths, 'https://gametracker.com', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0');
 	}
 }
 ?>

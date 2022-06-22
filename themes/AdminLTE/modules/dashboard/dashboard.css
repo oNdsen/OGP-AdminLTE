@@ -57,6 +57,16 @@
 	margin-bottom: 0.3rem;
 }
 
+.serverstatus[data-status="online"] {
+    border-left: 4px solid;
+    border-color: var(--success);
+}
+
+.serverstatus[data-status="offline"] {
+    border-left: 4px solid;
+    border-color: var(--danger);
+}
+
 #chartjs-tooltip {
 	background-color: rgb(18 19 20 / 80%);
 	border-radius: 4px;
