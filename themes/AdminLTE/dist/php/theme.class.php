@@ -4,28 +4,6 @@ class Theme
 {
 	private $absolutePath = "../../../..";
 	
-	public function callOGPFunction($functionName = false, $params = false)
-	{
-		if($functionName)
-		{
-			// load ogp functions
-			include($this->absolutePath."/includes/functions.php");
-
-			if(function_exists($functionName))
-			{
-				if($params)
-				{
-					return $functionName($params);
-				}else
-				{
-					return $functionName();
-				}
-			}
-		}
-		
-		return false;
-	}
-	
 	private function getOGPPublicPath()
 	{
 		return str_replace("themes/AdminLTE/dist/php/settings.php", "", $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
@@ -454,7 +432,7 @@ class Theme
 				$iconBox = '
 					<span class="info-box-icon" style="
 						background-image: url(\''.$mapImage.'\');
-						background-size: contain;
+						background-size: cover;
 						background-repeat: no-repeat;
 					">
 					</span>
