@@ -265,6 +265,9 @@ $(document).ready(function()
 			}
 		);
 	}
+	
+	// initial load (load faster on startup)
+	animateProgressBars();
 });
 
 
@@ -538,7 +541,7 @@ function animateProgressBars()
 	
 	// online servers
 	$('#item2 .card-body > br').remove();
-	$('#item2 .card-body > center br').replaceWith('&nbsp;');
+	$('#item2 .card-body > center br').replaceWith(' ');
 	$('.currently-online').addClass('table table-striped table-sm');
 	$('.currently-online td').removeAttr('style');
 	$('.currently-online > tbody > tr:first-of-type > td').replaceWith('<th>'+$('.currently-online > tbody > tr:first-of-type td').text()+'</th>');
@@ -559,11 +562,12 @@ function animateProgressBars()
 				$('#item2 .card-body').addClass('onlineServers p-2');
 			}
 			
-			// get server satistics, update title and remove statisctic
+			// get server satistics, update title and remove statistics
 			if($('#item2 .card-body').find('center').length>0)
 			{
 				var serverStats = $('#item2 .card-body').find('center').text();
-				const serversRegex = /(\d*?)\/(\d*?) Servers/m;
+				
+				const serversRegex = / (\d*?)\/(\d*?) /m;
 				if(serversRegex.test(serverStats))
 				{
 					$('#item2 .card-title').append(' (' + serverStats.match(serversRegex)[1] + '/' + serverStats.match(serversRegex)[2] + ' ' + langConsts['OGP_LANG_server'] + ')');
