@@ -283,6 +283,10 @@ table.tablesorter thead tr .tablesorter-headerDesc {
 	width: 100%;
 }
 
+.dark-mode .input-group-text {
+	background-color: var(--dark-2);
+}
+
 /* *** mfp popup *** */
 .mfp-bg {
 	opacity: 0.3;

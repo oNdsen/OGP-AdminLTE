@@ -1,9 +1,10 @@
 $(document).ready(function()
 {
-	$('.main [href="?m=administration&p=main"], .main [href="javascript:history.go(-1)"], .main [href="home.php?m=cron&p=cron"]').addClass('btn btn-sm btn-primary');
-	$('input[name="removeJob"]').removeClass('btn-primary').addClass('btn-danger');
+	$('.content-wrapper [href="home.php?m=cron&p=cron"]').addClass('btn btn-sm btn-warning').prepend('<i class="fas fa-crown mr-1"></i>');
+	$('.content-wrapper [href="?m=administration&p=main"], .main [href="javascript:history.go(-1)"]').addClass('btn btn-sm btn-primary');
+	$('.content-wrapper input[name="removeJob"]').removeClass('btn-primary').addClass('btn-danger');
 	
-	$('.main th:last-child').attr('colspan', 2);
+	$('.content-wrapper th:last-child').attr('colspan', 2);
 });
 
 $(window).load(function()
