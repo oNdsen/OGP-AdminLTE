@@ -384,11 +384,18 @@ class Theme
 	{
 		$allServers = '';
 		
+		$filterUserId = $_SESSION['user_id'];
+		if(isset($_SESSION['users_group']) && $_SESSION['users_group']=='admin')
+		{
+			// user is admin, so display all servers
+			$filterUserId = false;
+		}
+		
 		// get all servers from db
-		$getGameServer = $this->getGameServer($_SESSION['user_id']);
+		$getGameServer = $this->getGameServer($filterUserId);
 		if($getGameServer)
 		{
-			foreach($this->getGameServer($_SESSION['user_id']) as $key => $val)
+			foreach($getGameServer as $key => $val)
 			{
 				$allServers .= $this->buildServerBox($val);
 			}
@@ -439,7 +446,6 @@ class Theme
 				';
 			}
 		}
-		
 		
 		$serverBox = '
 		<div class="info-box serverstatus mb-2" data-id="'.$serverObject['home_id'].'" data-status="'.$serverOnline.'">
