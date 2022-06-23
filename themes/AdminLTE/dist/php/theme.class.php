@@ -8,6 +8,36 @@ class Theme
 	{
 		return str_replace("themes/AdminLTE/dist/php/settings.php", "", $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
 	}
+	
+	public function checkIsAdmin($user_id)
+	{
+		// load ThemeDB class
+		require_once("./db.class.php");
+		$ThemeDB = new ThemeDB;
+		
+		if(is_numeric($user_id))
+		{
+			$query = "
+				SELECT users_role
+				FROM ".$ThemeDB->tablePrefix()."users
+				WHERE user_id = ".$user_id."
+			";
+			
+			$data = $ThemeDB->query($query);
+			if($data)
+			{
+				// reset users_group session for on the fly changes
+				$_SESSION['users_group'] = $data[0]['users_role'];
+				
+				if($data[0]['users_role']=='admin')
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 
 	private function getOGPServers($all = false)
 	{

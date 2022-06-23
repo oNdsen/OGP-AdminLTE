@@ -71,11 +71,10 @@ foreach($themeTables AS $themeTable)
 	}
 }
 
-
-// set admin
-if(isset($_SESSION['users_group']) && $_SESSION['users_group']=='admin')
+// check & set admin
+if(isset($_SESSION['user_id']))
 {
-	$isadmin = true;
+	$isadmin = $Theme->checkIsAdmin($_SESSION['user_id']);
 }
 
 if(isset($_GET['m']))
