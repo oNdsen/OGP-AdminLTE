@@ -639,9 +639,9 @@ class Theme
 		// load ogp helpers
 		require_once($this->absolutePath."/includes/helpers.php");
 		
-		$query_name = $serverObject['qName'];
-		$mod = $serverObject['qMod'];
-		$map = $serverObject['qMap'];
+		$query_name = strtolower($serverObject['qName']);
+		$mod = strtolower($serverObject['qMod']);
+		$map = str_replace("-", "_", strtolower($serverObject['qMap']));
 		
 		// adapting get_map_path() from OGP
 		$mod_gt = $mod;
