@@ -509,7 +509,11 @@ class Theme
 		
 		$chartWidth = '120px';
 		$chartHeight = '35px';
-		$showElements = 10;
+		$showElements = $ThemeDB->getSetting('themeServerstatsNum', -1);
+		if(empty($showElements))
+		{
+			$showElements = 10;
+		}
 		
 		$onlineStatsQuery = $ThemeDB->query("
 			SELECT users_online

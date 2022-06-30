@@ -81,6 +81,55 @@ $(document).ready(function()
 			themeServerstatsOptionsOut += '<option value="'+key+'">'+themeServerstatsOptions[key]+'</option>';
 		}
 	}
+	
+	
+	if(localStorage.getItem('themeServerstats')=='activate')
+	{
+		// load themeServerstatsNum settings from db
+		var themeServerstatsNum = 10;
+		$.ajax({
+			cache: false,
+			async: false,
+			type: 'GET',
+			url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=themeServerstats&v=displayNum',
+			success: function(data)
+			{
+				themeServerstatsNum = data;
+			}
+		});
+		
+		var themeServerstatsNumOptions = ''
+		for(var i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20])
+		{
+			if(i==themeServerstatsNum)
+			{
+				themeServerstatsNumOptions += '<option value="'+i+'" selected>'+i+'</option>';
+			}else
+			{
+				themeServerstatsNumOptions += '<option value="'+i+'">'+i+'</option>';
+			}
+		}
+		
+		themeServerstatsDisplayNum = '\
+		<tr>\
+			<td align="right">\
+				<label for="themeServerstatsNum" class="mb-0">Server Player Stats Num:</label>\
+				<small class="text-muted d-block">Displays last n measurements</small>\
+			</td>\
+			<td align="left">\
+				<div class="form-group mb-0">\
+					<select id="themeServerstatsNum" name="themeServerstatsNum" class="form-control">\
+						' + themeServerstatsNumOptions + '\
+					</select>\
+				</div>\
+			</td>\
+			<td>\
+				<div class="image-tip" data-toggle="tooltip" data-html="true" title="Displays last n measurements in Playercharts on Dashboard"><i class="far fa-question-circle"></i></div>\
+			</td>\
+		</tr>\
+		'
+	}
+	
 	$('.main #theme').parents('tr').after('\
 	<tr>\
 		<td align="right">\
@@ -98,6 +147,7 @@ $(document).ready(function()
 			<div class="image-tip" data-toggle="tooltip" data-html="true" title="Activates user stats for each server, also installs a running cronjob on first server (1/5min check each server)"><i class="far fa-question-circle"></i></div>\
 		</td>\
 	</tr>\
+	' + themeServerstatsDisplayNum + '\
 	');
 	
 	
@@ -169,6 +219,40 @@ $(document).ready(function()
 				
 				// set localStorage cache
 				localStorage.setItem('themeServerstats', themeServerstatsVal);
+			},
+			error: function(error)
+			{
+				toastr.error('Error: ' + error);
+			}	
+		}).done(function()
+		{
+			// enable form button
+			$('[name="update_settings"]').removeAttr('disabled');
+		});
+	});
+	
+	
+	// themeServerstatsNum change
+	$('#themeServerstatsNum').change(function()
+	{
+		// disable form button
+		$('[name="update_settings"]').attr('disabled', 'disabled');
+		
+		// message
+		toastr.info('themeServerstatsNum change initiated');
+		
+		var themeServerstatsNumVal = $(this).val();
+		
+		console.log('themes/AdminLTE/dist/php/settings.php?m=settings&p=themeServerstats&v=setNum&num='+$(this).val());
+		$.ajax({
+			cache: false,
+			async: true,
+			type: 'GET',
+			url: 'themes/AdminLTE/dist/php/settings.php?m=settings&p=themeServerstats&v=setNum&num=' + themeServerstatsNumVal,
+			success: function(html)
+			{
+				// message
+				toastr.success('Successfully set themeServerstatsNum');
 			},
 			error: function(error)
 			{

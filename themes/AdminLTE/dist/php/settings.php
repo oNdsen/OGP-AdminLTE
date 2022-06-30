@@ -100,12 +100,11 @@ if(isset($_GET['m']))
 						if($isadmin)
 						{
 							echo 1;
-							exit();
 						}else
 						{
 							echo 0;
-							exit();
 						}
+						exit();
 					}
 					elseif($_GET['v']=='updateserverstats')
 					{
@@ -138,8 +137,8 @@ if(isset($_GET['m']))
 					
 					header("Content-Type: application/json");
 					echo json_encode($theme);
-					exit();
 				}
+				exit();
 			}
 			elseif($_GET['p']=='themeLogo')
 			{
@@ -177,9 +176,16 @@ if(isset($_GET['m']))
 			{
 				if(isset($_SESSION['users_login']))
 				{
-					if(isset($_GET['v']) && $_GET['v']=='listServers')
+					if(isset($_GET['v']) && $_GET['v']=='displayNum')
 					{
+						$themeServerstatsNum = $ThemeDB->getSetting('themeServerstatsNum', -1);
 						
+						if(empty($themeServerstatsNum) || $themeServerstatsNum<1 || $themeServerstatsNum>20)
+						{
+							$themeServerstatsNum = 10;
+						}
+						
+						echo $themeServerstatsNum;
 					}else
 					{
 						// check if token is set to check if themeServerstats are enabled or not
@@ -369,7 +375,24 @@ if(isset($_GET['m']))
 							// remove cronjob
 							$Theme->checkForCronjob(true);
 						}
+						elseif($_GET['v']=='setNum')
+						{
+							if(isset($_GET['num']) && is_numeric($_GET['num']))
+							{
+								$setNum = $_GET['num'];
+								
+								if($setNum<1 || $setNum>20)
+								{
+									$setNum = 10;
+								}
+								
+								// set num
+								$ThemeDB->setSetting('themeServerstatsNum', $setNum, -1);
+							}
+						}
 					}
+					
+					exit;
 				}
 			}
 		}
