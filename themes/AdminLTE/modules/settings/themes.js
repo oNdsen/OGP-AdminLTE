@@ -206,7 +206,6 @@ $(document).ready(function()
 		
 		var themeServerstatsVal = $(this).val();
 		
-		// console.log('themes/AdminLTE/dist/php/settings.php?m=settings&p=themeServerstats&v='+$(this).val());
 		$.ajax({
 			cache: false,
 			async: true,
@@ -243,7 +242,6 @@ $(document).ready(function()
 		
 		var themeServerstatsNumVal = $(this).val();
 		
-		console.log('themes/AdminLTE/dist/php/settings.php?m=settings&p=themeServerstats&v=setNum&num='+$(this).val());
 		$.ajax({
 			cache: false,
 			async: true,
