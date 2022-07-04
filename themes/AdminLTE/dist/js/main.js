@@ -1187,6 +1187,45 @@ $(window).load(function()
 		');
 	}
 	
+	// content to cards mod
+	if(window.location.href.indexOf('m=dsi&p=admin_dsi') > -1 || window.location.href.indexOf('?m=administration&p=main') > -1)
+	{
+		$('.main').removeClass('main');
+		$('section.content > .container-fluid > .row > div').addClass('main');
+		
+		var fillBox = false
+		$('.main .card-body > *').each(function()
+		{
+			if($(this).is('h2'))
+			{
+				// add new box
+				$('.main').append('\
+				<div class="card">\
+					<div class="card-header">\
+						<h5 class="card-title">' + $(this).text() + '</h5>\
+					</div>\
+					<div class="card-body">\
+					</div>\
+				</div>\
+				');
+				
+				// remove title
+				$(this).remove();
+				
+				// set fillBox to true, so content filling can start
+				fillBox = true
+			}else
+			{
+				if(fillBox)
+				{
+					// append this object to newest card
+					$('.main > .card:last-child > .card-body').append($(this));
+				}
+			}
+		});
+	}
+	
+	
 	// auto scroll down all logs
 	if($('.content pre').length>0)
 	{

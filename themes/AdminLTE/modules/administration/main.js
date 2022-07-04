@@ -52,40 +52,4 @@ $(window).load(function()
 			$(this).parent('.table-responsive').remove();
 		}
 	});
-	
-	
-	// content to cards mod
-	$('.main').removeClass('main');
-	$('section.content > .container-fluid > .row > div').addClass('main');
-	
-	var fillBox = false
-	$('.main .card-body > *').each(function()
-	{
-		if($(this).is('h2'))
-		{
-			// add new box
-			$('.main').append('\
-			<div class="card">\
-				<div class="card-header">\
-					<h5 class="card-title">' + $(this).text() + '</h5>\
-				</div>\
-				<div class="card-body">\
-				</div>\
-			</div>\
-			');
-			
-			// remove title
-			$(this).remove();
-			
-			// set fillBox to true, so content filling can start
-			fillBox = true
-		}else
-		{
-			if(fillBox)
-			{
-				// append this object to newest card
-				$('.main > .card:last-child > .card-body').append($(this));
-			}
-		}
-	});
 });
