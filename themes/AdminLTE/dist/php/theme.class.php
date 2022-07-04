@@ -507,13 +507,15 @@ class Theme
 		require_once("./db.class.php");
 		$ThemeDB = new ThemeDB;
 		
-		$chartWidth = '120px';
-		$chartHeight = '35px';
 		$showElements = $ThemeDB->getSetting('themeServerstatsNum', -1);
 		if(empty($showElements))
 		{
 			$showElements = 10;
 		}
+		
+		$chartWidth = (($showElements*15)<120) ? '120px' : ($showElements*15).'px';
+		// $chartWidth = '120px';
+		$chartHeight = '35px';
 		
 		$onlineStatsQuery = $ThemeDB->query("
 			SELECT users_online
@@ -537,7 +539,6 @@ class Theme
 			
 			<script>
 			var onlineUsersText = langConsts[langConstPrefix + "online"];
-			var primaryThemeColor = window.getComputedStyle(document.body).getPropertyValue("--light");
 			var lineChartCanvas = $("#playerChart-'.$serverObject['home_id'].'").get(0).getContext("2d");
 			var lineChart = new Chart(lineChartCanvas, {
 				type: "line",
@@ -556,6 +557,7 @@ class Theme
 					"legend": {
 						"display": false,
 					},
+					"responsive": false,
 					"scales": {
 						"yAxes": [
 							{

@@ -67,6 +67,16 @@
     border-color: var(--warning);
 }
 
+.playerChart {
+	max-width: 120px;
+	overflow-x: scroll;
+	direction: rtl;
+	padding-bottom: 1px;
+}
+.playerChart::-webkit-scrollbar {
+	height: 2px;
+}
+
 #chartjs-tooltip {
 	background-color: rgb(18 19 20 / 80%);
 	border-radius: 4px;

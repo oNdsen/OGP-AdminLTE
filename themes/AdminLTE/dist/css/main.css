@@ -225,6 +225,10 @@ pre {
 	}
 }
 
+.light-mode .btn.redirectLink {
+	color: var(--light);
+}
+
 .dark-mode .white-popup {
 	background-color: var(--dark);
 	border: 10px solid var(--dark);
