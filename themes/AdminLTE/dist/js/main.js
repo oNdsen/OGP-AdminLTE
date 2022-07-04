@@ -1180,6 +1180,16 @@ $(window).load(function()
 		');
 	}
 	
+	// auto scroll down all logs
+	if($('.content pre').length>0)
+	{
+		// $('.content pre').scrollTop($('.content pre')[0].scrollHeight);
+		$('.content pre').each(function()
+		{
+			$(this).scrollTop($(this)[0].scrollHeight);
+		});
+	}
+	
 	/* *** End of JS - Check if .main is empty to remove Element *** */
 	if($('.main').length > 0)
 	{
