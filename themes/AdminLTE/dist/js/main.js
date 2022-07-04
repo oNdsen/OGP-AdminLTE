@@ -539,9 +539,16 @@ $(document).ready(function()
 		/* *** Table Styles *** */
 		$('table:not(".online_servers")').each(function()
 		{
-			$(this).addClass('table table-striped table-sm').removeAttr('style').wrap('<div class="table-responsive"></div>');;
+			$(this).addClass('table table-striped table-sm').removeAttr('style').wrap('<div class="table-responsive"></div>');
+			
+			// add top border none for first row if table has no head
+			if($(this).find('th').length==0)
+			{
+				$(this).find('tr').first().find('td').css('border-top', 'none');
+			}
 		});
-		$('table .first_row > td').each(function(){
+		$('table .first_row > td').each(function()
+		{
 			$(this).replaceWith('<th>'+$(this).html()+'</th>');
 		});
 
