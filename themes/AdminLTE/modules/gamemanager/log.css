@@ -1,7 +1,7 @@
-td {
+.main td {
 	vertical-align: middle !important;
 }
-.form-group {
+.main .form-group {
 	margin-bottom: 0px !important;
 }
 
