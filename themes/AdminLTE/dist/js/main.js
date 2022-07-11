@@ -829,56 +829,62 @@ $(document).ready(function()
 		/* *** Pagination *** */
 		$('#pagination').each(function()
 		{
-			$(this).replaceWith('<ul class="pagination justify-content-center mt-3 mb-0">'+$(this).html()+'</ul>');
-			var pm = $('.pagination');
-
-			var ps = $(pm).find('[class$="_paginationStart"]');
-			var pp = $(pm).find('[class$="_paginationPages"]');
-			var pe = $(pm).find('[class$="_paginationEnd"]');
-
-			if($(ps).length)
+			// remove empty paginations
+			if($(this).html().length==0)
 			{
-				$(ps).find('a').each(function()
+				$(this).remove();
+			}else
+			{
+				$(this).replaceWith('<ul class="pagination justify-content-center mt-3 mb-0">'+$(this).html()+'</ul>');
+				var pm = $('.pagination');
+
+				var ps = $(pm).find('[class$="_paginationStart"]');
+				var pp = $(pm).find('[class$="_paginationPages"]');
+				var pe = $(pm).find('[class$="_paginationEnd"]');
+
+				if($(ps).length)
+				{
+					$(ps).find('a').each(function()
+					{
+						var tl = $(this).attr('href');
+						var tc = $(this).text();
+						$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
+					});
+					if($(ps).find('span').length)
+					{
+						$(pm).append('<li class="page-item"><a class="page-link">...</a></li>');
+					}
+					$(ps).remove();
+				}
+				$(pp).find('a').each(function()
 				{
 					var tl = $(this).attr('href');
-					var tc = $(this).text();
-					$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
+					var tc = $(this).text().replace('[','').replace(']','');
+					if($(this).is('[class$="_currentPageLink"]'))
+					{
+						$(pm).append('<li class="page-item active"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
+					}else
+					{
+						$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
+					}
 				});
-				if($(ps).find('span').length)
-				{
-					$(pm).append('<li class="page-item"><a class="page-link">...</a></li>');
-				}
-				$(ps).remove();
-			}
-			$(pp).find('a').each(function()
-			{
-				var tl = $(this).attr('href');
-				var tc = $(this).text().replace('[','').replace(']','');
-				if($(this).is('[class$="_currentPageLink"]'))
-				{
-					$(pm).append('<li class="page-item active"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
-				}else
-				{
-					$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
-				}
-			});
-			$(pp).remove();
+				$(pp).remove();
 
-			if($(pe).length)
-			{
-				if($(pe).find('span').length)
+				if($(pe).length)
 				{
-					$(pm).append('<li class="page-item"><a class="page-link">...</a></li>');
+					if($(pe).find('span').length)
+					{
+						$(pm).append('<li class="page-item"><a class="page-link">...</a></li>');
+					}
+					$(pe).find('a').each(function()
+					{
+						var tl = $(this).attr('href');
+						var tc = $(this).text();
+						$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
+					});
+					$(pe).remove();
 				}
-				$(pe).find('a').each(function()
-				{
-					var tl = $(this).attr('href');
-					var tc = $(this).text();
-					$(pm).append('<li class="page-item"><a class="page-link" href="'+tl+'">'+tc+'</a></li>');
-				});
-				$(pe).remove();
 			}
-
 		});
 		
 		
