@@ -480,15 +480,15 @@ class Theme
 		$serverBox = '
 		<div class="info-box serverstatus mb-2" data-id="'.$serverObject['home_id'].'" data-status="'.$serverOnline.'">
 			'.$iconBox.'
-			<div class="info-box-content d-flex flex-row">
-				<span class="server-infos mr-auto">
-					<div class="server-name">
-						<a href="'.$gameMonitorLink.'" class="text-dark">'.$serverObject['home_name'].'</a>
+			<div class="info-box-content d-flex flex-row justify-content-between pr-0">
+				<span class="server-infos mr-2">
+					<div class="server-name text-truncate">
+						<a href="'.$gameMonitorLink.'" class="text-dark" data-toggle="tooltip" title="'.$serverObject['home_name'].'">'.$serverObject['home_name'].'</a>
 					</div>
 					<div class="server-ipport">'.$serverObject['ip'].':'.$serverObject['port'].'</div>
-					<div class="server-gamename text-muted text-sm">'.$gameName.'</div>
+					<div class="server-gamename text-nowrap text-muted text-sm">'.$gameName.'</div>
 				</span>
-				<span class="player-infos">
+				<span class="player-infos ml-auto w-100">
 					<h5 class="server-player text-right ml-2">
 						<span class="server-current-player">'.$gsq['online'].'</span>/<span class="server-max-player">'.$gsq['max'].'</span>
 					</h5>
@@ -513,10 +513,6 @@ class Theme
 			$showElements = 10;
 		}
 		
-		$chartWidth = (($showElements*15)<120) ? '120px' : ($showElements*15).'px';
-		// $chartWidth = '120px';
-		$chartHeight = '35px';
-		
 		$onlineStatsQuery = $ThemeDB->query("
 			SELECT users_online
 			FROM ".$ThemeDB->serverStatsTable."
@@ -535,7 +531,9 @@ class Theme
 		
 		$chart = '
 		<div class="playerChart">
-			<canvas id="playerChart-'.$serverObject['home_id'].'" style="min-height:'.$chartHeight.'; height:'.$chartHeight.'; max-height:'.$chartHeight.'; min-width:'.$chartWidth.'; width:'.$chartWidth.'; max-width:'.$chartWidth.';"></canvas>
+			<div class="chart-container ml-auto" style="position: relative; height:35px; width:90%">
+				<canvas id="playerChart-'.$serverObject['home_id'].'"></canvas>
+			</div>
 			
 			<script>
 			var onlineUsersText = langConsts[langConstPrefix + "online"];
@@ -557,13 +555,14 @@ class Theme
 					"legend": {
 						"display": false,
 					},
-					"responsive": false,
+					"responsive": true,
+					"maintainAspectRatio": false,
 					"scales": {
 						"yAxes": [
 							{
 								"display": false,
-								ticks: {
-									beginAtZero: true
+								"ticks": {
+									"beginAtZero": true
 								}
 							}
 						],
@@ -573,7 +572,13 @@ class Theme
 							}
 						],
 					},
-					tooltips: {
+					"layout": {
+						"padding": {
+							"top": 3,
+							"bottom": 3
+						}
+					},
+					"tooltips": {
 						intersect: false,
 						enabled: false,
 						custom: function(tooltipModel)

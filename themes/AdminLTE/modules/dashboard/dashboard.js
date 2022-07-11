@@ -282,18 +282,18 @@ $(window).load(function ()
 });
 
 
-$.fn.inlineStyle = function(prop)
-{
-	var thisProb = this.prop("style")[$.camelCase(prop)];
-	if(thisProb !== undefined || thisProb!='')
-	{
-		return thisProb;
-	}
-	else
-	{
-		return false;
-	}
-};
+// $.fn.inlineStyle = function(prop)
+// {
+	// var thisProb = this.prop("style")[$.camelCase(prop)];
+	// if(thisProb !== undefined || thisProb!='')
+	// {
+		// return thisProb;
+	// }
+	// else
+	// {
+		// return false;
+	// }
+// };
 
 
 function updateNewWidgetData()
@@ -602,14 +602,17 @@ function animateProgressBars()
 					$('.onlineServers').prepend(loading);
 				}
 				
-				// initial load serverlist
-				loadServerList();
-				
-				// setInterval for ServerList Refresh
-				setInterval(function()
+				if(localStorage.getItem('themeServerstats')=='activate')
 				{
+					// initial load serverlist
 					loadServerList();
-				}, 60000);
+					
+					// setInterval for ServerList Refresh
+					setInterval(function()
+					{
+						loadServerList();
+					}, 60000);
+				}
 			}
 		}
 		
@@ -635,6 +638,9 @@ function loadServerList()
 		{
 			// update server boxes
 			$('.listServers').html(html);
+			
+			// init tooltips
+			$('[data-toggle="tooltip"]').tooltip();
 		}
 	});
 }

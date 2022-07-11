@@ -55,6 +55,7 @@
 .serverstatus .server-name {
     font-weight: bold;
 	margin-bottom: 0.3rem;
+	max-width: 260px;
 }
 
 .serverstatus[data-status="online"] {
@@ -67,14 +68,12 @@
     border-color: var(--warning);
 }
 
-.playerChart {
-	max-width: 120px;
-	overflow-x: scroll;
-	direction: rtl;
-	padding-bottom: 1px;
+.serverstatus:last-of-type {
+	margin-bottom: 0px !important;
 }
-.playerChart::-webkit-scrollbar {
-	height: 2px;
+
+.playerChart {
+	position: relative;
 }
 
 #chartjs-tooltip {
