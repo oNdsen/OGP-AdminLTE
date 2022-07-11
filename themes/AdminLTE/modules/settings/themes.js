@@ -98,29 +98,15 @@ $(document).ready(function()
 			}
 		});
 		
-		var themeServerstatsNumOptions = ''
-		for(var i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20])
-		{
-			if(i==themeServerstatsNum)
-			{
-				themeServerstatsNumOptions += '<option value="'+i+'" selected>'+i+'</option>';
-			}else
-			{
-				themeServerstatsNumOptions += '<option value="'+i+'">'+i+'</option>';
-			}
-		}
-		
-		themeServerstatsDisplayNum = '\
+		var themeServerstatsDisplayNum = '\
 		<tr>\
 			<td align="right">\
 				<label for="themeServerstatsNum" class="mb-0">Server Player Stats Num:</label>\
-				<small class="text-muted d-block">Displays last n measurements</small>\
+				<small class="text-muted d-block">Displays last <span id="themeServerstatsNumber">'+themeServerstatsNum+'</span> measurements</small>\
 			</td>\
 			<td align="left">\
 				<div class="form-group mb-0">\
-					<select id="themeServerstatsNum" name="themeServerstatsNum" class="form-control">\
-						' + themeServerstatsNumOptions + '\
-					</select>\
+					<input type="range" class="form-control-range" min="1" max="20" value="'+themeServerstatsNum+'" id="themeServerstatsNum" name="themeServerstatsNum">\
 				</div>\
 			</td>\
 			<td>\
@@ -230,6 +216,13 @@ $(document).ready(function()
 		});
 	});
 	
+	
+	// themeServerstatsNum slide
+	$(document).on('input', '#themeServerstatsNum', function()
+	{
+		// change themeServerstatsNumber text
+		$('#themeServerstatsNumber').text($(this).val());
+	});
 	
 	// themeServerstatsNum change
 	$('#themeServerstatsNum').change(function()
