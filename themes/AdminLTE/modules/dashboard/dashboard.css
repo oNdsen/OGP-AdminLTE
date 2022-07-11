@@ -72,8 +72,13 @@
 	margin-bottom: 0px !important;
 }
 
-.playerChart {
+.serverstatus .playerChart {
 	position: relative;
+}
+
+.serverstatus .chart-container {
+	margin-left: auto;
+	margin-right: 0;
 }
 
 #chartjs-tooltip {
