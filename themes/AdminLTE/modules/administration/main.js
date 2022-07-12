@@ -4,6 +4,8 @@ $(document).ready(function()
 	
 	$('<div class="administration-table d-flex flex-wrap justify-content-start"></div>').insertAfter(adminButtonTable);
 	
+	$(adminButtonTable).parent('.card-body').addClass('pb-3');
+	
 	$(adminButtonTable).find('a.administration-buttons').each(function()
 	{
 		$('div.administration-table').append('<a class="admin-buttons btn btn-primary d-flex flex-column justify-content-center align-items-center" href="' + $(this).attr('href') + '"><span>' + $(this).find('div').text() + '</span></a>');
