@@ -1,28 +1,28 @@
-li.faqblock {
+.main li.faqblock {
 	list-style: none;
 	display: inline-block;
 }
 
-#count + #count {
+.main #count + #count {
     display: none;
 }
 
-.maincategory,
-.category {
+.main .maincategory,
+.main .category {
 	font-size: 1.4rem;
 }
 
-.category {
+.main .category {
     margin-top: 2rem;
 }
-#accordion > .card {
+.main #accordion > .card {
     margin-left: 1rem;
 }
-#accordion > .card > a {
+.main #accordion > .card > a {
     color: inherit !important;
 }
 
-input#search {
+.main input#search {
 	max-width: 250px;
 	display: inline-block;
 }
@@ -31,4 +31,13 @@ input#search {
 	margin-top: 3rem;
 	font-size: 0.8rem;
 	color: var(--secondary);
+}
+
+.main .faqanswer > br:last-of-type,
+.main .faqanswer > br:first-of-type {
+	display: none;
+}
+
+.main .faqanswer > .table-responsive {
+	margin-top: 0.5rem;
 }

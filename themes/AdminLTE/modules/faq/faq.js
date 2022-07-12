@@ -19,7 +19,12 @@ $(document).ready(function()
 		<div class="card card-faq">\
 			<a class="d-block w-100 collapsed" data-toggle="collapse" href="#faqacc'+allAccs+'" aria-expanded="false">\
 				<div class="card-header">\
-					<h4 class="card-title w-100">'+accTitle+'</h4>\
+					<h4 class="card-title">'+accTitle+'</h4>\
+					<div class="card-tools">\
+						<button type="button" class="btn btn-tool" data-card-widget="collapse"> \
+							<i class="fas fa-plus"></i>\
+						</button>\
+					</div>\
 				</div>\
 			</a>\
 			<div id="faqacc'+allAccs+'" class="collapse" data-parent="#accordion" style="">\
@@ -54,4 +59,10 @@ $(document).ready(function()
 			$('.card-faq').removeAttr('style');
 		}
 	});
+	
+	// pull footer to right
+	$('.main .footer').addClass('text-right');
+	
+	// search num badge
+	$('.main #count').addClass('badge badge-secondary font-weight-normal');
 });
