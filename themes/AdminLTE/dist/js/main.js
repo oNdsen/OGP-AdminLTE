@@ -780,6 +780,12 @@ $(document).ready(function()
 			$('.main-sidebar .nav-sidebar [href="?m=settings"]').removeClass('active');
 		}
 		
+		// menu higlight fix for mysql admin
+		if(window.location.href.indexOf('?m=mysql&p=edit') > -1)
+		{
+			$('.main-sidebar .nav-sidebar [href="?m=mysql&p=mysql_admin"]').addClass('active').parent('.nav-item').parent('.nav').parent('.nav-item').addClass('menu-open');
+		}
+		
 		// menu higlight fix for gameserver
 		if(window.location.href.indexOf('admin')==-1 && window.location.href.indexOf('m=user_games')==-1 && window.location.href.indexOf('m=config_games')==-1 && window.location.href.indexOf('m=fast_download')==-1)
 		{
