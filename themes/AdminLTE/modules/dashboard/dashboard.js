@@ -23,7 +23,7 @@ $(document).ready(function()
 		}
 		else if($(this).hasClass('one_fourth'))
 		{
-			$(this).replaceWith("<section class='col-12 col-md-3 connectedSortable' id='"+$(this).attr('id')+"'>" + columnContent + "</section>");
+			$(this).replaceWith("<section class='col-12 col-md-6 col-lg-3 connectedSortable' id='"+$(this).attr('id')+"'>" + columnContent + "</section>");
 		}
 		else
 		{
