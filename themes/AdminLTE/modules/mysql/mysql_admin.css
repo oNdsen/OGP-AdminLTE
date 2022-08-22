@@ -1,0 +1,17 @@
+.main .pass {
+	transition: all 0.3s ease-in-out;
+	color: transparent;
+}
+
+.dark-mode .main .pass {
+	text-shadow: 0 0 8px var(--white);
+}
+
+.light-mode .main .pass {
+	text-shadow: 0 0 8px var(--dark);
+}
+
+.main .pass:hover {
+	text-shadow: none;
+	color: inherit;
+}
