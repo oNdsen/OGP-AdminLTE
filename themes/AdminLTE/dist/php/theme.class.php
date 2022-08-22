@@ -544,6 +544,8 @@ class Theme
 					labels: ["'.implode('","', $labels).'"],
 					datasets: [{
 						label: onlineUsersText,
+						backgroundColor: "rgb(108,117,125)",
+						borderColor: "rgb(108,117,125)",
 						data: ["'.implode('","', array_reverse($onlineStats)).'"],
 						borderWidth: 0
 					}]
