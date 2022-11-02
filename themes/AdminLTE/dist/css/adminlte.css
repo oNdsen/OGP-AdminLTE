@@ -12244,6 +12244,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   color: #adb5bd;
 }
 
+.mixed-mode .main-footer,
 .dark-mode .main-footer {
   background-color: #343a40;
   border-color: #4b545c;
@@ -49749,6 +49750,7 @@ a.text-muted:hover {
   color: #fff !important;
 }
 
+.mixed-mode .text-dark,
 .dark-mode .text-black,
 .dark-mode .text-dark,
 .dark-mode .link-black,

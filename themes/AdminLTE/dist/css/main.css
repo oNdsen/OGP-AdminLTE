@@ -75,6 +75,7 @@
 	margin-left: 4px;
 }
 
+.mixed-mode footer a.text-dark:hover,
 .dark-mode a.text-dark:hover {
     color: #fff !important;
 }

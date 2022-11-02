@@ -79,7 +79,7 @@ $(document).ready(function()
 			$(".failure:not(#errorHeader), .ticketError").each(function ()
 			{
 				var failureText = $(this).text().trim();
-				if(failureText !== "" &&  isNaN(failureText))
+				if(failureText !== "" && isNaN(failureText))
 				{
 					$(this).replaceWith('<div class="callout callout-danger">'+$(this).text().trim()+'</div>');
 				}
@@ -127,16 +127,18 @@ $(document).ready(function()
 	});
 	
 	
-	/* *** Theme Change *** */
+	/* *** Theme Changer *** */
 	$('#themeChanger').change(function()
 	{
-		if($(this).is(":checked"))
-		{
-			themeChanger('dark', true);
-		}else
-		{
-			themeChanger('light', true);
-		}
+		// if($(this).is(":checked"))
+		// {
+			// themeChanger('dark', true);
+		// }else
+		// {
+			// themeChanger('light', true);
+		// }
+		
+		themeChanger($(this).val(), true);
 	});
 	
 	
@@ -975,6 +977,19 @@ $(document).ready(function()
 		themeChanger(localStorage.getItem('theme'));
 	}
 	
+	// fill theme changer options
+	var themeOptions = ['dark','light','mixed']
+	themeOptions.forEach(function(t)
+	{
+		if(localStorage.getItem('theme')==t)
+		{
+			$('#themeChanger').append('<option selected>' + t + '</option>');
+		}else
+		{
+			$('#themeChanger').append('<option>' + t + '</option>');
+		}
+	});
+	
 	
 	/* *** Get ThemeNavWidth Setting *** */
 	if(!localStorage.getItem('themeNavWidth'))
@@ -1276,7 +1291,6 @@ function themeChanger(changeTo, save = false)
 {
 	if(changeTo=='dark')
 	{
-		$('#themeChanger').prop("checked", true);
 		$('body').removeClass('light-mode').addClass('dark-mode');
 		$('nav.main-header').removeClass('navbar-light').addClass('navbar-dark');
 		$('aside.main-sidebar').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
@@ -1308,7 +1322,6 @@ function themeChanger(changeTo, save = false)
 	}
 	else if(changeTo=='light')
 	{
-		$('#themeChanger').prop("checked", false);
 		$('body').removeClass('dark-mode').addClass('light-mode');
 		$('nav.main-header').removeClass('navbar-dark').addClass('navbar-light');
 		$('aside.main-sidebar').removeClass('sidebar-dark-primary').addClass('sidebar-light-primary');
@@ -1334,6 +1347,37 @@ function themeChanger(changeTo, save = false)
 				{
 					toastr.success('Successfully saved theme to light');
 					localStorage.setItem('theme', 'light');
+				}
+			});
+		}
+	}
+	else if(changeTo=='mixed')
+	{
+		$('body').removeClass('dark-mode').addClass('light-mode mixed-mode');
+		$('nav.main-header').removeClass('navbar-light').addClass('navbar-dark');
+		$('aside.main-sidebar').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
+		$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');
+		
+		if(!localStorage.getItem('themeLogo'))
+		{
+			$('img.brand-image').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_dark.svg');
+		}
+		
+		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.light.css');
+		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.light.css');
+		$('link[href*="jquery-ui.theme.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.theme.min.light.css');
+		
+		if(save)
+		{
+			$.ajax({
+				async: true,
+				type: 'GET',
+				url: 'themes/AdminLTE/dist/php/settings.php?m=global&p=theme&v=mixed',
+				dataType: 'json',
+				success: function(data)
+				{
+					toastr.success('Successfully saved theme to mixed');
+					localStorage.setItem('theme', 'mixed');
 				}
 			});
 		}

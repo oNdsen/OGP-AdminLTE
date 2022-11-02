@@ -120,7 +120,7 @@ if(isset($_GET['m']))
 				// check if user session exists
 				if(isset($_SESSION['users_login']))
 				{
-					if(isset($_GET['v']) && ($_GET['v']=='light' || $_GET['v']=='dark'))
+					if(isset($_GET['v']) && ($_GET['v']=='light' || $_GET['v']=='dark' || $_GET['v']=='mixed'))
 					{
 						// write new value to db
 						$theme = $ThemeDB->setSetting('theme', $_GET['v']);
