@@ -8,6 +8,8 @@ $(document).ready(function()
 	});
 	$('.main .addacc').append('<div class="col-12 mt-1">'+$('.main > form > table tr:last-child > td').html()+'</div>');
 	$('.main > form > table').remove();
+	
+	$('.main b').removeAttr('style');
 });
 
 $(window).load(function()

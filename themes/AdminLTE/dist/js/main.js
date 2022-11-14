@@ -1291,7 +1291,7 @@ function themeChanger(changeTo, save = false)
 {
 	if(changeTo=='dark')
 	{
-		$('body').removeClass('light-mode').addClass('dark-mode');
+		$('body').removeClass('light-mode mixed-mode').addClass('dark-mode');
 		$('nav.main-header').removeClass('navbar-light').addClass('navbar-dark');
 		$('aside.main-sidebar').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-light').addClass('control-sidebar-dark');
@@ -1322,7 +1322,7 @@ function themeChanger(changeTo, save = false)
 	}
 	else if(changeTo=='light')
 	{
-		$('body').removeClass('dark-mode').addClass('light-mode');
+		$('body').removeClass('dark-mode mixed-mode').addClass('light-mode');
 		$('nav.main-header').removeClass('navbar-dark').addClass('navbar-light');
 		$('aside.main-sidebar').removeClass('sidebar-dark-primary').addClass('sidebar-light-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');

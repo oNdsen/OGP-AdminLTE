@@ -29,9 +29,9 @@ a[href^="?m=litefm&home_id="] {
 i.fas.fa-folder-open {
 	color: #ffe699;
 }
-.light-mode table i.fas:not(.fa-folder-open) {
-	color: var(--dark);
-} 
+/* .light-mode table i.fas:not(.fa-folder-open) { */
+	/* color: var(--dark); */
+/* }  */
 #remove:before {
 	content: "\f2ed";
 }
