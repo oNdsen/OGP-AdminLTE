@@ -1271,6 +1271,22 @@ $(window).load(function()
 			$('.main').parent('.card').remove();
 		}
 	}
+	
+	// check if main contains script containers or script includes and reload them at the end
+	$('.main').find('script').each(function()
+	{
+		if(this.hasAttribute('src')===false)
+		{
+			// script content
+			$('body').append('<script>' + $(this).html() + '</script>');
+		}
+		else {
+			// script include
+			$('body').append('<script src="' + $(this).attr('src') + '"></script>');
+		}
+
+		$(this).remove();
+	});
 });
 
 
