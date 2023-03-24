@@ -217,7 +217,7 @@
 .ts3_viewer {
 	border: 0px !important;
 	background: transparent;
-	margin: 0px 10px;
+	margin: 0px 10px !important;
 	width: auto !important;
 }
 

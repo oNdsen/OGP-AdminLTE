@@ -14,8 +14,8 @@ $(document).ready(function()
 	}
 	bsCustomFileInput.init();
 	var d = new Date();
-	
-	
+
+
 	/* *** Cutting Title *** */
 	var headTitle = document.getElementsByTagName("title")[0].innerHTML;
 	if(headTitle.includes("["))
@@ -23,8 +23,8 @@ $(document).ready(function()
 		headTitle = headTitle.substring(0, headTitle.lastIndexOf(" [") + 1);
 	}
 	// $('.brand-text').text(headTitle);
-	
-	
+
+
 	/* *** Replacements *** */
 	$('a.btn').each(function()
 	{
@@ -49,13 +49,13 @@ $(document).ready(function()
 	$('img[src="images/offline.png"], img[src$="icon_offline.gif"]').replaceWith('<i class="fa fa-circle text-danger"></i>');
 	$('img[src="images/magnifglass.png"]').replaceWith('<i class="fas fa-search"></i>');
 	$('[src="modules/administration/images/remove.gif"]').attr('src', 'themes/AdminLTE/dist/img/remove-icon.png').css('max-width', '1rem').css('margin-bottom', '-2px').addClass('mx-1');
-	
-	
+
+
 	/* *** Menu: Tickets Num *** */
 	if($('script[src="js/modules/tickets_global.js"]').length)
 	{
 		$('script[src="js/modules/tickets_global.js"]').remove();
-		
+
 		$.getJSON("home.php?m=tickets&p=notifications&type=cleared", function(data)
 		{
 			if(data['notificationCount'] > 0)
@@ -64,12 +64,12 @@ $(document).ready(function()
 			}
 		});
 	}
-	
-	
+
+
 	/* *** Messages *** */
 	var allMessages = ''
 	var errMessages = ''
-	
+
 	// error messages
 	if($('.failure:not(#errorHeader), .ticketError').length > 0)
 	{
@@ -105,43 +105,35 @@ $(document).ready(function()
 				{
 					errMessages = '<p>'+errt[0]+'</p>';
 				}
-				
+
 				allMessages += '<div class="callout callout-danger col-12">'+errMessages+'</div>';
 			}
 		}
 	}
-	
+
 	// refresh message
 	if($('#refresh-manual').length > 0)
 	{
 		allMessages += '<div class="callout callout-info col-12">'+$('#refresh-manual').html()+'</div>';
 	}
-	
+	// remove old error holders
 	$('.failure, .ticketErrorHolder, #refresh-manual').remove();
-	
-	
+
+
 	/* *** Invalid Image replacement *** */
 	$('.main img, .main input[type="image"]').error(function()
 	{
 		$(this).unbind("error").attr("src", "themes/AdminLTE/dist/img/image_not_found.png").attr("style", "max-width:250px;").removeAttr('height');
 	});
-	
-	
+
+
 	/* *** Theme Changer *** */
 	$('#themeChanger').change(function()
 	{
-		// if($(this).is(":checked"))
-		// {
-			// themeChanger('dark', true);
-		// }else
-		// {
-			// themeChanger('light', true);
-		// }
-		
 		themeChanger($(this).val(), true);
 	});
-	
-	
+
+
 	/* *** Login Page Mod *** */
 	if(location.pathname.substring(location.pathname.length-1) == "/" || location.pathname.substring(location.pathname.length-9) == "index.php")
 	{
@@ -227,7 +219,7 @@ $(document).ready(function()
 			</form>\
 			'+bottomLinks+'\
 			';
-			
+
 			$('select[name=lang] > option:first-child').replaceWith('<option value="-" selected="selected">'+lang+'</option>');
 		}
 
@@ -235,7 +227,7 @@ $(document).ready(function()
 		if(window.location.href.indexOf('?m=lostpwd') > -1)
 		{
 			var title = $('.content-header h2').text();
-			
+
 			if($('.main form').length==0)
 			{
 				// *** Error Message ***
@@ -245,7 +237,7 @@ $(document).ready(function()
 				{
 					err_msg.push($(this).html());
 				});
-				
+
 				var thisErrOut = '';
 				if(allMessages=='')
 				{
@@ -269,13 +261,13 @@ $(document).ready(function()
 					{
 						var alertClass = 'danger';
 					}
-					
+
 					var errt = [];
 					$('.main td > p').each(function()
 					{
 						errt.push($(this).text());
 					});
-					
+
 					if(errt)
 					{
 						var alert = '<div class="row"><div class="callout callout-'+alertClass+' col-12"><ul><li>'+errt.join("</li><li>")+'</li></ul></div></div>';
@@ -308,9 +300,9 @@ $(document).ready(function()
 				</p>\
 				';
 			}
-			
+
 		}
-		
+
 		// register form mod
 		if($('form[action^="?m=register"]').length > 0)
 		{
@@ -321,10 +313,10 @@ $(document).ready(function()
 			var fname = $('[name="loginForm"] label[for="users_fname"]').text().replace(':', '');
 			var lname = $('[name="loginForm"] label[for="users_lname"]').text().replace(':', '');
 			var email = $('[name="loginForm"] label[for="users_email"]').text().replace(':', '');
-			
+
 			var ucv = $('[name="users_comment"]').val();
 			var sbtn = $('[name="Submit"]').val();
-			
+
 			var errout = "";
 
 			if($('.main > table').length > 0)
@@ -344,7 +336,7 @@ $(document).ready(function()
 			{
 				errout = '<div class="callout callout-danger col-12"><ul><li>'+errt.join("</li><li>")+'</li></ul></div>';
 			}
-			
+
 			new_form = '\
 			' + errout + '\
 			<form action="?m=register&p=exec" name="loginForm" method="post" class="form-group">\
@@ -406,7 +398,7 @@ $(document).ready(function()
 			</form>\
 			';
 		}
-		
+
 		var lbm = ''
 		if(title !== undefined)
 		{
@@ -415,18 +407,18 @@ $(document).ready(function()
 				lbm = '<p class="login-box-msg">' + title + '</p>';
 			}
 		}
-		
+
 		var boxClass = 'login-box';
 		var headerContent = '\
 		<!--<h1>' + headTitle + '</h1>-->\
 		<img src="themes/AdminLTE/dist/img/ogp_logo_dark.svg" class="brand-image">\
 		';
-		
+
 		if(new_form !== undefined)
 		{
 			$('body').addClass('login-page');
 		}
-		
+
 		if(allMessages && !errMessages && new_form === undefined)
 		{
 			var new_form = '<h1 class="text-center"><i class="fas fa-spinner fa-spin"></i></h1>'
@@ -435,20 +427,20 @@ $(document).ready(function()
 		{
 			boxClass = 'col-md-8 col-12 main';
 			headerContent = '<h4>' + $('.main > h2').text() + '</h4>';
-			
+
 			$('body').removeClass('login-page');
 			$('.main > h2').remove();
 			var new_form = $('.main').html();
 		}
-		
+
 		// menu links
 		var allLinks = [];
 		$('.menu a').each(function()
 		{
 			allLinks.push('<li class="nav-item d-sm-inline-block"><a class="nav-link" href="'+$(this).attr('href')+'">'+$(this).find('span').text()+'</a></li>');
 		});
-		
-		
+
+
 		// Maintenance Hook
 		$.ajax({
 			async: true,
@@ -476,7 +468,7 @@ $(document).ready(function()
 				}
 			}
 		});
-		
+
 		var new_body = '\
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">\
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">\
@@ -501,12 +493,12 @@ $(document).ready(function()
 			</div>\
 		</div>\
 		';
-		
+
 		// apply new body
 		var preLoader = $('.preloader');
 		$('body').empty().html(preLoader);
 		$('body').append(new_body);
-		
+
 		// navbar toggler z-index hook
 		$('.navbar-toggler').click(function()
 		{
@@ -524,12 +516,11 @@ $(document).ready(function()
 	{
 		/* *** Messages Replacement *** */
 		$('section.content > .container-fluid').prepend(allMessages);
-		
-		
-		/* *** Remove CSS and JS Files *** */
+
+
+		/* *** Remove CSS Files *** */
 		$('link[href="css/global.css"]').remove();
 		$('link[href="js/bootstrap/css/bootstrap-combined.min.css"]').remove();
-		// $('section').find('link').remove();
 
 
 		/* *** Removing Chars from Links *** */
@@ -542,7 +533,7 @@ $(document).ready(function()
 		$('table:not(".online_servers")').each(function()
 		{
 			$(this).addClass('table table-striped table-sm').removeAttr('style').wrap('<div class="table-responsive"></div>');
-			
+
 			// add top border none for first row if table has no head
 			if($(this).find('th').length==0)
 			{
@@ -578,8 +569,8 @@ $(document).ready(function()
 			$(currentTitle).remove();
 			$('body > .wrapper > .content-wrapper').prepend(addHeader);
 		}
-		
-		
+
+
 		/* *** Forms *** */
 		var buttons = $('button:not(".btn-tool"), input[type="button"], input[type="submit"], input[type="SUBMIT"], input[type="reset"], [href^="?m=gamemanager&p=update&update=refresh"], .main [href="?m=modulemanager&p=update"], .main [href="?m=simple-billing&p=shop"], .main [href^="home.php?m=TS3Admin&changevServer"], .main [href^="?m=gamemanager&p=game_monitor&home_id="], .serverIdToggle, .main [href="?m=settings&p=api_hosts"]');
 		$(buttons).addClass('btn btn-sm btn-primary');
@@ -599,7 +590,7 @@ $(document).ready(function()
 		var menu = $('.menu > ul').html();
 		$('.menu-bg').remove();
 		$('.nav-sidebar').html(menu);
-		
+
 		$('.menu ul[id^=submenu] span').each(function()
 		{
 			var img_url = $(this).attr('data-icon_path');
@@ -656,7 +647,7 @@ $(document).ready(function()
 				}
 			});
 		});
-		
+
 		// Add Default Icon to each Link
 		$('.nav-sidebar .nav-link').each(function()
 		{
@@ -666,7 +657,7 @@ $(document).ready(function()
 				// fix missing paragraph
 				$(this).html('<p>'+$(this).html()+'</p>');
 			}
-			
+
 			// check if nav-link has icon missing
 			if($(this).find('img').length==0)
 			{
@@ -696,7 +687,7 @@ $(document).ready(function()
 				$(this).children('li').children('a').children('p').append('<i class="right fas fa-angle-left"></i>');
 			}
 		});
-		
+
 		// Only follow Link when Menu is open
 		$('.nav-sidebar .nav-item > a').click(function(e)
 		{
@@ -712,17 +703,17 @@ $(document).ready(function()
 		var userProfileLink = $(userNavItem).children('a').attr('href');
 		var userId = new URLSearchParams(userProfileLink).get('user_id');
 		var setUserAvatar = 'themes/AdminLTE/dist/img/default-avatar.png';
-		
+
 		if(userId)
 		{
 			if(!localStorage.getItem('avatar_' + userId))
 			{
 				var d = new Date();
-				
+
 				// set loading avatar
 				setUserAvatar = 'themes/AdminLTE/dist/img/spinner.gif';
 				$('.user-panel > .image > img').attr('src', setUserAvatar + "?t=" + d.getTime()).removeClass('elevation-2');
-				
+
 				// load avatar from db
 				$.ajax({
 					cache: false,
@@ -732,13 +723,13 @@ $(document).ready(function()
 					success: function(avatar)
 					{
 						var d = new Date();
-						
+
 						// set avatar cache
 						localStorage.setItem('avatar_' + userId, avatar);
-						
+
 						// set user avatar
 						$('.user-panel > .image > img').attr('src', avatar + "?t=" + d.getTime()).addClass('elevation-2');
-						
+
 						// set user avatar variable
 						setUserAvatar = avatar;
 					}
@@ -749,11 +740,11 @@ $(document).ready(function()
 				setUserAvatar = localStorage.getItem('avatar_' + userId);
 			}
 		}
-		
+
 		// set user avatar and link
 		$('.user-panel > .image > img').attr('src', setUserAvatar + "?t=" + d.getTime());
 		$('.user-panel > .info > a').text($(userNavItem).children('a').children('p').text()).attr('href', userProfileLink);
-		
+
 		// check if user contains additional submenus
 		if($(userNavItem).find('.nav').find('.nav-item:not(:last-of-type)').length > 0)
 		{
@@ -762,11 +753,11 @@ $(document).ready(function()
 				$('.main-sidebar .nav-sidebar').append('<li class="' + $(this).attr('class') + '">' + $(this).html() + '</li>');
 			});
 		}
-		
+
 		// remove old user menu item
 		$(userNavItem).remove();
-		
-		
+
+
 		/* *** add missing menu highlights *** */
 		var checkMenuLinks = ['?m=subusers', '?m=user_admin&p=show_groups'];
 		checkMenuLinks.forEach((url, index) => {
@@ -775,19 +766,19 @@ $(document).ready(function()
 				$('.main-sidebar .nav-sidebar [href^="' + url + '"]').addClass('active');
 			}
 		});
-		
+
 		// menu higlight fix for theme settings
 		if(window.location.href.indexOf('?m=settings&p=themes') > -1)
 		{
 			$('.main-sidebar .nav-sidebar [href="?m=settings"]').removeClass('active');
 		}
-		
+
 		// menu higlight fix for mysql admin
 		if(window.location.href.indexOf('?m=mysql&p=edit') > -1)
 		{
 			$('.main-sidebar .nav-sidebar [href="?m=mysql&p=mysql_admin"]').addClass('active').parent('.nav-item').parent('.nav').parent('.nav-item').addClass('menu-open');
 		}
-		
+
 		// menu higlight fix for gameserver
 		if(window.location.href.indexOf('admin')==-1 && window.location.href.indexOf('m=user_games')==-1 && window.location.href.indexOf('m=config_games')==-1 && window.location.href.indexOf('m=fast_download')==-1)
 		{
@@ -797,14 +788,14 @@ $(document).ready(function()
 				if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1)
 				{
 					var uri = window.location.href.substring(window.location.href.indexOf('home_id-mod_id-ip-port='));
-					
+
 					// check if uri contains other parameters
 					if(uri.includes('&'))
 					{
 						// cut uri before next parameter
 						uri = uri.substring(0, uri.lastIndexOf("&"));
 					}
-					
+
 					uri = 'href$="'+uri+'"';
 				}
 				// all servers by config
@@ -818,22 +809,22 @@ $(document).ready(function()
 				{
 					const urlParams = new URLSearchParams(window.location.search);
 					var homeId = urlParams.get('home_id');
-					
+
 					var uri = '?m=gamemanager&p=game_monitor&home_id-mod_id-ip-port='+homeId+'-';
 					uri = 'href^="'+uri+'"';
 				}
-				
+
 				$('.nav-sidebar .active').removeClass('active');
 				$('.nav-sidebar .nav-link['+uri+']').addClass('active');
-				
+
 				if(window.location.href.indexOf('home_id-mod_id-ip-port') > -1 || window.location.href.indexOf('home_cfg_id') > -1 || window.location.href.indexOf('home_id') > -1)
 				{
 					$('.nav-sidebar .nav-link['+uri+']').parents('.nav-item').addClass('menu-open');
 				}
 			}
 		}
-		
-		
+
+
 		/* *** Pagination *** */
 		$('#pagination').each(function()
 		{
@@ -894,8 +885,8 @@ $(document).ready(function()
 				}
 			}
 		});
-		
-		
+
+
 		/* *** Message Replacement *** */
 		var msgReplBodySkip = ['services', 'simple-billing'];
 		var skipMsgRepl = false;
@@ -906,10 +897,9 @@ $(document).ready(function()
 				skipMsgRepl = true;
 			}
 		}
-		
+
 		$('.success, .warning, .error, #refresh-manual').each(function()
 		{
-			
 			if(!$('.main').hasClass('services'))
 			{
 				if($(this).hasClass('success'))
@@ -928,7 +918,7 @@ $(document).ready(function()
 				{
 					var thisClass = 'info';
 				}
-				
+
 				if(!skipMsgRepl)
 				{
 					$(this).replaceWith('<div class="callout callout-'+thisClass+'"><p>'+$(this).html()+'</p></div>');
@@ -938,8 +928,8 @@ $(document).ready(function()
 				}
 			}
 		});
-		
-		
+
+
 		/* *** Footer Mod *** */
 		$('.main-footer .OGPVersionArea').addClass('d-none');
 		$('.main-footer a').attr('target', '_blank').addClass('text-dark');
@@ -949,8 +939,8 @@ $(document).ready(function()
 		$('.main-footer .OGPVersionArea').removeClass('inline-block').addClass('d-inline-block');
 		$('.main-footer .footer > br').last().remove()
 	}
-	
-	
+
+
 	/* *** Get Theme Settings *** */
 	// check if theme cache is set
 	if(!localStorage.getItem('theme'))
@@ -966,7 +956,7 @@ $(document).ready(function()
 			{
 				// create theme cache
 				localStorage.setItem('theme', theme);
-				
+
 				// change theme
 				themeChanger(theme);
 			}
@@ -976,7 +966,7 @@ $(document).ready(function()
 		// change theme
 		themeChanger(localStorage.getItem('theme'));
 	}
-	
+
 	// fill theme changer options
 	var themeOptions = ['dark','light','mixed']
 	themeOptions.forEach(function(t)
@@ -989,8 +979,8 @@ $(document).ready(function()
 			$('#themeChanger').append('<option>' + t + '</option>');
 		}
 	});
-	
-	
+
+
 	/* *** Get ThemeNavWidth Setting *** */
 	if(!localStorage.getItem('themeNavWidth'))
 	{
@@ -1005,7 +995,7 @@ $(document).ready(function()
 			{
 				// create themeNavWidth cache
 				localStorage.setItem('themeNavWidth', themeNavWidth);
-				
+
 				// set themeNavWidth
 				setNavWidth(themeNavWidth);
 			}
@@ -1015,8 +1005,8 @@ $(document).ready(function()
 		// set themeNavWidth
 		setNavWidth(localStorage.getItem('themeNavWidth'));
 	}
-	
-	
+
+
 	/* *** Get Theme Logo Settings *** */
 	// check if theme logo cache is set
 	if(!localStorage.getItem('themeLogo'))
@@ -1034,9 +1024,9 @@ $(document).ready(function()
 				{
 					// create themeLogo cache
 					localStorage.setItem('themeLogo', themeLogo);
-					
+
 					var d = new Date();
-					
+
 					// set themeLogo
 					$('img.brand-image').attr('src', localStorage.getItem('themeLogo') + "?" + d.getTime());
 				}
@@ -1048,13 +1038,13 @@ $(document).ready(function()
 		$.get(localStorage.getItem('themeLogo')).done(function()
 		{
 			var d = new Date();
-			
+
 			// set themeLogo
 			$('img.brand-image').attr('src', localStorage.getItem('themeLogo') + "?" + d.getTime());
 		});
 	}
-	
-	
+
+
 	/* *** Get themeServerstats Setting *** */
 	if(!localStorage.getItem('themeServerstats'))
 	{
@@ -1071,8 +1061,8 @@ $(document).ready(function()
 			}
 		});
 	}
-	
-	
+
+
 	/* *** Avatar Upload *** */
 	$('input[type=file]#userAvatar').change(function()
 	{
@@ -1101,13 +1091,13 @@ $(document).ready(function()
 						success: function()
 						{
 							var d = new Date();
-							
+
 							// overwrite avatar cache
 							localStorage.setItem('avatar_' + userId, jsonData['data']);
-							
+
 							// launch success toastr
 							toastr.success('Successfully uploaded new Avatar');
-							
+
 							// set user avatar
 							$('.user-panel > .image > img').attr('src', jsonData['data'] + "?t=" + d.getTime());
 						}
@@ -1123,8 +1113,8 @@ $(document).ready(function()
 			}
 		});
 	});
-	
-	
+
+
 	/* *** File Style Hack *** */
 	$.fn.input_file_styling = function()
 	{
@@ -1143,13 +1133,13 @@ $(document).ready(function()
 			}
 			totalFileInputs++;
 		});
-		
+
 		// label text fix
 		$(document).on('change', ':file', function()
 		{
 			numFiles = $(this).get(0).files ? $(this).get(0).files.length : 1,
 			label = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');
-			
+
 			$(this).next('label').text(label);
 		});
 	}
@@ -1160,8 +1150,8 @@ $(document).ready(function()
 	{
 		setTimeout($.fn.input_file_styling, 1);
 	});
-	
-	
+
+
 	/* *** Tooltip Replacement *** */
 	$('.main .image-tip').each(function()
 	{
@@ -1180,28 +1170,27 @@ $(window).load(function()
 	{
 		$(this).remove();
 	}
-	
+
 	$('.main-footer .versionInfo').click(function()
 	{
 		$('.OGPVersionArea, .OGPVersionArea .version, .OGPVersionArea .versionNumber').removeClass('d-none').removeClass('hide');
-		
+
 		// add blink class to versionNumber
 		$('.OGPVersionArea .versionNumber').addClass('shortblink');
 		// remove after 4 seconds
 		setTimeout(function(){
 			$('.OGPVersionArea .versionNumber').removeClass('shortblink');
 		}, 4000);
-		
+
 		var copy = copyToClipboard($('.OGPVersionArea .versionNumber'));
 		toastr.info('"' + copy + '" ' + $('.OGPVersionArea .copyVersionResult').attr('lang'));
 	});
-	
 	// circular notifications
 	if($('body > #notification').length > 0)
 	{
 		var noteMsg = $('body > #notification').html().split("<br>");
 		$('body > #notification').remove();
-		
+
 		$('.content > .container-fluid').prepend('\
 		<div class="row">\
 			<div class="col-12">\
@@ -1213,13 +1202,13 @@ $(window).load(function()
 		</div>\
 		');
 	}
-	
+
 	// content to cards mod
 	if(window.location.href.indexOf('m=dsi&p=admin_dsi') > -1 || window.location.href.indexOf('?m=administration&p=main') > -1)
 	{
 		$('.main').removeClass('main');
 		$('section.content > .container-fluid > .row > div').addClass('main');
-		
+
 		var fillBox = false
 		$('.main .card-body > *').each(function()
 		{
@@ -1235,10 +1224,10 @@ $(window).load(function()
 					</div>\
 				</div>\
 				');
-				
+
 				// remove title
 				$(this).remove();
-				
+
 				// set fillBox to true, so content filling can start
 				fillBox = true
 			}else
@@ -1251,8 +1240,8 @@ $(window).load(function()
 			}
 		});
 	}
-	
-	
+
+
 	// auto scroll down all logs
 	if($('.content pre').length>0)
 	{
@@ -1262,7 +1251,7 @@ $(window).load(function()
 			$(this).scrollTop($(this)[0].scrollHeight);
 		});
 	}
-	
+
 	/* *** End of JS - Check if .main is empty to remove Element *** */
 	if($('.main').length > 0)
 	{
@@ -1271,22 +1260,6 @@ $(window).load(function()
 			$('.main').parent('.card').remove();
 		}
 	}
-	
-	// check if main contains script containers or script includes and reload them at the end
-	$('.main').find('script').each(function()
-	{
-		if(this.hasAttribute('src')===false)
-		{
-			// script content
-			$('body').append('<script>' + $(this).html() + '</script>');
-		}
-		else {
-			// script include
-			$('body').append('<script src="' + $(this).attr('src') + '"></script>');
-		}
-
-		$(this).remove();
-	});
 });
 
 
@@ -1311,16 +1284,16 @@ function themeChanger(changeTo, save = false)
 		$('nav.main-header').removeClass('navbar-light').addClass('navbar-dark');
 		$('aside.main-sidebar').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-light').addClass('control-sidebar-dark');
-		
+
 		if(!localStorage.getItem('themeLogo'))
 		{
 			$('img.brand-image').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_dark.svg');
 		}
-		
+
 		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.dark.css');
 		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.dark.css');
 		$('link[href*="jquery-ui.theme.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.theme.min.dark.css');
-		
+
 		if(save)
 		{
 			$.ajax({
@@ -1342,16 +1315,16 @@ function themeChanger(changeTo, save = false)
 		$('nav.main-header').removeClass('navbar-dark').addClass('navbar-light');
 		$('aside.main-sidebar').removeClass('sidebar-dark-primary').addClass('sidebar-light-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');
-		
+
 		if(!localStorage.getItem('themeLogo'))
 		{
 			$('img.brand-image').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_light.svg');
 		}
-		
+
 		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.light.css');
 		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.light.css');
 		$('link[href*="jquery-ui.theme.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.theme.min.light.css');
-		
+
 		if(save)
 		{
 			$.ajax({
@@ -1373,16 +1346,16 @@ function themeChanger(changeTo, save = false)
 		$('nav.main-header').removeClass('navbar-light').addClass('navbar-dark');
 		$('aside.main-sidebar').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary');
 		$('aside.control-sidebar').removeClass('control-sidebar-dark').addClass('control-sidebar-light');
-		
+
 		if(!localStorage.getItem('themeLogo'))
 		{
 			$('img.brand-image').attr('src', 'themes/AdminLTE/dist/img/ogp_logo_dark.svg');
 		}
-		
+
 		$('link[href*="jquery-ui.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.min.light.css');
 		$('link[href*="jquery-ui.structure.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.structure.min.light.css');
 		$('link[href*="jquery-ui.theme.min"]').attr('href', 'themes/AdminLTE/plugins/jquery-ui/jquery-ui.theme.min.light.css');
-		
+
 		if(save)
 		{
 			$.ajax({
@@ -1398,7 +1371,7 @@ function themeChanger(changeTo, save = false)
 			});
 		}
 	}
-	
+
 	// ace editor dark skin
 	if($('.ace_editor').length > 0)
 	{
@@ -1426,7 +1399,7 @@ function setNavWidth(width)
 		{
 			$('style[id="themeNavWidth"]').remove();
 		}
-		
+
 		// add custom width style to body
 		$('body').prepend('\
 			<style id="themeNavWidth">\
@@ -1484,7 +1457,7 @@ function setNavWidth(width)
 		{
 			$('style[id="themeNavWidth"]').remove();
 		}
-		
+
 		$('body').prepend('\
 			<style>\
 			.brand-image {\
@@ -1498,13 +1471,13 @@ function setNavWidth(width)
 function copyToClipboard(node)
 {
 	var elementText = $(node).text().replace(/\s/g, "");
-	
-    var $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val(elementText).select();
-    document.execCommand("copy");
-    $temp.remove();
-	
+	var $temp = $("<input>");
+
+	$("body").append($temp);
+	$temp.val(elementText).select();
+	document.execCommand("copy");
+	$temp.remove();
+
 	return elementText;
 }
 
@@ -1515,7 +1488,26 @@ function clearLocalStorageItems()
 	{
 		// remove item
 		localStorage.removeItem(key);
-		
-		// console.log('Removed localStorage Item: ' + key)
+	});
+}
+
+function reloadBodyScripts()
+{
+	console.log("reloaded body scripts");
+
+	// check if main contains script containers or script includes and reload them at the end
+	$('.main').find('script').each(function()
+	{
+		if(this.hasAttribute('src')===false)
+		{
+			// script content
+			$('body').append('<script>' + $(this).html() + '</script>');
+		}
+		else {
+			// script include
+			$('body').append('<script src="' + $(this).attr('src') + '"></script>');
+		}
+
+		$(this).remove();
 	});
 }

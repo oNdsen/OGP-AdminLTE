@@ -2,7 +2,7 @@ $(document).ready(function()
 {
 	//prepare main row for side by side layout
 	$('section.content > .container-fluid > .row > .col-12').addClass('col-md-6');
-	
+
 	//replace css table with real table
 	$('.divTableCell').each(function()
 	{
@@ -20,15 +20,15 @@ $(document).ready(function()
 	{
 		$(this).replaceWith('<table>'+$(this).html()+'</table>');
 	});
-	
+
 	//buttons
 	$('#add_file_attachment').addClass('btn-secondary');
 	$('[name="ticket_close"]').addClass('btn-danger');
-	
+
 	if($('.ticket_closed').length>0)
 	{
 		$('.ticket_closed').wrap('<div class="callout callout-danger mt-2"><p></p></div>');
-		
+
 		var newReplyBox = '\
 		<div class="card collapsed-card">\
 			<div class="card-header" data-card-widget="collapse" role="button">\
@@ -44,10 +44,13 @@ $(document).ready(function()
 			</div>\
 		</div>\
 		';
-		
+
 		$('.ticket_reply_notice').remove();
 		$('.ticket_ReplyBox').replaceWith(newReplyBox);
 	}
+
+	// reload body scripts
+	reloadBodyScripts();
 });
 
 
@@ -65,7 +68,7 @@ $(window).load(function()
 		{
 			var isAdmin = false
 		}
-		
+
 		if($(this).find('.name').find('a').text()==username)
 		{
 			var direction = 'left'
@@ -73,15 +76,15 @@ $(window).load(function()
 		{
 			var direction = 'right'
 		}
-		
+
 		// add text-dark class to userlink
 		$(this).find('.name').find('a').addClass('text-dark');
-		
+
 		var date = $(this).find('.date').text().replace(/\s+/g, ' ').trim();
 		var user = $(this).find('.name').html().replace(/\s+/g, ' ').trim();
 		var message = $(this).find('.message').html().trim();
 		var footer = $(this).find('.ticket_footer').html().trim();
-		
+
 		//Create chatItem object for current reply
 		var chatItem = {
 			direction: direction,
@@ -91,21 +94,21 @@ $(window).load(function()
 			message: message,
 			footer: footer
 		};
-		
+
 		//Push chatItem object into allChats array
 		allChats.push(chatItem);
 	});
-	
+
 	//remove .replyContainer
 	$('.replyContainer').remove();
-	
+
 	var newReplyContainer = '\
 	<div class="col-12 col-md-6">\
 		<div class="card card-primary direct-chat direct-chat-primary">\
 			<div class="card-body p-2">\
 				<div class="direct-chat-messages">\
-	';			
-	
+	';
+
 	Object.keys(allChats).forEach(function(key)
 	{
 		var isAdmin = '';
@@ -113,7 +116,7 @@ $(window).load(function()
 		{
 			isAdmin = '<span class="badge badge-danger mx-1">Admin</span>';
 		}
-		
+
 		var avatarUrl = 'themes/AdminLTE/dist/img/default-avatar.png';
 		var avatarUserId = new URLSearchParams($($.parseHTML(allChats[key]['user'])).filter('a').attr('href')).get('user_id');
 		if(!localStorage.getItem('avatar_' + avatarUserId))
@@ -128,7 +131,7 @@ $(window).load(function()
 				{
 					// create avatar cookie
 					localStorage.setItem('avatar_' + avatarUserId, avatar);
-					
+
 					// set user avatar
 					avatarUrl = avatar;
 				}
@@ -138,7 +141,7 @@ $(window).load(function()
 			// read user avatar cookie value
 			avatarUrl = localStorage.getItem('avatar_' + avatarUserId);
 		}
-		
+
 		if(allChats[key]['direction']=='left')
 		{
 			newReplyContainer += '\
@@ -175,14 +178,14 @@ $(window).load(function()
 			';
 		}
 	});
-	
+
 	newReplyContainer += '\
 				</div>\
 			</div>\
 		</div>\
 	</div>\
 	';
-	
+
 	$('section.content > .container-fluid > .row').append(newReplyContainer);
 	$('.downloadAttachmentLink').addClass('btn btn-primary btn-sm')
 });
