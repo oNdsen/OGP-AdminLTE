@@ -48,9 +48,6 @@ $(document).ready(function()
 		$('.ticket_reply_notice').remove();
 		$('.ticket_ReplyBox').replaceWith(newReplyBox);
 	}
-
-	// reload body scripts
-	reloadBodyScripts();
 });
 
 
@@ -188,4 +185,7 @@ $(window).load(function()
 
 	$('section.content > .container-fluid > .row').append(newReplyContainer);
 	$('.downloadAttachmentLink').addClass('btn btn-primary btn-sm')
+	
+	// reload body scripts after dom modify
+	reloadBodyScripts();
 });
